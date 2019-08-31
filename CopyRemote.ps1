@@ -2,4 +2,4 @@
 $loc=Get-Location
 bash -c "rsync -avz --include '*/' --include={'*.xml','OUTCAR'} --exclude='*' username@server:/directory/to/download /Destination/directory"
 #use above command without 'bash -c' in linux.
-Set-Location $loc
+Set-Location $loc  #go back at top of directory tree
