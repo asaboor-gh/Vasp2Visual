@@ -18,9 +18,9 @@ import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 from matplotlib import collections  as mc
 mpl.rcParams['axes.linewidth'] = 0.4 #set the value globally
-mpl.rcParams['font.serif'] = "STIXGeneral"
-mpl.rcParams['font.family'] = "serif"
-mpl.rcParams['mathtext.fontset'] = "stix"
+#mpl.rcParams['font.serif'] = "STIXGeneral"
+#mpl.rcParams['font.family'] = "serif"
+#mpl.rcParams['mathtext.fontset'] = "stix"
 '@ #Packages Loaded
 #Setup files paths for DOS, leave Bands path as it is.
 $foldersList=$(Get-ChildItem -Directory).BaseName #returns list of folder names
