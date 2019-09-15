@@ -10,7 +10,7 @@ Post processing PowerShell Module for Vasp output. Scripts allow user take full 
 ## Get-CmdletsWork
 - Watch [Vasp2Visual.mp4](Vasp2Visual.mp4) to know how to run the commands.
 
-Import Vasp2Visual and see if it is available in session,run
+To import Vasp2Visual and see if it is available in current session, run
 ```powershell
 Import-Module Vasp2Visual
 Get-Module  #will give all imported modules including the one you just imported
