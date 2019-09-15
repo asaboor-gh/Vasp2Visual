@@ -9,7 +9,10 @@ Post processing PowerShell Module for Vasp output. Scripts allow user take full 
 - You need vasprun.xml file to collect data. It is recommended that if you have **vasprun.xml** file from DOS calculations,put that file in a folder named **dos** or **DOS** in the root folder where vasprun.xml is present from a bandstructure calculation.
 ## Get-CmdletsWork
 - Watch [Vasp2Visual.mp4](Vasp2Visual.mp4) to know how to run the commands. A detailed description will be added later.
-## Documentation is available at [Wiki@Vasp2Visual](https://github.com/massgh/Vasp2Visual/wiki). 
+## Get-Documentation 
+- Visit [Wiki@Vasp2Visual](https://github.com/massgh/Vasp2Visual/wiki) for documentation. The page will be updated soon.
 
-## Script for converting LOCPOT into plane and plottable data formats is coming soon!
+## Get-More!
+- Multiple flexible plotting scripts are under work!
+- Script for converting LOCPOT into plane and plottable data formats is coming soon!
 
