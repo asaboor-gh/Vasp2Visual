@@ -12,7 +12,7 @@ Post processing PowerShell Module for Vasp output. Scripts allow user take full 
 ## Get-Documentation 
 - Visit [Wiki@Vasp2Visual](https://github.com/massgh/Vasp2Visual/wiki) for documentation. The page will be updated soon.
 
-## Get-More!
+## Get-More
 - Multiple flexible plotting scripts are under work!
 - Script for converting LOCPOT into plane and plottable data formats is coming soon!
 
