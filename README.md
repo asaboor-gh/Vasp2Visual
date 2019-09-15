@@ -48,7 +48,6 @@ $x.WidthToColumnRatio #detemines plot width in units of column width of article.
 #Now you can run the following cmdlet to get plot
 Get-Plot -ProjectedBandDOS -PlotArguments $x #will output a plot
 ```
-
 ## Get-More
 - Multiple flexible plotting scripts are under work!
 - Script for converting LOCPOT into plane and plottable data formats is coming soon!
