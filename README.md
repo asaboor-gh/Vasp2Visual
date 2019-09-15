@@ -8,7 +8,7 @@ Post processing PowerShell Module for Vasp output. Scripts allow user take full 
 - Currently you can only plot Bands+DOS composite plots. 
 - You need vasprun.xml file to collect data. It is recommended that if you have **vasprun.xml** file from DOS calculations,put that file in a folder named **dos** or **DOS** in the root folder where vasprun.xml is present from a bandstructure calculation.
 - Watch [Vasp2Visual.mp4](Vasp2Visual.mp4) to know how to run the commands.
-## Documentation is available at Wiki, Nevigate on top toolbar.
+## Documentation is available at [Wiki@Vasp2Visual](https://github.com/massgh/Vasp2Visual/wiki). 
 
 ## Scripts for converting vasprun.xml/LOCPOT into plane and plottable data formats are on the way.
 
