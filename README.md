@@ -10,14 +10,20 @@ Post processing PowerShell Module for Vasp output. Scripts allow user take full 
 ## Get-CmdletsWork
 - Watch [Vasp2Visual.mp4](Vasp2Visual.mp4) to know how to run the commands.
 
-Import Vasp2Visual by running
+Import Vasp2Visual and see if it is available in session,run
 ```powershell
 Import-Module Vasp2Visual
+Get-Module
 ```
 To permanently import it into your profile, run the following cmdlet
 ```powershell
 "Import-Module Vasp2Visual"|Add-Content $PROFILE
 ```
+Now in a folder where *vasprun.xml* is present, run the cmdlet
+```powershell
+Get-VaspProjection
+```
+This will make 4 files, Bands.txt, tDOS.txt,pDOS.txt and Projection.txt. Projections are written ion-wise in same file. Now you are able to use your own plotting method to get output, but you can instead use *Get-Plot* cmdlet to let it work automatically for you. Before going forward, lets get to know how many arguments are available and then you can just edit argument.
 ## Get-Documentation 
 - Visit [Wiki@Vasp2Visual](https://github.com/massgh/Vasp2Visual/wiki) for documentation. The page will be updated soon.
 
