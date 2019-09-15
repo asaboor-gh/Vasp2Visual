@@ -19,11 +19,27 @@ To permanently import it into your profile, run the following cmdlet
 ```powershell
 "Import-Module Vasp2Visual"|Add-Content $PROFILE
 ```
-Now in a folder where *vasprun.xml* is present, run the cmdlet
+If you are working in WSL on windows, you probably encounter switching between windows and linux terminals, so here is a cmdlet that changes the current windows directory path into Linux and LaTeX path formats.
+```powershell
+Out-Path
+#Current directory is copied to Clipboard as: Linux Path:  /mnt/c/Users/mass_
+#LaTeX Path:  C:/Users/mass_
+```
+Vasp2Visual contains a cmdlet for creating a K-Path before you run a calculation on vasp(HSE).
+```powershell
+Get-KPath  #You need to enter high symmetry KPOINTS in prompts to get path.
+```
+Now in order to collect date from **vasprun.xml**, run the cmdlet
 ```powershell
 Get-VaspProjection
 ```
-This will make 4 files, Bands.txt, tDOS.txt,pDOS.txt and Projection.txt. Projections are written ion-wise in same file. Now you are able to use your own plotting method to get output, but you can instead use *Get-Plot* cmdlet to let it work automatically for you. Before going forward, lets get to know how many arguments are available and then you can just edit argument.
+This will make 4 files, Bands.txt, tDOS.txt,pDOS.txt and Projection.txt. Projections are written ion-wise in same file. 
+
+If running the above cmdlet throws an error and stops running, then you **must run** the following cmdlet
+```powershell
+Close-Writers #This will close all opened stream writers. 
+```
+Now you are able to use your own plotting method to get output, but you can instead use *Get-Plot* cmdlet to let it work automatically for you. Before going forward, lets get to know how many arguments are available and then you can just edit argument.
 ```powershell
 $x=Get-PlotArguments
 $x.E_Limit="[-10,15]" #sets your defined energy limit in plot
@@ -32,13 +48,6 @@ $x.WidthToColumnRatio #detemines plot width in units of column width of article.
 #Now you can run the following cmdlet to get plot
 Get-Plot -ProjectedBandDOS -PlotArguments $x #will output a plot
 ```
-If your program throws an error and stops running, then you must run the following cmdlet
-```powershell
-Close-Writers #This will close all opened stream writers. 
-```
-If you are working in WSL on windows
-## Get-Documentation 
-- Visit [Wiki@Vasp2Visual](https://github.com/massgh/Vasp2Visual/wiki) for documentation. The page will be updated soon.
 
 ## Get-More
 - Multiple flexible plotting scripts are under work!
