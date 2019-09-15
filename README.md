@@ -10,9 +10,7 @@ Post processing PowerShell Module for Vasp output. Scripts allow user take full 
 ## Get-CmdletsWork
 - Watch [Vasp2Visual.mp4](Vasp2Visual.mp4) to know how to run the commands. A detailed description will be added later.
 ```powershell
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
+Get-Module
 ```
 ## Get-Documentation 
 - Visit [Wiki@Vasp2Visual](https://github.com/massgh/Vasp2Visual/wiki) for documentation. The page will be updated soon.
