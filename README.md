@@ -29,7 +29,7 @@ Vasp2Visual contains a cmdlet for creating a K-Path before you run a calculation
 ```powershell
 Get-KPath  #You need to enter high symmetry KPOINTS in prompts to get path.
 ```
-Now in order to collect date from **vasprun.xml**, run the cmdlet
+In order to collect date from **vasprun.xml**, run the cmdlet
 ```powershell
 Get-VaspProjection
 ```
@@ -45,7 +45,7 @@ $x=Get-PlotArguments
 $x.E_Limit="[-10,15]" #sets your defined energy limit in plot
 $x.ticklabels  #will show up ticklabels and you can edit
 $x.WidthToColumnRatio #detemines plot width in units of column width of article.
-#Now you can run the following cmdlet to get plot
+#After editing all keys in $x.Key for your system, you can run the following cmdlet to get plot
 Get-Plot -ProjectedBandDOS -PlotArguments $x #will output a plot
 ```
 ## Get-More
