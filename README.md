@@ -13,7 +13,8 @@ Post processing PowerShell Module for Vasp output. Scripts allow user take full 
 Import Vasp2Visual and see if it is available in session,run
 ```powershell
 Import-Module Vasp2Visual
-Get-Module
+Get-Module  #will give all imported modules including the one you just imported
+#Script     1.0.0.0    Vasp2Visual                         {Close-Writers, Get-KPath, Get-Plot, Get-PlotArguments...}
 ```
 To permanently import it into your profile, run the following cmdlet
 ```powershell
