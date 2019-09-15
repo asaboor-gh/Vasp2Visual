@@ -24,6 +24,14 @@ Now in a folder where *vasprun.xml* is present, run the cmdlet
 Get-VaspProjection
 ```
 This will make 4 files, Bands.txt, tDOS.txt,pDOS.txt and Projection.txt. Projections are written ion-wise in same file. Now you are able to use your own plotting method to get output, but you can instead use *Get-Plot* cmdlet to let it work automatically for you. Before going forward, lets get to know how many arguments are available and then you can just edit argument.
+```powershell
+$x=Get-PlotArguments
+$x.E_Limit="[-10,15]" #sets your defined energy limit in plot
+$x.ticklabels  #will show up ticklabels and you can edit
+$x.WidthToColumnRatio #detemines plot width in units of column width of article.
+#Now you can run the following cmdlet to get plot
+Get-Plot -ProjectedBandDOS -PlotArguments $x #will output a plot
+```
 ## Get-Documentation 
 - Visit [Wiki@Vasp2Visual](https://github.com/massgh/Vasp2Visual/wiki) for documentation. The page will be updated soon.
 
