@@ -32,6 +32,11 @@ $x.WidthToColumnRatio #detemines plot width in units of column width of article.
 #Now you can run the following cmdlet to get plot
 Get-Plot -ProjectedBandDOS -PlotArguments $x #will output a plot
 ```
+If your program throws an error and stops running, then you must run the following cmdlet
+```powershell
+Close-Writers #This will close all opened stream writers. 
+```
+If you are working in WSL on windows
 ## Get-Documentation 
 - Visit [Wiki@Vasp2Visual](https://github.com/massgh/Vasp2Visual/wiki) for documentation. The page will be updated soon.
 
