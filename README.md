@@ -60,12 +60,12 @@ PS> $x.WidthToColumnRatio #detemines plot width in units of column width of arti
 #After editing all keys in $x.Key for your system, you can run the following cmdlet to get plot
 PS> Get-Plot -ProjectedBandDOS -PlotArguments $x #will output a plot
 ```
-Export LOCPOT file into seperate x,y,z direction potentials using
+Export LOCPOT file into seperate x,y,z-directed potentials using
 ```powershell
 PS> Export-LOCPOT #Creates three plane data files consisting minimum,maximum and average potential in each direction.
 ```
 ## Get-More
 - Multiple flexible plotting scripts are under work!
 ## Get-New
-- Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** function.
+- Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** cmdlet.
 
