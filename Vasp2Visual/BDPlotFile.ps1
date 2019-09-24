@@ -309,7 +309,7 @@ ProLabels=[prolabel.replace("$","").replace("_","").replace("^","") for prolabel
 atom_index_range=','.join(str(ProIndices[0][i]+1) for i in range(np.shape(ProIndices[0])[0])); #creates a list of projected atoms
 if(ProLabels[0]=='' or ProLabels[0]==' '): #check if this projection of whole composite.
     atom_index_range=str(ElemIndex[-1])
-name=str(SYSTEM+'_'+ProLabels[0]+'['+atom_index_range+']'+'('+str(ProLabels[1])+')('+str(ProLabels[2])+')('+str(ProLabels[3])+')'+'_A'); #A for All,B for Bnads, D for DOS.
+name=str(SYSTEM+'_'+ProLabels[0]+'['+atom_index_range+']'+'('+str(ProLabels[1])+')('+str(ProLabels[2])+')('+str(ProLabels[3])+')'+'_B'); #A for All,B for Bnads, D for DOS.
 plt.savefig(str(name+'.svg'),transparent=True)
 plt.savefig(str(name+'.pdf'),transparent=True)
 plt.show()
