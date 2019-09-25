@@ -4,7 +4,7 @@
 $saveit=@'
 plt.savefig(str(name+'.svg'),transparent=True)
 plt.savefig(str(name+'.pdf'),transparent=True)
-plt.show(block=Flase)
+plt.show(block=False)
 '@
 $SystemVariables=@"
 #=================System Variables====================
