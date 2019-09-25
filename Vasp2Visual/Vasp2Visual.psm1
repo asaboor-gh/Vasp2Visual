@@ -65,6 +65,7 @@ $($FileInput)
 "@
 $pythonFileContent|Set-Content .\Plot.py
 python .\Plot.py #strat plotting
+Start-Process $(Get-ChildItem | Sort-Object CreationTime -Descending | Select-Object Name -First 1).Name #run pdf or svg created.
 }
 Function Export-LOCPOT{
 . $PSScriptRoot\LOCPOT.ps1
