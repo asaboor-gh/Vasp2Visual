@@ -11,7 +11,6 @@ PS> $env:PSModulePath
 ```
 - Running **Import-Module Vasp2Visual** in Powershell console will make all commands in this module available to use. If you want to make it permamanent, include this import command in your powershell profile by typying **your_editor $PROFILE**.
 - Now run **Get-Module** command. This will show you that Vasp2Visual is ready and you can see list of commands.
-- Currently you can only plot Bands+DOS composite plots. 
 - You need vasprun.xml file to collect data. It is recommended that if you have **vasprun.xml** file from DOS calculations,put that file in a folder named **dos** or **DOS** in the root folder where vasprun.xml is present from a bandstructure calculation and *run plotting commands only in root folder* but run *Get-VaspProjection* in each folder in case of BandDOS composite plots.
 ## Get-CmdletsWork
 - Watch [Vasp2Visual.mp4](Vasp2Visual.mp4) to know how to run the commands.
@@ -58,14 +57,16 @@ PS> $x.E_Limit="[-10,15]" #sets your defined energy limit in plot
 PS> $x.ticklabels  #will show up ticklabels and you can edit
 PS> $x.WidthToColumnRatio #detemines plot width in units of column width of article.
 #After editing all keys in $x.Key for your system, you can run the following cmdlet to get plot
-PS> Get-Plot -ProjectedBandDOS -PlotArguments $x #will output a plot
+PS> Get-Plot -ProjectedBandDOS -PlotArguments $x #will output a plot. You can add -HalfColumnWide switch to make small size plots.
 ```
 Export LOCPOT file into seperate x,y,z-directed potentials using
 ```powershell
 PS> Export-LOCPOT #Creates three plane data files consisting minimum,maximum and average potential in each direction.
 ```
+### Get-PublicationsReadyPlots
+- Seperate and composite plots can be made using switches like *-Bands*, *-BandDOS*, *-ProjectedBands*, *-ProjectedBandDOS*. Plot size could be decreased to half of an article column width by using *-HalfColumnWide* switch. You can make your own plots from data.
 ## Get-More
-- Multiple flexible plotting scripts are under work!
+- Seperate DOS plotting scripts are under work!
 ## Get-New
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** cmdlet.
 
