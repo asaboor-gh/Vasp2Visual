@@ -69,5 +69,25 @@ PS> Export-LOCPOT #Creates three plane data files consisting minimum,maximum and
 - Seperate DOS plotting scripts are under work!
 ## Get-New
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** function.
-![Image description](IndexedPlot.svg)
+- Automation functions are here to boost the productivity. For example, to know band gap, spin-orbit split-off, use the following functions.
+```powershell
+PS> Show-BandInfo 9 #returns information about band as output below.
+Name                           Value                                           
+----                           -----                                           
+Minimum                        -0.1617                                         
+Maximum                        3.3817                                          
+BandNumber                     9                                               
+K_min                          75                                              
+K_max                          25
+PS> Get-IndexedPlot 30,-20 -xTickDistance 25 #Creates the plot with bands and k-point indexed as givnen below
+PS> Find-GapOfBands 10 9 #returns band gap. Can return bandwidth if smaller index is first say 9 10, or same band 9 9. This is extemely useful to find the Bandwith between VBM and Minimim value of energy on lowest band. try "Find-GapOfBands 1 VBM_BandNumber.
+PS> Measure-Distance -K1B1_K2B2 (25,8),(25,7) #return distance between any two points on k-E plane. This is useful to get Spin-Orbit split-off. Below is return of Above command.
+Name                           Value                                           
+----                           -----                                           
+Point_1                        {0.8660, 3.3817}                                
+Point_2                        {0.8660, 3.3817}                                
+Distance                       0                                               
+Distance: 0 [dimensionless] is copied to clipboard.
+```
+![IndexedPlot](IndexedPlot.svg)
 
