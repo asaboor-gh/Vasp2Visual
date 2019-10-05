@@ -67,7 +67,7 @@ PS> Export-LOCPOT #Creates three plane data files consisting minimum,maximum and
 - Seperate and composite plots can be made using switches like *-Bands*, *-BandDOS*, *-ProjectedBands*, *-ProjectedBandDOS*. Plot size could be decreased to half of an article column width by using *-HalfColumnWide* switch. You can make your own plots from data.
 ## Get-More
 - Seperate DOS plotting scripts are under work!
-## Get-New
+## Get-Automated
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** function.
 - Automation functions are here to boost the productivity. For example, to know band gap, spin-orbit split-off, use the following functions.
 ```powershell
@@ -79,9 +79,15 @@ Maximum                        3.3817
 BandNumber                     9                                               
 K_min                          75                                              
 K_max                          25
-PS> Get-IndexedPlot 30,-20 -xTickDistance 25 #Creates the plot with bands and k-point indexed as givnen below
-PS> Find-GapOfBands 10 9 #returns band gap. Can return bandwidth if smaller index is first say 9 10, or same band 9 9. This is extemely useful to find the Bandwith between VBM and Minimim value of energy on lowest band. try "Find-GapOfBands 1 VBM_BandNumber.
-PS> Measure-Distance -K1B1_K2B2 (25,8),(25,7) #return distance between any two points on k-E plane. This is useful to get Spin-Orbit split-off. Below is return of Above command.
+PS> Get-IndexedPlot 30,-20 -xTickDistance 25 #Creates the plot with bands and k-point indexed as givnen in figure below.
+PS> Find-GapOfBands 10 9 #returns band gap. 
+```
+Above command Can return bandwidth if smaller index is first say 9 10, or of same band 9 9. This is extemely useful to find the Bandwith between VBM and Minimim value of energy on lowest band. try "Find-GapOfBands 1 VBM_BandNumber.
+```
+```powershell
+#This is extremely useful to get Spin-Orbit split-off. 
+#Just input a single argument consisting 2 points (k1_index,BandNumber1),(k2_index,BandNumber2) with no space.
+PS> Measure-Distance -K1B1_K2B2 (25,8),(25,7) #return distance between any two points on k-E plane. Below is return of Above command.
 Name                           Value                                           
 ----                           -----                                           
 Point_1                        {0.8660, 3.3817}                                
