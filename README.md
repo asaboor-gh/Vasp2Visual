@@ -69,4 +69,5 @@ PS> Export-LOCPOT #Creates three plane data files consisting minimum,maximum and
 - Seperate DOS plotting scripts are under work!
 ## Get-New
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** function.
+![Image description](IndexedPlot.svg)
 
