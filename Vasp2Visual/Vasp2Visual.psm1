@@ -13,7 +13,7 @@
   Creation Date:  2019/09/14
   Change: Initial script development
   #>
-Function Get-VaspProjection {
+Function Export-VaspRun {
 if(-not $(Test-Path -Path .\vasprun.xml)){
 Write-Host "The file 'vasprun.xml' not found" -ForegroundColor Red; 
 }Else{
@@ -65,8 +65,6 @@ $($FileInput)
 "@
 $pythonFileContent|Set-Content .\Plot.py
 python .\Plot.py #strat plotting
-if(Test-Path -Filter "*.pdf"){ #test file exists
-Start-Process $(Get-ChildItem -Filter *.pdf| Sort-Object CreationTime -Descending | Select-Object -First 1).Name} #run pdf or svg created.
 }
 Function Export-LOCPOT{
   if(-not $(Test-Path -Path .\LOCPOT)){
@@ -74,7 +72,7 @@ Function Export-LOCPOT{
     }Else{
 . $PSScriptRoot\LOCPOT.ps1}
 }
-Export-ModuleMember -Function 'Get-VaspProjection'
+Export-ModuleMember -Function 'Export-VaspRun'
 Export-ModuleMember -Function 'Get-KPath'
 Export-ModuleMember -Function 'Out-Path'
 Export-ModuleMember -Function 'Close-Writers'

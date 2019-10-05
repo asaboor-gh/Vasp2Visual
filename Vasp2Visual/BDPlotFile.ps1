@@ -2,7 +2,7 @@
 #Should not join dynamic content string with others
 #== Only change below lines for file formats and plt.show()=== But do not change structure of string.
 $saveit=@'
-plt.savefig(str(name+'.svg'),transparent=True)
+plt.savefig(str(name+'.png'),transparent=True,dpi=300)
 plt.savefig(str(name+'.pdf'),transparent=True)
 plt.show(block=False)
 '@
@@ -107,9 +107,9 @@ plt.figure(figsize=(3.4,2.5))
 gs = GridSpec(1,2,width_ratios=(7,3))
 ax1 = plt.subplot(gs[0])
 ax2 = plt.subplot(gs[1])
-ax2.tick_params(direction='in', length=2, width=0.2, colors='k', grid_color='k', grid_alpha=0.8)
+ax2.tick_params(direction='in', top=True,bottom=True,left=True,right=True,length=4, width=0.3, colors='k', grid_color='k', grid_alpha=0.8)
 def ax_settings(ax, x_ticks, x_labels, x_coord,y_coord,Element):
-        ax.tick_params(direction='in', length=2, width=0.2, colors='k', grid_color='k', grid_alpha=0.8)
+        ax.tick_params(direction='in', top=True,bottom=True,left=True,right=True,length=4, width=0.3, colors='k', grid_color='k', grid_alpha=0.8)
         ax.set_xticks(x_ticks)
         ax.set_xticklabels(x_labels)
         ax.set_xlim(K[0],K[-1])
@@ -118,7 +118,7 @@ def ax_settings(ax, x_ticks, x_labels, x_coord,y_coord,Element):
         return None
 #Lines at KPOINTS
 kpts1=[[(K[ii],yl),(K[ii],yh)] for ii in tickIndices[1:-1]];
-k_segments= LineCollection(kpts1,colors='k', linestyle='dashed',linewidths=(0.5),alpha=(0.6))
+k_segments= LineCollection(kpts1,colors='k', linestyle='dashed',linewidths=(0.3),alpha=(0.6))
 ax1.add_collection(k_segments)
 ax1.plot([K[0],K[-1]],[0,0],'k',linewidth=0.3,linestyle='dashed',alpha=0.6) #Horizontal Line
 #Full Data Plot
@@ -184,9 +184,9 @@ plt.figure(figsize=(3.4,2.5))
 gs = GridSpec(1,2,width_ratios=(7,3))
 ax1 = plt.subplot(gs[0])
 ax2 = plt.subplot(gs[1])
-ax2.tick_params(direction='in', length=2, width=0.2, colors='k', grid_color='k', grid_alpha=0.8)
+ax2.tick_params(direction='in', top=True,bottom=True,left=True,right=True,length=4, width=0.3, colors='k', grid_color='k', grid_alpha=0.8)
 def ax_settings(ax, x_ticks, x_labels, x_coord,y_coord,Element):
-        ax.tick_params(direction='in', length=2, width=0.2, colors='k', grid_color='k', grid_alpha=0.8)
+        ax.tick_params(direction='in', top=True,bottom=True,left=True,right=True,length=4, width=0.3, colors='k', grid_color='k', grid_alpha=0.8)
         ax.set_xticks(x_ticks)
         ax.set_xticklabels(x_labels)
         ax.set_xlim(K[0],K[-1])
@@ -195,7 +195,7 @@ def ax_settings(ax, x_ticks, x_labels, x_coord,y_coord,Element):
         return None
 #Lines at KPOINTS
 kpts1=[[(K[ii],yl),(K[ii],yh)] for ii in tickIndices[1:-1]];
-k_segments= LineCollection(kpts1,colors='k', linestyle='dashed',linewidths=(0.5),alpha=(0.6))
+k_segments= LineCollection(kpts1,colors='k', linestyle='dashed',linewidths=(0.3),alpha=(0.6))
 ax1.add_collection(k_segments)
 ax1.plot([K[0],K[-1]],[0,0],'k',linewidth=0.3,linestyle='dashed',alpha=0.6) #Horizontal Line
 #Full Data Plot
@@ -282,7 +282,7 @@ plt.figure(figsize=(wd*3.4,wd*3))
 gs = GridSpec(1,1)
 ax1 = plt.subplot(gs[0])
 def ax_settings(ax, x_ticks, x_labels, x_coord,y_coord,Element):
-        ax.tick_params(direction='in', length=2, width=0.2, colors='k', grid_color='k', grid_alpha=0.8)
+        ax.tick_params(direction='in', top=True,bottom=True,left=True,right=True,length=4, width=0.3, colors='k', grid_color='k', grid_alpha=0.8)
         ax.set_xticks(x_ticks)
         ax.set_xticklabels(x_labels)
         ax.set_xlim(K[0],K[-1])
@@ -291,7 +291,7 @@ def ax_settings(ax, x_ticks, x_labels, x_coord,y_coord,Element):
         return None
 #Lines at KPOINTS
 kpts1=[[(K[ii],yl),(K[ii],yh)] for ii in tickIndices[1:-1]];
-k_segments= LineCollection(kpts1,colors='k', linestyle='dashed',linewidths=(0.5),alpha=(0.6))
+k_segments= LineCollection(kpts1,colors='k', linestyle='dashed',linewidths=(0.3),alpha=(0.6))
 ax1.add_collection(k_segments)
 ax1.plot([K[0],K[-1]],[0,0],'k',linewidth=0.3,linestyle='dashed',alpha=0.6) #Horizontal Line
 #Full Data Plot
@@ -345,7 +345,7 @@ plt.figure(figsize=(wd*3.4,wd*3))
 gs = GridSpec(1,1)
 ax1 = plt.subplot(gs[0])
 def ax_settings(ax, x_ticks, x_labels, x_coord,y_coord,Element):
-        ax.tick_params(direction='in', length=2, width=0.2, colors='k', grid_color='k', grid_alpha=0.8)
+        ax.tick_params(direction='in', top=True,bottom=True,left=True,right=True,length=4, width=0.3, colors='k', grid_color='k', grid_alpha=0.8)
         ax.set_xticks(x_ticks)
         ax.set_xticklabels(x_labels)
         ax.set_xlim(K[0],K[-1])
@@ -354,7 +354,7 @@ def ax_settings(ax, x_ticks, x_labels, x_coord,y_coord,Element):
         return None
 #Lines at KPOINTS
 kpts1=[[(K[ii],yl),(K[ii],yh)] for ii in tickIndices[1:-1]];
-k_segments= LineCollection(kpts1,colors='k', linestyle='dashed',linewidths=(0.5),alpha=(0.6))
+k_segments= LineCollection(kpts1,colors='k', linestyle='dashed',linewidths=(0.3),alpha=(0.6))
 ax1.add_collection(k_segments)
 ax1.plot([K[0],K[-1]],[0,0],'k',linewidth=0.3,linestyle='dashed',alpha=0.6) #Horizontal Line
 #Full Data Plot
