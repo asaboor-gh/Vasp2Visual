@@ -44,8 +44,8 @@ Write-Host "$sys structure contains  $NION ions and $NBANDS bands.
  Seperate entries by a comma: e.g. $filled, $unFilled                         
  NBANDS_FILLED, NBANDS_EMPTY: " -ForegroundColor Green -NoNewline 
 [string[]] $interval=(Read-Host).Split(",")
-[int]$from=$($filled-$interval[0]); [int]$NBANDS=$($interval[1]-(-$filled));[int]$nTot=$($interval[1]-(-$interval[0]));  #update indices of bands.
-$bandInterval=@(,0+$($from)..$($NBANDS-1)); #prepend lowest band.
+[int]$from=$($filled-$interval[0]); [int]$NBANDS=$($interval[1]-(-$filled));[int]$nTot=$($interval[1]-(-$interval[0])-(-1));  #update indices of bands.
+$bandInterval=@(,0+$($from)..$($NBANDS-1)); $filled=$($filled-(-1)) #prepend lowest band and add one more to filled.
 }Else{$from=0; $nTot=$NBANDS;$bandInterval=@(0..$($NBANDS-1));} #Bands selction of interval's loop ended.
 $filled=$filled-$from #Updating filled band with selected interval.
 $timer.Start()  #starts timer again
