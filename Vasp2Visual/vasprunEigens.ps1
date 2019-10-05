@@ -7,14 +7,14 @@ $start=Get-Date; $loc=Get-Location
 $swe = New-Object System.IO.StreamWriter "$($loc)\Eigenvals.txt"
 $Writers+=$swe; 
 $x=@() #for Header
-For ($j=$from; $j -le ($NBANDS-1); $j++) { #Header loop
+Foreach($j in $bandInterval) { #Header loop
 $x+="B$j"
 } $x=$x -join '       ';
 $swe.WriteLine("   $x")
 $old1=""; 
 For ($j=$ibzkpt; $j -le ($NKPT-1); $j++) {  #rows loop
 $new=($xml.modeling.calculation.eigenvalues.array.set.set.set[$j].r).trim().Substring(0,7)
-For ($i=$from; $i -le ($NBANDS-1); $i++) {  #columns loop
+Foreach($i in $bandInterval) {  #columns loop
 #Add-Content -Path  file.dat -Value "     $($new[$i])" -NoNewline
 $Eigen= "{0:n8}" -f  $($new[$i]);
 $xx=-Join($old1,"$Eigen       ")

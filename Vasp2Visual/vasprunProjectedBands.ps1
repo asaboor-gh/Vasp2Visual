@@ -45,7 +45,8 @@ Write-Host "$sys structure contains  $NION ions and $NBANDS bands.
  NBANDS_FILLED, NBANDS_EMPTY: " -ForegroundColor Green -NoNewline 
 [string[]] $interval=(Read-Host).Split(",")
 [int]$from=$($filled-$interval[0]); [int]$NBANDS=$($interval[1]-(-$filled));[int]$nTot=$($interval[1]-(-$interval[0]));  #update indices of bands.
-}Else{$from=0; $nTot=$NBANDS} #Bands selction of interval's loop ended.
+$bandInterval=@(,0+$($from)..$($NBANDS-1)); #prepend lowest band.
+}Else{$from=0; $nTot=$NBANDS;$bandInterval=@(0..$($NBANDS-1));} #Bands selction of interval's loop ended.
 $filled=$filled-$from #Updating filled band with selected interval.
 $timer.Start()  #starts timer again
 #===========Excluding Extra KPOINTS from IBZKPT, No effect on GGA Calculations========
@@ -57,7 +58,7 @@ $ibzkpt=[int]($NKPT-$count)
 Write-Host "$ibzkpt IBZKPT file's KPOINTS Excluded!" -ForegroundColor Yellow
 #=============Only DOS if in DOS Folder========================
 if((Get-Location|Split-Path -Leaf).Contains('DOS') -or (Get-Location|Split-Path -Leaf).Contains('dos')){#Skipe Collection of Bands in DOS folder
-$ibzkpt=0;$NKPT=+1;$from=0;$NBANDS=0;$nTot=0;$filled=0;} #Updated minimal working values
+$ibzkpt=0;$NKPT=+1;$from=0;$NBANDS=0;$bandInterval=@();$nTot=0;$filled=0;} #Updated minimal working values
 #==============================================================
 #GetBands
 Get-VaspBands -ibzkpt $ibzkpt   #++++++++++++++++++++++++++++++

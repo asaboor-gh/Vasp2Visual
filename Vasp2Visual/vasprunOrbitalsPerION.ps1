@@ -9,7 +9,7 @@ $loc=Get-Location
 Write-Host "NAME: $name, TOTAL IONS: $ionTotal" -ForegroundColor Yellow
 $head=($xml.modeling.calculation.projected.array.field -join ' ').Trim()
 $arrHead=[System.Collections.ArrayList]::new() #array for header
-For ($j=$from; $j -le ($NBANDS-1); $j++) {  #Header   #$NBANDS rom upper script
+Foreach($j in $bandInterval) {  #Header   #$NBANDS rom upper script
 [void]$arrHead.Add("$j|$head|")  #[void] stops writing to terminal
 } $arrHead=$arrHead -join '            ';
 $headDOS=$xml.modeling.calculation.dos.partial.array.field -join '       ' #DOS Head
@@ -23,7 +23,8 @@ if (-not $moreSpins) { #checks for number of spin blocks, runs if false, Invokes
    #+++++++++++++++++Normal Block++++++++++++++++
    #+++++++++++++++++Bands Projection++++++++++++++
    For($i=$ibzkpt;$i -le $($NKPT-1);$i++){ #Kpoints loop
-        For ($e=$from; $e -le ($NBANDS-1); $e++){ #Bands number loop
+        #For ($e=$from; $e -le ($NBANDS-1); $e++)
+        Foreach($e in $bandInterval){ #Bands number loop
              if($NION.Equals(1)){$arrSPD=$xml.modeling.calculation.projected.array.set.set.set[$i].set[$e].r.Trim()
              }Else{ #more than 1 ions
                     $arrSPD=$xml.modeling.calculation.projected.array.set.set.set[$i].set[$e].r[$a].Trim()
@@ -47,7 +48,7 @@ if (-not $moreSpins) { #checks for number of spin blocks, runs if false, Invokes
    #+++++++++++++++++Spin Blocks++++++++++++++++
    #+++++++++++++++++Bands Projection++++++++++++++
    For($i=$ibzkpt;$i -le $($NKPT-1);$i++){ #Kpoints loop
-          For ($e=$from; $e -le ($NBANDS-1); $e++){ #Bands number loop
+        Foreach($e in $bandInterval){ #Bands number loop
           if($NION.Equals(1)){$arrSPD=$xml.modeling.calculation.projected.array.set.set[0].set[$i].set[$e].r.Trim()
                 }Else{ #more than 1 ions.
                         $arrSPD=$xml.modeling.calculation.projected.array.set.set[0].set[$i].set[$e].r[$a].Trim()
