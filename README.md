@@ -89,9 +89,8 @@ PS> Find-GapOfBands 1 9
 BandWidth (1 → 9): 17.4247 eV is copied to clipboard.
 ```
 ![IndexedPlot](IndexedPlot.svg)
+- This is extremely useful to get **Spin-Orbit split-off**. Just input a single argument consisting 2 points (k1_index,BandNumber1),(k2_index,BandNumber2) with no space.
 ```powershell
-#This is extremely useful to get Spin-Orbit split-off. 
-#Just input a single argument consisting 2 points (k1_index,BandNumber1),(k2_index,BandNumber2) with no space.
 PS> Measure-Distance -K1B1_K2B2 (25,8),(25,7) #return distance between any two points on k-E plane. Below is return of Above command.
 Name                           Value                                           
 ----                           -----                                           
