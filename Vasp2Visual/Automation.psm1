@@ -23,7 +23,7 @@ Function Find-GapOfBands{
 Param(
 [Parameter(Mandatory="True",Position=0)][int]$UpperBand,[Parameter(Mandatory="True",Position=1)][int]$LowerBand)
 if($LowerBand -gt 0 -and $UpperBand -gt 0){
-$gap=(Extract-BandInfo $UpperBand).Minimum-(Extract-BandInfo $LowerBand).Maximum
+$gap=(Show-BandInfo $UpperBand).Minimum-(Show-BandInfo $LowerBand).Maximum
 if($UpperBand -eq $LowerBand){$gap=[Math]::Abs($gap); Set-Clipboard $gap; $gap;
 Write-Host "BandWidth: $gap eV of $($UpperBand)th band is copied to clipboard." -ForegroundColor Green;
 }Elseif($LowerBand -gt $UpperBand){$gap=[Math]::Abs($gap); Set-Clipboard $gap; $gap;
