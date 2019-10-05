@@ -83,6 +83,7 @@ PS> Get-IndexedPlot 30,-20 -xTickDistance 25 #Creates the plot with bands and k-
 PS> Find-GapOfBands 10 9 #returns band gap. 
 ```
 Above command Can return bandwidth if smaller index is first say 9 10, or of same band 9 9. This is extemely useful to find the Bandwith between VBM and Minimim value of energy on lowest band. try "Find-GapOfBands 1 VBM_BandNumber.
+![IndexedPlot](IndexedPlot.svg)
 ```powershell
 #This is extremely useful to get Spin-Orbit split-off. 
 #Just input a single argument consisting 2 points (k1_index,BandNumber1),(k2_index,BandNumber2) with no space.
@@ -94,5 +95,4 @@ Point_2                        {0.8660, 3.3817}
 Distance                       0                                               
 Distance: 0 [dimensionless] is copied to clipboard.
 ```
-![IndexedPlot](IndexedPlot.svg)
 
