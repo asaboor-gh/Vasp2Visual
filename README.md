@@ -37,7 +37,7 @@ PS> Get-KPath  #You need to enter high symmetry KPOINTS in prompts to get path.
 ```
 In order to collect date from **vasprun.xml**, run the command
 ```powershell
-PS> Get-VaspProjection
+PS> Export-VaspRun
 #For a system with NBANDS > 40, it will prompt to select a range of bands
 <#[SYSTEM] structure contains  64 ions and 780 bands.           
  [To get all bands, Type 530, 250] ⇚ OR ⇛ [Collect almost ↑↓ 30 bands around VBM]
