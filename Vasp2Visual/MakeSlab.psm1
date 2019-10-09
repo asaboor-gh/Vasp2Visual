@@ -1,4 +1,4 @@
-﻿Function Merge-ToSlab1{
+﻿Function Merge-ToSlab{
 [CmdletBinding()]
 Param(
 [Parameter(Mandatory="True", Position=0)][string]$FirstPOSCAR,
@@ -44,7 +44,7 @@ Direct
 "@  #here-string for Z-only yet.
 $POSACR_init|Set-Content $outfile
 #save data in array
-if($data[7].StartsWith('S')){$shift=8;$ii=9}Else{$shift=7;$ii=8} #see if slective dynamics there.
+if($dat1[7].StartsWith('S') -or $data2[7].StartsWith('S')){$shift=8;$ii=9}Else{$shift=7;$ii=8} #see if slective dynamics there.
 $N1=[int]((,$shift+$total_1)|Measure-Object -Sum).Sum
 $N2=[int]((,$shift+$total_2)|Measure-Object -Sum).Sum
 $arr1=$data1[$ii..$N1]; $arr2=$data2[$ii..$N2];
