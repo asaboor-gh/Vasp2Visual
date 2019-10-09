@@ -69,6 +69,15 @@ PS> Export-LOCPOT #Creates three plane data files consisting minimum,maximum and
 - Seperate DOS plotting scripts are under work!
 ## Get-Automated
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** function.
+- Make Slab in z-direction (make sure none of POSCAR have zx,zy,xz,yz non-zero i.e angle c should be 90, otherwise result will be wrong. Rotate POSCAR in pure z-direction using Vesta before inputting here and after making slab, rotate it back.
+```powershell
+Merge-ToSlab -FirstPOSCAR .\slab.vasp -SecondPOSCAR .\slab.vasp #Merges two POSCARS in z-direction
+Can't give correct results for POSCARs with off-diagonal elements.
+    Only Cubic and Tetragonal POSCARs are supported.
+    Make sure your POSCARs DO NOT have non-zero xz,yz,zx,zy elements,
+    If so, first rotate POSCAR using Vesta.
+File [NewSlab.vasp] created.
+```
 - Automation functions are here to boost the productivity. For example, to know band gap, spin-orbit split-off, use the following functions.
 ```powershell
 PS> Show-BandInfo 9 #returns information about band as output below.
