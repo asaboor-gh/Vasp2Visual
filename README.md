@@ -69,7 +69,7 @@ PS> Export-LOCPOT #Creates three plane data files consisting minimum,maximum and
 - Seperate DOS plotting scripts are under work!
 ## Get-Automated
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** function.
-- Make Slab in z-direction (make sure none of POSCAR have zx,zy,xz,yz non-zero i.e angle c should be 90, otherwise result will be wrong. Rotate POSCAR in pure z-direction using Vesta before inputting here and after making slab, rotate it back. (Given POSCAR should **NOT** contain **Selective dynamics** line.)
+- Make Slab in z-direction (make sure none of POSCAR have zx,zy,xz,yz non-zero i.e angle c should be 90, otherwise result will be wrong. Rotate POSCAR in pure z-direction using Vesta before inputting here and after making slab, rotate it back.
 ```powershell
 PS> Merge-ToSlab -FirstPOSCAR .\slab.vasp -SecondPOSCAR .\slab.vasp #Merges two POSCARS in z-direction
 Can't give correct results for POSCARs with off-diagonal elements.
