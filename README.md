@@ -76,13 +76,14 @@ Can't give correct results for POSCARs with off-diagonal elements.
 Only Cubic and Tetragonal POSCARs are supported.
 Make sure your POSCARs DO NOT have non-zero xz,yz,zx,zy elements,
 If so, first rotate POSCAR using Vesta.
-File [NewSlab.vasp] created.
+File [POSCAR_New.vasp] created.
 ```
 - This will enable/disable selective dynamics at given sites.
 ```powershell
 PS> Enable-SelectiveDynamics -InputPOSCAR .\GaBiAs.vasp -SelectSitesNumber 1,2,5
-File [Slab_SD.vasp] is created.
+File [POSCAR_eSD.vasp] is created.
 PS> Disable-SelectiveDynamics -InputPOSCAR .\Slab_SD.vasp
+File [POSCAR_dSD.vasp] is created.
 ```
 - This cmdlet gets sites number for a layer with given z coordinate value upto 2 decimal place. These sites could be input to *Enable-SelectiveDynamics*.
 ```powershell
