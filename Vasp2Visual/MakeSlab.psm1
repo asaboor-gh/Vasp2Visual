@@ -31,7 +31,7 @@ $max_elem_index=[int]([Math]::Max($total_1.Count,$total_2.Count)-1)
 $total_slab=Foreach($i in 0..$max_elem_index){[int]$total_1[$i]+[int]$total_2[$i]}  #index_out_of_range doesnt make problem here.
 $diff_elem=(Compare-Object -ReferenceObject $elem_1 -DifferenceObject $elem_2 -PassThru)
 $Elements="$elem_1     $diff_elem" #creates elements in slab
-$outfile=New-Item -Path .\NewSlab.vasp -Force
+$outfile=New-Item -Path .\POSCAR_New.vasp -Force
 $POSACR_init=@"
 $($data1[0].Trim()+'/'+$data2[0].Trim())
 $("{0:n10}" -f ($lc1*$x1[0]))
@@ -44,7 +44,7 @@ Direct
 "@  #here-string for Z-only yet.
 $POSACR_init|Set-Content $outfile
 #save data in array
-if($dat1[7].StartsWith('S') -or $data2[7].StartsWith('S')){$shift=8;$ii=9}Else{$shift=7;$ii=8} #see if slective dynamics there.
+if($data1[7].StartsWith('S') -or $data2[7].StartsWith('S')){$shift=8;$ii=9}Else{$shift=7;$ii=8} #see if slective dynamics there.
 $N1=[int]((,$shift+$total_1)|Measure-Object -Sum).Sum
 $N2=[int]((,$shift+$total_2)|Measure-Object -Sum).Sum
 $arr1=$data1[$ii..$N1]; $arr2=$data2[$ii..$N2];
@@ -71,7 +71,7 @@ $value_new=([float]$value[2])*$factor2+$factor1
 $start2+=[int]$total_2[$index]; 
 $stop2=$start2+ [int]$total_2[[int]($index+1)]-1
 }
-Write-Host "File [NewSlab.vasp] created." -ForegroundColor Green
+Write-Host "File [POSCAR_New.vasp] created." -ForegroundColor Green
 }
 Function Enable-SelectiveDynamics{
 [CmdletBinding()]
@@ -82,7 +82,7 @@ $data=Get-Content $InputPOSCAR
 if($data[7].StartsWith('S')){$shift=8;$ii=9}Else{$shift=7;$ii=8} #see if slective dynamics there.
 $N=([array]$data[6].Split()|Where-Object {$_}|Measure-Object -Sum).Sum+$shift
 $data_New=$data[$ii..$N];
-$outFile=New-Item .\Slab_SD.vasp -Force
+$outFile=New-Item .\POSCAR_eSD.vasp -Force
 $($data[0..6])|Set-Content $outFile
 $POSCAR_init=@"
 Selective dynamics
@@ -94,7 +94,7 @@ if ($SelectSitesNumber.Contains($($i-(-1)))){$pattern="  T   T   T";
 }Else{$pattern="  F   F   F"}
 $value=($data_New[$i].Replace('F','').Replace('T','').TrimEnd())
 "$value $pattern"|Add-Content $outFile}
-Write-Host "File [Slab_SD.vasp] is created." -ForegroundColor Green
+Write-Host "File [POSCAR_eSD.vasp] is created." -ForegroundColor Green
 }
 
 Function Select-SitesInLayers{
