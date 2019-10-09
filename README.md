@@ -83,7 +83,7 @@ File [NewSlab.vasp] created.
 PS> Enable-SelectiveDynamics -InputPOSCAR .\GaBiAs.vasp -SelectSitesNumber 1,2,5
 File [Slab_SD.vasp] is created.
 ```
-- This cmdlet gets sites number for a layer with given z coordinate value upto 2 decimal place.
+- This cmdlet gets sites number for a layer with given z coordinate value upto 2 decimal place. These sites could be input to *Enable-SelectiveDynamics*.
 ```powershell
 PS> Select-SitesInLayers -InputPOSCAR .\GaBiAs.vasp -Z_CoordsArray_2Decimal 0,00,0.25
 ```
