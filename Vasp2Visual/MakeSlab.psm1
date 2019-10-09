@@ -44,9 +44,10 @@ Direct
 "@  #here-string for Z-only yet.
 $POSACR_init|Set-Content $outfile
 #save data in array
-$N1=[int]((,7+$total_1)|Measure-Object -Sum).Sum
-$N2=[int]((,7+$total_2)|Measure-Object -Sum).Sum
-$arr1=$data1[8..$N1]; $arr2=$data2[8..$N2];
+if($data[7].StartsWith('S')){$shift=8;$ii=9}Else{$shift=7;$ii=8} #see if slective dynamics there.
+$N1=[int]((,$shift+$total_1)|Measure-Object -Sum).Sum
+$N2=[int]((,$shift+$total_2)|Measure-Object -Sum).Sum
+$arr1=$data1[$ii..$N1]; $arr2=$data2[$ii..$N2];
 #Loops of getting data
 $start1=0;$stop1=[int]$total_1[0]-1
 $start2=0;$stop2=[int]$total_2[0]-1
