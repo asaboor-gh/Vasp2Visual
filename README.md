@@ -107,7 +107,10 @@ File [POSCAR_dSD.vasp] is created.
 ```
 - This cmdlet gets sites number for a layer with given z coordinate value upto 2 decimal place. These sites could be input to *Enable-SelectiveDynamics*.
 ```powershell
-PS> Select-SitesInLayers -InputPOSCAR .\GaBiAs.vasp -Z_CoordsArray_2Decimal 0,00,0.25
+PS> Select-SitesInLayers -InputPOSCAR .\GaBiAs.vasp -Z_CoordsArray_2Decimal 0.00,0.25
+#This only works for slabs with number of layers less than 100. For more than 100 layers in z-direction, either use 
+#Enable-Selective Dynamics with explicit sites number provided or contact me to make the script flexible. This is 
+#kept on less than 100 on purpose, I can not remember third decimal place and even many of us.
 ```
 - Automation functions are here to boost the productivity. For example, to know band gap, spin-orbit split-off, use the following functions.
 ```powershell
