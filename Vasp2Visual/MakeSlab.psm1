@@ -112,7 +112,18 @@ $value=("{0:N2}" -f [float](($data_New[$i].Split()|Where-Object {$_})[2]))|Out-S
 if ($SelectLayersPosition -contains $value){$($i+1)}
 }
 }
+
+Function Disable-SelectiveDynamics{
+[CmdletBinding()]
+Param([Parameter(Mandatory="True",Position=0)][string]$InputPOSCAR)
+$read1=(Get-Content $InputPOSCAR|Where-Object {$_ -notmatch 'elective'})[0..6]
+$read2=(Get-Content $InputPOSCAR|Select-Object -Skip 7|Where-Object {$_ -notmatch 'elective'}).Replace('F','').Replace('T','').TrimEnd()|Where-Object {$_}
+$outFile =New-Item POSCAR_dSD.vasp -Force
+($read1,$read2)|Set-Content $outFile -Force
+Write-Host "File [POSCAR_dSD.vasp] created."
+}
 Export-ModuleMember -Function 'Merge-ToSlab'
 Export-ModuleMember -Function 'Enable-SelectiveDynamics'
 Export-ModuleMember -Function 'Select-SitesInLayers'
+Export-ModuleMember -Function 'Disable-SelectiveDynamics'
 
