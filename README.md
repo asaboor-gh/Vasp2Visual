@@ -77,11 +77,15 @@ Only Cubic and Tetragonal POSCARs are supported.
 Make sure your POSCARs DO NOT have non-zero xz,yz,zx,zy elements,
 If so, first rotate POSCAR using Vesta.
 File [NewSlab.vasp] created.
-#This will enable selective dynamics at given sites.
+```
+- This will enable selective dynamics at given sites.
+```powershell
 PS> Enable-SelectiveDynamics -InputPOSCAR .\GaBiAs.vasp -SelectSitesNumber 1,2,5
 File [Slab_SD.vasp] is created.
-#This cmdlet gets sites number for a layer with given z coordinate value upto 2 decimal place.
-Select-SitesInLayers -InputPOSCAR .\GaBiAs.vasp -Z_CoordsArray_2Decimal 0,00,0.25
+```
+- This cmdlet gets sites number for a layer with given z coordinate value upto 2 decimal place.
+```powershell
+PS> Select-SitesInLayers -InputPOSCAR .\GaBiAs.vasp -Z_CoordsArray_2Decimal 0,00,0.25
 ```
 - Automation functions are here to boost the productivity. For example, to know band gap, spin-orbit split-off, use the following functions.
 ```powershell
