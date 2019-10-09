@@ -71,12 +71,17 @@ PS> Export-LOCPOT #Creates three plane data files consisting minimum,maximum and
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** function.
 - Make Slab in z-direction (make sure none of POSCAR have zx,zy,xz,yz non-zero i.e angle c should be 90, otherwise result will be wrong. Rotate POSCAR in pure z-direction using Vesta before inputting here and after making slab, rotate it back. (Given POSCAR should **NOT** contain **Selective dynamics** line.)
 ```powershell
-Merge-ToSlab -FirstPOSCAR .\slab.vasp -SecondPOSCAR .\slab.vasp #Merges two POSCARS in z-direction
+PS> Merge-ToSlab -FirstPOSCAR .\slab.vasp -SecondPOSCAR .\slab.vasp #Merges two POSCARS in z-direction
 Can't give correct results for POSCARs with off-diagonal elements.
-    Only Cubic and Tetragonal POSCARs are supported.
-    Make sure your POSCARs DO NOT have non-zero xz,yz,zx,zy elements,
-    If so, first rotate POSCAR using Vesta.
+Only Cubic and Tetragonal POSCARs are supported.
+Make sure your POSCARs DO NOT have non-zero xz,yz,zx,zy elements,
+If so, first rotate POSCAR using Vesta.
 File [NewSlab.vasp] created.
+#This will enable selective dynamics at given sites.
+PS> Enable-SelectiveDynamics -InputPOSCAR .\GaBiAs.vasp -SelectSitesNumber 1,2,5
+File [Slab_SD.vasp] is created.
+#This cmdlet gets sites number for a layer with given z coordinate value upto 2 decimal place.
+Select-SitesInLayers -InputPOSCAR .\GaBiAs.vasp -Z_CoordsArray_2Decimal 0,00,0.25
 ```
 - Automation functions are here to boost the productivity. For example, to know band gap, spin-orbit split-off, use the following functions.
 ```powershell
