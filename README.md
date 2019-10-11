@@ -110,23 +110,19 @@ File [POSCAR_dSD.vasp] is created.
 ```powershell
 PS> Select-SitesInLayers -InputPOSCAR .\POSCAR.vasp Array_2Decimal 0.00,0.25
 
-LayersPerpToAxis LatticeSitesInLayers
----------------- --------------------
-X                {1, 2, 3, 4...}
-Y                {1, 2, 3, 4...}
-Z                {1, 3, 5, 7...}
+XY_PlaneSites YZ_PlaneSites ZX_PlaneSites
+------------- ------------- -------------
+{1, 2, 5, 6}  {1, 4, 6, 7}  {1, 3, 5, 7}
 ```
 - This is good only for slabs with number of layers less than 100 as two decimal places are slected. For more than 100 layers in z-direction, either use *Enable-SelectiveDynamics* with explicit sites number provided or contact me to make the script flexible. The number of layers less than 100  is kept on purpose, as I can not remember third decimal place and I believe many of us can't do so as well. Also when we dope a single element in a slab, coordinates are displaced a little. But no issue here, because you will not miss your selected layer as long as you use first two decimals (without rounding).
 - You can get X,Y,Z coordinates of layers in a POSCAR for input argument in *Select-SitesInLayers* cmdlet by using the command
 ```powershell
-Show-LayersInfo -InputPOSCAR .\Conventional.vasp
+PS> Show-LayersInfo .\Conventional.vasp
 
 
-LayersPerpToAxis CoordinatesOfLayers
----------------- -------------------
-X                {0.00, 0.25, 0.50, 0.75}
-Y                {0.00, 0.25, 0.50, 0.75}
-Z                {0.00, 0.25, 0.50, 0.75}
+X_AtLayers               Y_AtLayers               Z_AtLayers
+----------               ----------               ----------
+{0.00, 0.25, 0.50, 0.75} {0.00, 0.25, 0.50, 0.75} {0.00, 0.25, 0.50, 0.75}
 ```
 - Automation functions are here to boost the productivity. For example, to know band gap, spin-orbit split-off, use the following functions.
 ```powershell
