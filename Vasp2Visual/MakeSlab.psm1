@@ -136,12 +136,9 @@ $z_coord+="{0:N2}" -f [float]($value[2])
 $y_coord+="{0:N2}" -f [float]($value[1])
 $x_coord+="{0:N2}" -f [float]($value[0])
 }
-$layers=@"
-X: $(($x_coord|Select-Object -Unique|Sort-Object) -join ', ')
-Y: $(($y_coord|Select-Object -Unique|Sort-Object) -join ', ')
-Z: $(($z_coord|Select-Object -Unique|Sort-Object) -join ', ')
-"@
-Write-Host "$layers" -ForegroundColor Green
+[ordered]@{X=[array]($x_coord|Select-Object -Unique|Sort-Object);
+  Y=[array]($y_coord|Select-Object -Unique|Sort-Object);
+  Z=[array]($z_coord|Select-Object -Unique|Sort-Object);} #prints on screen
 }
 Export-ModuleMember -Function 'Merge-ToSlab'
 Export-ModuleMember -Function 'Enable-SelectiveDynamics'
