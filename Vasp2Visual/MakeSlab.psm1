@@ -3,10 +3,9 @@
 Param(
 [Parameter(Mandatory="True", Position=0)][string]$FirstPOSCAR,
 [Parameter(Mandatory="True", Position=1)][string]$SecondPOSCAR)
-Write-Host "Can't give correct results for POSCARs with off-diagonal elements.
-Only Cubic and Tetragonal POSCARs are supported. 
+Write-Host "Only Cubic and Tetragonal POSCARs are supported. 
 Make sure your POSCARs DO NOT have non-zero xz,yz,zx,zy elements, 
-If so, first rotate POSCAR using Vesta." -ForegroundColor Red
+If so, first rotate POSCAR using Vesta." -ForegroundColor Yellow
 $data1=(Get-Content $FirstPOSCAR)
 $data2=(Get-Content $SecondPOSCAR)
 $lc1=[float]$data1[1] ; $lc2=[float]$data2[1] #lattice constants
@@ -16,6 +15,12 @@ $z1=[array]($data1[4].split()|Where-Object {$_})
 $x2=[array]($data2[2].split()|Where-Object {$_})
 $y2=[array]($data2[3].split()|Where-Object {$_})
 $z2=[array]($data2[4].split()|Where-Object {$_})
+if([float]$x1[2] -ne 0 -or [float]$y1[2] -ne 0 -or [float]$z1[0] -ne 0 -or [float]$z1[1] -ne 0){
+  Write-Host "First POSCAR $FirstPOSCAR has any non-zero xz,yz,zx,zy elements, Can't proceed" -ForegroundColor Red
+  break}
+if([float]$x2[2] -ne 0 -or [float]$y2[2] -ne 0 -or [float]$z2[0] -ne 0 -or [float]$z2[1] -ne 0){
+  Write-Host "Second $SecondPOSCAR has any non-zero xz,yz,zx,zy elements, Can't proceed" -ForegroundColor Red
+  break}
 #getting volume and cross-sectional area to find modified (0,0,z) for second POSCAR
 $V2=([Math]::Pow($lc2,3))*(([float]$x2[0])*([float]$y2[1])*([float]$z2[2]));
 $Axy1=([Math]::Pow($lc1,2))*(([float]$x1[0])*([float]$y1[1]))
