@@ -101,25 +101,32 @@ File [POSCAR_New.vasp] created.
 ```
 - This will enable/disable selective dynamics at given sites.
 ```powershell
-PS> Enable-SelectiveDynamics -InputPOSCAR .\GaBiAs.vasp -SelectSitesNumber 1,2,5
+PS> Enable-SelectiveDynamics -InputPOSCAR .\POSCAR.vasp -SelectSitesNumber 1,2,5
 File [POSCAR_eSD.vasp] is created.
-PS> Disable-SelectiveDynamics -InputPOSCAR .\Slab_SD.vasp
+PS> Disable-SelectiveDynamics -InputPOSCAR .\POSCAR_eSD.vasp
 File [POSCAR_dSD.vasp] is created.
 ```
 - This cmdlet gets sites number for a layer with given z coordinate value upto 2 decimal place. These sites could be input to *Enable-SelectiveDynamics*.
 ```powershell
-PS> Select-SitesInLayers -InputPOSCAR .\GaBiAs.vasp -Z_CoordsArray_2Decimal 0.00,0.25
+PS> Select-SitesInLayers -InputPOSCAR .\POSCAR.vasp Array_2Decimal 0.00,0.25
+
+LayersPerpToAxis LatticeSitesInLayers
+---------------- --------------------
+X
+Y
+Z                {65, 69, 73, 77...}
 ```
 - This only works for slabs with number of layers less than 100. For more than 100 layers in z-direction, either use *Enable-SelectiveDynamics* with explicit sites number provided or contact me to make the script flexible. The number of layers less than 100  is kept on purpose, as I can not remember third decimal place and  I believe many of us can't do so as well. Also when we dope a single element in a slab, coordinates are displaced a little. But no issue here, because you will not miss your selected layer as long as you use rounded to two decimals, not just the first two digits after point.
 - You can get X,Y,Z coordinates of layers in a POSCAR for input argument in *Select-SitesInLayers* cmdlet by using the command
 ```powershell
-Show-LayersInfo -InputPOSCAR .\GaAsBi256.vasp
+Show-LayersInfo -InputPOSCAR .\Conventional.vasp
 
-Name                           Value
-----                           -----
-X                              {0.00, 0.12, 0.13, 0.25...}
-Y                              {0.00, 0.12, 0.13, 0.24...}
-Z                              {0.00, 0.03, 0.06, 0.09...}
+
+LayersPerpToAxis CoordinatesOfLayers
+---------------- -------------------
+X                {0.00, 0.25, 0.50, 0.75}
+Y                {0.00, 0.25, 0.50, 0.75}
+Z                {0.00, 0.25, 0.50, 0.75}
 ```
 - Automation functions are here to boost the productivity. For example, to know band gap, spin-orbit split-off, use the following functions.
 ```powershell
