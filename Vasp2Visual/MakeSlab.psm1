@@ -101,7 +101,7 @@ Function Select-SitesInLayers{
 [CmdletBinding()]
 Param(
 [Parameter(Mandatory="True", Position=0)][string]$InputPOSCAR,
-[Parameter(Mandatory="True", Position=0)][array]$Array_2Decimal=@())
+[Parameter(Mandatory="True", Position=1)][array]$Array_2Decimal=@())
 $data=Get-Content $InputPOSCAR
 $SelectLayersPosition=@($Array_2Decimal)
 if($data[7].StartsWith('S')){$shift=8;$ii=9}Else{$shift=7;$ii=8} #see if slective dynamics there.
