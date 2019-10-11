@@ -108,7 +108,7 @@ File [POSCAR_dSD.vasp] is created.
 ```
 - This cmdlet gets sites number for a layer with given z coordinate value upto 2 decimal place. These sites could be input to *Enable-SelectiveDynamics*.
 ```powershell
-PS> Select-SitesInLayers -InputPOSCAR .\POSCAR.vasp Array_2Decimal 0.00,0.25
+PS> Select-SitesInLayers -InputPOSCAR .\POSCAR.vasp -Array_2Decimal 0.00,0.25
 
 XY_PlaneSites YZ_PlaneSites ZX_PlaneSites
 ------------- ------------- -------------
