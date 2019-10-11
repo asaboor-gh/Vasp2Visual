@@ -1,13 +1,29 @@
 ﻿$loc=Get-Location
 $newstreamreader = New-Object System.IO.StreamReader("$loc\LOCPOT")
-$data=While(($eachLine=$newstreamreader.ReadLine()) -ne $null){
+$data=While($null -ne ($eachLine=$newstreamreader.ReadLine())){
 $eachLine #Saves Readline into variable $data.
 }
 $nAtoms=[int]($data[6].Split(" ")|Where-Object {$_}|Measure-Object -sum).sum
+#Getting site coordinates
+$coords=$data[8..($nAtoms+7)] 
+$z_coord=@();$x_coord=@();$y_coord=@();
+Foreach($coord in $coords){
+[array]$value=$coord.split()|Where-Object {$_}
+$z_coord+="{0:N2}" -f [float]($value[2])
+$y_coord+="{0:N2}" -f [float]($value[1])
+$x_coord+="{0:N2}" -f [float]($value[0])
+}
+$layers=@"
+x_site: $(($x_coord|Select-Object -Unique) -join ', ')
+y_site: $(($y_coord|Select-Object -Unique) -join ', ')
+z_site: $(($z_coord|Select-Object -Unique) -join ', ')
+"@
+$layers|Set-Content .\LayersInfo.txt
+#Collecting potential data
 $NGx,$NGy,$NGz=$data[$nAtoms+9].Split()|Where-Object {$_}
 $ii=[int]$($nAtoms+10); #start index for potential
 $writer = New-Object System.IO.StreamWriter "$($loc)\newLOCPOT.txt";
-While($data[$ii] -ne $null){$writer.Write(("$($data[$ii].Trim())    "));$ii++}
+While($null -ne $data[$ii]){$writer.Write(("$($data[$ii].Trim())    "));$ii++}
  $writer.Close();
  $System=$data[0].Trim();
  $xDir=[float]($data[2].Split()|Where-Object {$_})[0]*[float]$data[1].Trim()

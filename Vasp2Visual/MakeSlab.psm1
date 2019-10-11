@@ -122,8 +122,30 @@ $outFile =New-Item POSCAR_dSD.vasp -Force
 ($read1,$read2)|Set-Content $outFile -Force
 Write-Host "File [POSCAR_dSD.vasp] created."
 }
+
+Function Show-LayersInfo{
+[CmdletBinding()]
+Param([Parameter(Mandatory="True",Position=0)][string]$InputPOSCAR)
+$data=(Get-Content $InputPOSCAR|Where-Object {$_ -notmatch 'elective'})
+$nAtoms=[int]($data[6].Split(" ")|Where-Object {$_}|Measure-Object -sum).sum
+$coords=$data[8..($nAtoms+7)]
+$z_coord=@();$x_coord=@();$y_coord=@();
+Foreach($coord in $coords){
+[array]$value=$coord.split()|Where-Object {$_}
+$z_coord+="{0:N2}" -f [float]($value[2])
+$y_coord+="{0:N2}" -f [float]($value[1])
+$x_coord+="{0:N2}" -f [float]($value[0])
+}
+$layers=@"
+X: $(($x_coord|Select-Object -Unique) -join ', ')
+Y: $(($y_coord|Select-Object -Unique) -join ', ')
+Z: $(($z_coord|Select-Object -Unique) -join ', ')
+"@
+Write-Host "$layers" -ForegroundColor Green
+}
 Export-ModuleMember -Function 'Merge-ToSlab'
 Export-ModuleMember -Function 'Enable-SelectiveDynamics'
 Export-ModuleMember -Function 'Select-SitesInLayers'
 Export-ModuleMember -Function 'Disable-SelectiveDynamics'
+Export-ModuleMember -Function 'Show-LayersInfo'
 
