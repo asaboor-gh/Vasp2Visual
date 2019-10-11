@@ -118,8 +118,7 @@ if ($SelectLayersPosition -contains $nV0){$X+=$($i+1)}
 if ($SelectLayersPosition -contains $nV1){$Y+=$($i+1)}
 if ($SelectLayersPosition -contains $nV2){$Z+=$($i+1)}
 }
-$hash=[ordered]@{X=[array]($X|Sort-Object);Y=[array]($Y|Sort-Object);Z=[array]($Z|Sort-Object)} #output hashtable
-$hash.keys|Select-Object @{l='LayersPerpToAxis';e={$_}},@{l='LatticeSitesInLayers';e={$hash.$_}}
+[pscustomobject]@{XY_PlaneSites=[array]($Z|Sort-Object);YZ_PlaneSites=[array]($X|Sort-Object);ZX_PlaneSites=[array]($Y|Sort-Object)} #output custom Object
 }
 
 Function Disable-SelectiveDynamics{
@@ -146,10 +145,10 @@ $z_coord+=(($value2.split('.')[0],$value2.split('.')[1].Substring(0,2)) -join '.
 $y_coord+=(($value1.split('.')[0],$value1.split('.')[1].Substring(0,2)) -join '.')
 $x_coord+=(($value0.split('.')[0],$value0.split('.')[1].Substring(0,2)) -join '.')
 }
-$hash=[ordered]@{X=[array]($x_coord|Select-Object -Unique|Sort-Object);
-  Y=[array]($y_coord|Select-Object -Unique|Sort-Object);
-  Z=[array]($z_coord|Select-Object -Unique|Sort-Object);} #prints on screen
-$hash.keys|Select-Object @{l='LayersPerpToAxis';e={$_}},@{l='CoordinatesOfLayers';e={$hash.$_}}
+[pscustomobject]@{
+  X_AtLayers=[array]($x_coord|Select-Object -Unique|Sort-Object); 
+  Y_AtLayers=[array]($y_coord|Select-Object -Unique|Sort-Object); 
+  Z_AtLayers=[array]($z_coord|Select-Object -Unique|Sort-Object)} #output custom Object
 }
 Export-ModuleMember -Function 'Merge-ToSlab'
 Export-ModuleMember -Function 'Enable-SelectiveDynamics'
