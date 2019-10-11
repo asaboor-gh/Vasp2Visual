@@ -137,9 +137,9 @@ $y_coord+="{0:N2}" -f [float]($value[1])
 $x_coord+="{0:N2}" -f [float]($value[0])
 }
 $layers=@"
-X: $(($x_coord|Select-Object -Unique) -join ', ')
-Y: $(($y_coord|Select-Object -Unique) -join ', ')
-Z: $(($z_coord|Select-Object -Unique) -join ', ')
+X: $(($x_coord|Select-Object -Unique|Sort-Object) -join ', ')
+Y: $(($y_coord|Select-Object -Unique|Sort-Object) -join ', ')
+Z: $(($z_coord|Select-Object -Unique|Sort-Object) -join ', ')
 "@
 Write-Host "$layers" -ForegroundColor Green
 }

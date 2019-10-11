@@ -14,9 +14,9 @@ $y_coord+="{0:N2}" -f [float]($value[1])
 $x_coord+="{0:N2}" -f [float]($value[0])
 }
 $layers=@"
-x_site: $(($x_coord|Select-Object -Unique) -join ', ')
-y_site: $(($y_coord|Select-Object -Unique) -join ', ')
-z_site: $(($z_coord|Select-Object -Unique) -join ', ')
+x_site: $(($x_coord|Select-Object -Unique|Sort-Object) -join ', ')
+y_site: $(($y_coord|Select-Object -Unique|Sort-Object) -join ', ')
+z_site: $(($z_coord|Select-Object -Unique|Sort-Object) -join ', ')
 "@
 $layers|Set-Content .\LayersInfo.txt
 #Collecting potential data
