@@ -113,10 +113,13 @@ PS> Select-SitesInLayers -InputPOSCAR .\GaBiAs.vasp -Z_CoordsArray_2Decimal 0.00
 - This only works for slabs with number of layers less than 100. For more than 100 layers in z-direction, either use *Enable-SelectiveDynamics* with explicit sites number provided or contact me to make the script flexible. The number of layers less than 100  is kept on purpose, as I can not remember third decimal place and  I believe many of us can't do so as well. Also when we dope a single element in a slab, coordinates are displaced a little. But no issue here, because you will not miss your selected layer as long as you use rounded to two decimals, not just the first two digits after point.
 - You can get X,Y,Z coordinates of layers in a POSCAR for input argument in *Select-SitesInLayers* cmdlet by using the command
 ```powershell
-Show-LayersInfo -InputPOSCAR .\slab.vasp
-X: 0.00, 0.12, 0.13, 0.25, 0.37, 0.38, 0.49, 0.50, 0.62, 0.63, 0.75, 0.76, 0.88, 1.00
-Y: 0.00, 0.12, 0.13, 0.24, 0.25, 0.37, 0.38, 0.50, 0.51, 0.63, 0.75, 0.87, 0.88, 1.00
-Z: 0.00, 0.03, 0.06, 0.09, 0.12, 0.16, 0.19, 0.22, 0.25, 0.28, 0.31, 0.34, 0.37, 0.40, 0.44, 0.47, 0.50, 0.53, 0.56, 0.59, 0.62, 0.65, 0.69, 0.72, 0.75, 0.78, 0.81, 0.84, 0.87, 0.91, 0.94, 0.97, 1.00
+Show-LayersInfo -InputPOSCAR .\GaAsBi256.vasp
+
+Name                           Value
+----                           -----
+X                              {0.00, 0.12, 0.13, 0.25...}
+Y                              {0.00, 0.12, 0.13, 0.24...}
+Z                              {0.00, 0.03, 0.06, 0.09...}
 ```
 - Automation functions are here to boost the productivity. For example, to know band gap, spin-orbit split-off, use the following functions.
 ```powershell
