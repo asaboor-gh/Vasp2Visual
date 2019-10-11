@@ -114,9 +114,9 @@ PS> Select-SitesInLayers -InputPOSCAR .\GaBiAs.vasp -Z_CoordsArray_2Decimal 0.00
 - You can get X,Y,Z coordinates of layers in a POSCAR for input argument in *Select-SitesInLayers* cmdlet by using the command
 ```powershell
 Show-LayersInfo -InputPOSCAR .\slab.vasp
-X: 1.00, 0.00, 0.50, 0.25, 0.75, 0.49, 0.76, 0.37, 0.88, 0.13, 0.63, 0.12, 0.62, 0.38
-Y: 0.00, 0.50, 1.00, 0.25, 0.75, 0.51, 0.24, 0.12, 0.63, 0.38, 0.88, 0.37, 0.87, 0.13
-Z: 1.00, 0.25, 0.12, 0.37, 0.00, 0.06, 0.31, 0.19, 0.44, 0.75, 0.50, 0.62, 0.87, 0.56, 0.81, 0.69, 0.94, 0.53, 0.78, 0.65, 0.91, 0.59, 0.84, 0.72, 0.97, 0.03, 0.28, 0.16, 0.40, 0.09, 0.34, 0.22, 0.47
+X: 0.00, 0.12, 0.13, 0.25, 0.37, 0.38, 0.49, 0.50, 0.62, 0.63, 0.75, 0.76, 0.88, 1.00
+Y: 0.00, 0.12, 0.13, 0.24, 0.25, 0.37, 0.38, 0.50, 0.51, 0.63, 0.75, 0.87, 0.88, 1.00
+Z: 0.00, 0.03, 0.06, 0.09, 0.12, 0.16, 0.19, 0.22, 0.25, 0.28, 0.31, 0.34, 0.37, 0.40, 0.44, 0.47, 0.50, 0.53, 0.56, 0.59, 0.62, 0.65, 0.69, 0.72, 0.75, 0.78, 0.81, 0.84, 0.87, 0.91, 0.94, 0.97, 1.00
 ```
 - Automation functions are here to boost the productivity. For example, to know band gap, spin-orbit split-off, use the following functions.
 ```powershell
