@@ -101,16 +101,25 @@ Function Select-SitesInLayers{
 [CmdletBinding()]
 Param(
 [Parameter(Mandatory="True", Position=0)][string]$InputPOSCAR,
-[Parameter(Mandatory="True", Position=0)][array]$Z_CoordsArray_2Decimal=@())
+[Parameter(Mandatory="True", Position=0)][array]$Array_2Decimal=@())
 $data=Get-Content $InputPOSCAR
-$SelectLayersPosition=@($Z_CoordsArray_2Decimal)
+$SelectLayersPosition=@($Array_2Decimal)
 if($data[7].StartsWith('S')){$shift=8;$ii=9}Else{$shift=7;$ii=8} #see if slective dynamics there.
 $N=([array]$data[6].Split()|Where-Object {$_}|Measure-Object -Sum).Sum+$shift
 $data_New=$data[$ii..$N];
+$X=@();$Y=@();$Z=@(); #arrays of elements in 3D
 ForEach($i in 0..($data_New.Count-1)){
-$value=("{0:N2}" -f [float](($data_New[$i].Split()|Where-Object {$_})[2]))|Out-String;
-if ($SelectLayersPosition -contains $value){$($i+1)}
+[array]$value=($data_New[$i].Split()|Where-Object {$_});
+[string]$value2=$value[2];[string]$value1=$value[1];[string]$value0=$value[0];
+[string]$nV2=(($value2.split('.')[0],$value2.split('.')[1].Substring(0,2)) -join '.')
+[string]$nV1=(($value1.split('.')[0],$value1.split('.')[1].Substring(0,2)) -join '.')
+[string]$nV0=(($value0.split('.')[0],$value0.split('.')[1].Substring(0,2)) -join '.')
+if ($SelectLayersPosition -contains $nV0){$X+=$($i+1)}
+if ($SelectLayersPosition -contains $nV1){$Y+=$($i+1)}
+if ($SelectLayersPosition -contains $nV2){$Z+=$($i+1)}
 }
+$hash=[ordered]@{X=[array]($X|Sort-Object);Y=[array]($Y|Sort-Object);Z=[array]($Z|Sort-Object)} #output hashtable
+$hash.keys|Select-Object @{l='LayersPerpToAxis';e={$_}},@{l='LatticeSitesInLayers';e={$hash.$_}}
 }
 
 Function Disable-SelectiveDynamics{
@@ -132,13 +141,15 @@ $coords=$data[8..($nAtoms+7)]
 $z_coord=@();$x_coord=@();$y_coord=@();
 Foreach($coord in $coords){
 [array]$value=$coord.split()|Where-Object {$_}
-$z_coord+="{0:N2}" -f [float]($value[2])
-$y_coord+="{0:N2}" -f [float]($value[1])
-$x_coord+="{0:N2}" -f [float]($value[0])
+[string]$value2=$value[2];[string]$value1=$value[1];[string]$value0=$value[0];
+$z_coord+=(($value2.split('.')[0],$value2.split('.')[1].Substring(0,2)) -join '.')
+$y_coord+=(($value1.split('.')[0],$value1.split('.')[1].Substring(0,2)) -join '.')
+$x_coord+=(($value0.split('.')[0],$value0.split('.')[1].Substring(0,2)) -join '.')
 }
-[ordered]@{X=[array]($x_coord|Select-Object -Unique|Sort-Object);
+$hash=[ordered]@{X=[array]($x_coord|Select-Object -Unique|Sort-Object);
   Y=[array]($y_coord|Select-Object -Unique|Sort-Object);
   Z=[array]($z_coord|Select-Object -Unique|Sort-Object);} #prints on screen
+$hash.keys|Select-Object @{l='LayersPerpToAxis';e={$_}},@{l='CoordinatesOfLayers';e={$hash.$_}}
 }
 Export-ModuleMember -Function 'Merge-ToSlab'
 Export-ModuleMember -Function 'Enable-SelectiveDynamics'
