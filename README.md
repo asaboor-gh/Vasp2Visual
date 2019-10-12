@@ -56,7 +56,7 @@ Vasp2Visual contains a cmdlet for creating a K-Path before you run a calculation
 ```powershell
 PS> Get-KPath  #You need to enter high symmetry KPOINTS in prompts to get path.
 ```
-In order to collect date from **vasprun.xml**, run the command
+In order to collect data from **vasprun.xml**, run the command
 ```powershell
 PS> Export-VaspRun
 #For a system with NBANDS > 40, it will prompt to select a range of bands
@@ -71,7 +71,7 @@ If running the above cmdlet throws an error and stops running, then you **must r
 ```powershell
 PS> Close-Writers #This will close all opened stream writers. 
 ```
-Now you are able to use your own plotting method to get output, but you can instead use *Get-Plot* function to let it work automatically for you. Before going forward, lets get to know how many arguments are available and then you can just edit argument.
+Now you are able to use your own plotting method to get output, but you can instead use *Get-Plot* function to let it work automatically for you. Before going forward, lets get to know how many arguments are available and then you can just edit arguments.
 ```powershell
 PS> $x=Get-PlotArguments
 PS> $x.E_Limit="[-10,15]" #sets your defined energy limit in plot
