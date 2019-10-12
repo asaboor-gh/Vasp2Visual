@@ -1,5 +1,5 @@
 # Vasp2Visual
-A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command **Get-VaspProjection** in a folder containing **vasprun.xml**. The plot file is generated after running **Get-Plot** is editable per your choice,although the plot you get is publication ready. You are strongly recommended to download [STIX Fonts](https://www.stixfonts.org/) to make your plot fonts similar to article's fonts. The basic commands include the following.
+A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command **Export-VaspRun** in a folder containing **vasprun.xml**. The plot file is generated after running **Get-Plot** is editable per your choice,although the plot you get is publication ready. You are strongly recommended to download [STIX Fonts](https://www.stixfonts.org/) to make your plot fonts similar to article's fonts. The basic commands include the following.
 ```powershell
 PS> Get-Command -Module Vasp2Visual
 CommandType     Name
@@ -30,9 +30,9 @@ PS> $env:PSModulePath
 #C:\Program Files\WindowsPowerShell\Modules;
 #C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 ```
-- Running **Import-Module Vasp2Visual** in Powershell console will make all commands in this module available to use. If you want to make it permamanent, include this import command in your powershell profile by typying **your_editor $PROFILE**.
+- Running **Import-Module Vasp2Visual** in Powershell console will make all commands in this module available to use. If you want to make it permanent, include this import command in your powershell profile by typying **your_editor $PROFILE**.
 - Now run **Get-Module** command. This will show you that Vasp2Visual is ready and you can see list of commands.
-- You need vasprun.xml file to collect data. It is recommended that if you have **vasprun.xml** file from DOS calculations,put that file in a folder named **dos** or **DOS** in the root folder where vasprun.xml is present from a bandstructure calculation and *run plotting commands only in root folder* but run *Get-VaspProjection* in each folder in case of BandDOS composite plots.
+- You need vasprun.xml file to collect data. It is recommended that if you have **vasprun.xml** file from DOS calculations,put that file in a folder named **dos** or **DOS** in the root folder where vasprun.xml is present from a bandstructure calculation and *run plotting commands only in root folder* but run *Export-VaspRun* in each folder in case of BandDOS composite plots.
 ## Get-FunctionsWork
 - Watch [Vasp2Visual.mp4](Vasp2Visual.mp4) to know how to run the commands.
 
