@@ -106,7 +106,7 @@ python .\IndexedPlot.py #strat plotting
 Function Get-KPath{
     [CmdletBinding()]
     Param([Parameter(Mandatory="True",Position=0)][array]$KptsArray_nCross3,
-    [Parameter(Mandatory="True",Position=1)][int]$nPerInterval)
+    [Parameter(Mandatory="True",Position=1)][int]$nPerInterval=25)
     Remove-Item .\KPath.txt -Force -ErrorAction Ignore
     $KPTS=@($KptsArray_nCross3)
     [int]$N=$KPTS.Count; [int]$steps=$nPerInterval
@@ -131,7 +131,7 @@ Function Get-KPath{
     $point= "$("{0,8:n4}" -f $values[1][0])    $("{0,8:n4}" -f $values[1][1])     $("{0,8:n4}" -f $values[1][2])       0"
     $point|Add-Content .\KPath.txt
     }
-    Write-Host "File [KPath.txt] created. Output copied to clipboard" -ForegroundColor DarkCyan
+    Write-Host "File [KPath.txt] created. Output copied to clipboard." -ForegroundColor DarkCyan
     Set-Clipboard (Get-Content .\KPath.txt)
     }
 Export-ModuleMember -Function 'Show-BandInfo'
