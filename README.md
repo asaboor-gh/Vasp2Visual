@@ -54,7 +54,8 @@ PS> Out-Path
 ```
 Vasp2Visual contains a cmdlet for creating a K-Path before you run a calculation on vasp(HSE).
 ```powershell
-PS> Get-KPath  #You need to enter high symmetry KPOINTS in prompts to get path.
+PS> Get-KPath -KptsArray_nCross3 (0,0,0),(0.5,0.5,0.5),(0.25,0.25,0),(0.5,0,0) -nPerInterval 10
+File [KPath.txt] created. Output copied to clipboard.
 ```
 In order to collect data from **vasprun.xml**, run the command
 ```powershell
