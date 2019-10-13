@@ -20,9 +20,7 @@ Write-Host "The file 'vasprun.xml' not found" -ForegroundColor Red;
 . $PSScriptRoot\vasprunProjectedBands.ps1
 }
 }
-Function Get-KPath { #creates KPOINTS path
-. $PSScriptRoot\KPathGenerator.ps1
-}
+
 Function Out-Path { #cahnges paths
 . $PSScriptRoot\GetLaTeXLinuxPath.ps1
 }
@@ -73,7 +71,6 @@ Function Export-LOCPOT{
 . $PSScriptRoot\LOCPOT.ps1}
 }
 Export-ModuleMember -Function 'Export-VaspRun'
-Export-ModuleMember -Function 'Get-KPath'
 Export-ModuleMember -Function 'Out-Path'
 Export-ModuleMember -Function 'Close-Writers'
 Export-ModuleMember -Function 'Get-PlotArguments'

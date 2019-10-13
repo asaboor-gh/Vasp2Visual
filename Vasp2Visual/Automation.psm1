@@ -103,7 +103,39 @@ python .\IndexedPlot.py #strat plotting
 } #test-path block ends
 }
 
+Function Get-KPath{
+    [CmdletBinding()]
+    Param([Parameter(Mandatory="True",Position=0)][array]$KptsArray_nCross3,
+    [Parameter(Mandatory="True",Position=1)][int]$nPerInterval)
+    Remove-Item .\KPath.txt -Force -ErrorAction Ignore
+    $KPTS=@($KptsArray_nCross3)
+    [int]$N=$KPTS.Count; [int]$steps=$nPerInterval
+    $steps=$($steps-1); #
+    [array]$kpt1=$KPTS[0]
+    for($i=1;$i -lt $N;$i++){
+    [array]$kpt2=$KPTS[$i]
+    $values=($kpt1,$kpt2)
+    $dx=($values[1][0]-$values[0][0])/$steps
+    $dy=($values[1][1]-$values[0][1])/$steps
+    $dz=($values[1][2]-$values[0][2])/$steps
+    $point= "$("{0,8:n4}" -f $values[0][0])    $("{0,8:n4}" -f $values[0][1])     $("{0,8:n4}" -f $values[0][2])       0"
+    $point|Add-Content .\KPath.txt
+    $sum=$values[0][0],$values[0][1],$values[0][2]
+    for($x=1; $x -le ($steps-1); $x++){
+    $sum[0]=[Math]::Round($dx+$sum[0],5); $sum[0]="{0,8:n4}" -f  $($sum[0])
+    $sum[1]=[Math]::Round($dy+$sum[1],5);  $sum[1]="{0,8:n4}" -f  $($sum[1])
+    $sum[2]=[Math]::Round($dz+$sum[2],5); $sum[2]="{0,8:n4}" -f $($sum[2])
+    $point= "$($sum[0])    $($sum[1])     $($sum[2])     $("{0,8:n4}" -f 0)"
+    $point|Add-Content .\KPath.txt
+    } $kpt1=$kpt2 #switch
+    $point= "$("{0,8:n4}" -f $values[1][0])    $("{0,8:n4}" -f $values[1][1])     $("{0,8:n4}" -f $values[1][2])       0"
+    $point|Add-Content .\KPath.txt
+    }
+    Write-Host "File [KPath.txt] created. Output copied to clipboard" -ForegroundColor DarkCyan
+    Set-Clipboard (Get-Content .\KPath.txt)
+    }
 Export-ModuleMember -Function 'Show-BandInfo'
 Export-ModuleMember -Function 'Find-GapOfBands'
 Export-ModuleMember -Function 'Measure-Distance'
 Export-ModuleMember -Function 'Get-IndexedPlot'
+Export-ModuleMember -Function 'Get-KPath'
