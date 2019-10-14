@@ -57,9 +57,11 @@ Vasp2Visual contains a cmdlet for creating a K-Path before you run a calculation
 PS> Get-KPath -KptsArray_nCross3 (0,0,0),(0.5,0.5,0.5),(0.25,0.25,0),(0.5,0,0) -nPerInterval 10
 File [KPath.txt] created. Output copied to clipboard.
 ```
-In case you want to join two disconnected path patches, just create an array of two arrays(of those two patches) and pip it to a foreach loop to create a new file because *get-KPath* creates new file each time, so we get content of the file in first run before the loop goes to second run and so on.
+In case you want to join two disconnected path patches, just create an array of two arrays(of those two patches) and pip it to a foreach loop to create a new file because *Get-KPath* creates new file each time and delete any older file, so we get content of the file in first run before the loop goes to second run and so on.
 ```powershell
 PS> ((0,0,0),(0.5,0.5,0.5)),((0.5,0,0),(0,0.5,0))|Foreach{Get-KPath $_ 3; (Get-Content .\KPath.txt)|Add-Content .\NewFile.txt}
+  File [KPath.txt] created. Output copied to clipboard
+  File [KPath.txt] created. Output copied to clipboard
 PS> gc NewFile.txt
   0.0000      0.0000       0.0000       0
   0.2500      0.2500       0.2500       0.0000
