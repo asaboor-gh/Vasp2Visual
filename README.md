@@ -82,6 +82,7 @@ PS> (Format-DataInFile .\Bands.txt).Col_5[7]
     -14.007
 ```
 ![ExcelView](ExcelView.jpg)
+## Collect-VaspData
 In order to collect data from **vasprun.xml**, run the command
 ```powershell
 PS> Export-VaspRun
