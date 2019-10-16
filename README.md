@@ -10,6 +10,7 @@ Function        Enable-SelectiveDynamics
 Function        Export-LOCPOT
 Function        Export-VaspRun
 Function        Find-GapOfBands
+Function        Format-DataInFile
 Function        Get-IndexedPlot
 Function        Get-KPath
 Function        Get-Plot
@@ -70,6 +71,17 @@ PS> gc NewFile.txt
   0.2500      0.2500       0.0000       0.0000
   0.0000      0.5000       0.0000       0
 ```
+For accessing any entry of a tabular data file, you can use the following command
+```powershell
+PS> Format-DataInFile .\Bands.txt -ExculdeComments -ViewAsExcel -CommentStartsWith '#'
+```
+which gives output in an Excel-like window.
+In case you want to access a data entry in column_5,row_7, you can view it as an indexed dataframe. 
+```powershell
+PS> (Format-DataInFile .\Bands.txt).Col_5[7]                                         
+    -14.007
+```
+![ExcelView](IndexedPlot.svg)
 In order to collect data from **vasprun.xml**, run the command
 ```powershell
 PS> Export-VaspRun
