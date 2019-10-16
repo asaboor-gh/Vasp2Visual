@@ -76,10 +76,10 @@ For accessing any entry of a tabular data file, you can use the following comman
 PS> Format-DataInFile .\Bands.txt -ViewAsExcel -DispalyFewColumns -SelectColumns 1,2,3,4,5
 ```
 which gives output in an Excel-like window as shown below. You can apply sorting operation in this window and much more. Theoretically you can see any file this way without opening any editor or a big program like Excel.
-In case you want to access a data entry in column_5,row_7, you can view it as an indexed dataframe. 
+In case you want to access a data entry in column_5, you can view it as an indexed dataframe. 
 ```powershell
 PS> (Format-DataInFile .\Bands.txt).B0[7]                                         
-    -14.007
+    -14.005
 ```
 ![DataView](ExcelView1.jpg)
 ## Collect-VaspData
