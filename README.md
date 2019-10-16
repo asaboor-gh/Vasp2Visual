@@ -75,13 +75,13 @@ For accessing any entry of a tabular data file, you can use the following comman
 ```powershell
 PS> Format-DataInFile .\Bands.txt -ExculdeComments -ViewAsExcel -CommentStartsWith '#'
 ```
-which gives output in an Excel-like window.
+which gives output in an Excel-like window as shown below. You can apply sorting operation in this window and much more. Theoretically you can see any file this way without opening any editor or a big program like Excel.
 In case you want to access a data entry in column_5,row_7, you can view it as an indexed dataframe. 
 ```powershell
 PS> (Format-DataInFile .\Bands.txt).Col_5[7]                                         
     -14.007
 ```
-![ExcelView](IndexedPlot.svg)
+![ExcelView](ExcelView.jpg)
 In order to collect data from **vasprun.xml**, run the command
 ```powershell
 PS> Export-VaspRun
