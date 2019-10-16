@@ -138,21 +138,26 @@ Function Get-KPath{
 Function Format-DataInFile{
     [Cmdletbinding()]
     Param([Parameter(Mandatory="True",Position=0)][string]$InputFile,
-    [Parameter()][switch]$ExculdeComments,
     [Parameter()][switch]$ViewAsExcel,
+    [Parameter()][switch]$DispalyFewColumns,
+    [Parameter()][array]$SelectColumns,
     [Parameter()][string]$CommentStartsWith='#')
     $objects=[System.Collections.ArrayList]@()
-    if($ExculdeComments.IsPresent){
-    $file=Get-Content $InputFile|Where-Object {$_ -notmatch $CommentStartsWith}}
-    Else{$file=Get-Content $InputFile}
+    $file=(Get-Content $InputFile|Where-Object {$_ -notmatch $CommentStartsWith})#.replace(',','')
+    $head=(Get-Content $InputFile)[0].replace('#','!').replace('[','').replace(']','').Split()|Where-Object {$_}
+    $j=0; $h_s=@()
     Foreach($item in $file){
     [array]$values=$item.Split()|Where-Object {$_}
     $myObject = New-Object System.Object
-    Foreach($i in 1..$values.Count){
-    $value=$values[$i-1]; [string]$name='Col_'+"$i"
+    $myObject | Add-Member -type NoteProperty -name Index -Value $j
+    $j+=1
+    if($DispalyFewColumns.IsPresent){$selected=@($SelectColumns)
+    }Else{$selected=1..$values.Count}
+    Foreach($i in $selected){
+    $value=$values[$i-1]; [string]$name=$head[$i-1];
     $myObject | Add-Member -type NoteProperty -name $name -Value $value
     }
-    $objects.Add($myObject)
+    [void]$objects.Add($myObject)
     }
     if($ViewAsExcel.IsPresent){$objects |Out-GridView -PassThru -Title "ExcelView of $InputFile"}
     Else{$objects}
