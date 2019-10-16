@@ -81,7 +81,7 @@ In case you want to access a data entry in column_5,row_7, you can view it as an
 PS> (Format-DataInFile .\Bands.txt).B0[7]                                         
     -14.007
 ```
-![DataView](ExcelView.jpg)
+![DataView](ExcelView1.jpg)
 ## Collect-VaspData
 In order to collect data from **vasprun.xml**, run the command
 ```powershell
