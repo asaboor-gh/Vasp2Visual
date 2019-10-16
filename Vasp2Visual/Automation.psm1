@@ -134,8 +134,32 @@ Function Get-KPath{
     Write-Host "File [KPath.txt] created. Output copied to clipboard." -ForegroundColor DarkCyan
     Set-Clipboard (Get-Content .\KPath.txt)
     }
+
+Function Format-DataInFile{
+    [Cmdletbinding()]
+    Param([Parameter(Mandatory="True",Position=0)][string]$InputFile,
+    [Parameter()][switch]$ExculdeComments,
+    [Parameter()][switch]$ViewAsExcel,
+    [Parameter()][string]$CommentStartsWith='#')
+    $objects=[System.Collections.ArrayList]@()
+    if($ExculdeComments.IsPresent){
+    $file=Get-Content $InputFile|Where-Object {$_ -notmatch $CommentStartsWith}}
+    Else{$file=Get-Content $InputFile}
+    Foreach($item in $file){
+    [array]$values=$item.Split()|Where-Object {$_}
+    $myObject = New-Object System.Object
+    Foreach($i in 1..$values.Count){
+    $value=$values[$i-1]; [string]$name='Col_'+"$i"
+    $myObject | Add-Member -type NoteProperty -name $name -Value $value
+    }
+    $objects.Add($myObject)
+    }
+    if($ViewAsExcel.IsPresent){$objects |Out-GridView -PassThru -Title "ExcelView of $InputFile"}
+    Else{$objects}
+    }
 Export-ModuleMember -Function 'Show-BandInfo'
 Export-ModuleMember -Function 'Find-GapOfBands'
 Export-ModuleMember -Function 'Measure-Distance'
 Export-ModuleMember -Function 'Get-IndexedPlot'
 Export-ModuleMember -Function 'Get-KPath'
+Export-ModuleMember -Function 'Format-DataInFile'
