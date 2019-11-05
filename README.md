@@ -122,6 +122,19 @@ PS> Get-AlignedPotential -Z_Dir -V_min -LeftRightPositions 0.25,0.75 -Periodicit
 ### Get-PublicationsReadyPlots
 - Seperate and composite plots can be made using switches like *-Bands*, *-BandDOS*, *-ProjectedBands*, *-ProjectedBandDOS*. Plot size could be decreased to half of an article column width by using *-HalfColumnWide* switch. You can make your own plots from data.
 ## Get-More
+- The most useful cmdlet is *Get-InteractivePlot* based on [Plotly](https://plot.ly/python/getting-started/). You can interact with html graph, can switch between simple and projected plots and can get coordinates visually. Here is how it works.
+```powershell
+PS> $x=Get-PlotlyHashTable; $x
+Name                           Value
+----                           -----
+tickIndices                    [0,30,60,90,-1]
+ticklabels                     [u'\u0393','M','K',u'\u0393','A']
+E_Limit                        [5,-5]
+ProLabels                      ['Ga','s','p','d']
+ProIndices                     [(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]
+#You can edit any key, and get plot using the cmdlet
+PS> Get-InteractivePlot -PlotlyHashTable $x
+```
 - Seperate DOS plotting scripts are under work!
 ## Get-Automated
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** function.
