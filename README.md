@@ -114,7 +114,11 @@ PS> Get-Plot -ProjectedBandDOS -PlotArguments $x #will output a plot. You can ad
 Export LOCPOT file into seperate x,y,z-directed potentials using
 ```powershell
 PS> Export-LOCPOT #Creates three plane data files consisting minimum,maximum and average potential in each direction.
+PS> Get-ConvolvedPotential -X_Dir -V_max -Interval 1,20 #gives interactive plotly graph in html format. 
+PS> Get-AlignedPotential -Z_Dir -V_min -LeftRightPositions 0.25,0.75 -Periodicity 28 -LeftRightNames 'left','right'
 ```
+- Periodicity can be obtained by *Get-ConvolvedPotential* with plotting over a guessed range of interval. Aligned potential looks like the below one.
+![AlignPlot](alignedPot.jpg)
 ### Get-PublicationsReadyPlots
 - Seperate and composite plots can be made using switches like *-Bands*, *-BandDOS*, *-ProjectedBands*, *-ProjectedBandDOS*. Plot size could be decreased to half of an article column width by using *-HalfColumnWide* switch. You can make your own plots from data.
 ## Get-More
