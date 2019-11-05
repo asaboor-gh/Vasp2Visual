@@ -7,10 +7,12 @@ $nOrbitals=$xml.modeling.calculation.projected.array.field.Count
 $nDOS_Fields=$xml.modeling.calculation.dos.partial.array.field.Count #number of fields in DOS
 $loc=Get-Location
 Write-Host "NAME: $name, TOTAL IONS: $ionTotal" -ForegroundColor Yellow
-$head=($xml.modeling.calculation.projected.array.field -join ' ').Trim()
+[array]$head=$xml.modeling.calculation.projected.array.field
 $arrHead=[System.Collections.ArrayList]::new() #array for header
 Foreach($j in $bandInterval) {  #Header   #$NBANDS rom upper script
-[void]$arrHead.Add("$j|$head|")  #[void] stops writing to terminal
+$hval=Foreach($i in 0..$($head.Count-1)){"B$j`_$($head[$i].Trim())"}
+$hstr= $hval -join '      '
+[void]$arrHead.Add($hstr)  #[void] stops writing to terminal
 } $arrHead=$arrHead -join '            ';
 $headDOS=$xml.modeling.calculation.dos.partial.array.field -join '       ' #DOS Head
 #============================================================

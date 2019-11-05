@@ -92,9 +92,6 @@ $tTotal= [Math]::Round($($timer.Elapsed.TotalMinutes),3);
 Write-Host "The process completed in $tTotal minutes." -ForegroundColor Cyan
 if($NBANDS.Equals(0)){Remove-Item .\Bands.txt -Force -ErrorAction Ignore; 
 Remove-Item .\Projection.txt -Force -ErrorAction Ignore;} # Remove unnecessary files
-Write-Host "Files Generated: " -ForegroundColor Green -NoNewline
-$listFiles=Get-ChildItem -Name *.txt
-Write-Host $listFiles -Separator '   ' -ForegroundColor Yellow
 #Write Information of system only in Bands Folder
 if($NBANDS.Equals(0)){
 Write-Host "In DOS folder, no bands are collected!" -ForegroundColor Red
@@ -113,4 +110,15 @@ Write-Host " Done ✔😎🤩" -ForegroundColor Cyan
 Write-Host "▼ " -ForegroundColor Cyan -NoNewline
 Write-Host " SYSTEM: $sys, NIONS: $NION, NBANDS: $nTot, Filled: $filled, NKPTS: $($NKPT-$ibzkpt) " -ForegroundColor Green -BackgroundColor DarkBlue
 Foreach($stwr in $Writers){$stwr.Close()} #Closes all Stream-Writers.
+# Crsytal System Information file.
+$volume=$xml.modeling.structure[2].crystal.i.'#text'.Trim()
+$basis=$xml.modeling.structure[2].crystal.varray.v[0..2]
+$LatticeString=@"
+#First line is Volume. Other lines are basis vectors.
+$($volume)
+"@
+($LatticeString,$basis)|Set-Content ./Structure.txt
+Write-Host "Files Generated: " -ForegroundColor Green -NoNewline
+$listFiles=Get-ChildItem -Name *.txt
+Write-Host $listFiles -Separator '   ' -ForegroundColor Yellow
 #Done

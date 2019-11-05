@@ -2,7 +2,7 @@
 #Should not join dynamic content string with others
 #== Only change below lines for file formats and plt.show()=== But do not change structure of string.
 $saveit=@'
-plt.savefig(str(name+'.png'),transparent=True,dpi=300)
+#plt.savefig(str(name+'.png'),transparent=True,dpi=300)
 plt.savefig(str(name+'.pdf'),transparent=True)
 plt.show(block=False)
 '@
@@ -150,8 +150,8 @@ ProLabels=[prolabel.replace("$","").replace("_","").replace("^","") for prolabel
 SYSTEM=SYSTEM.replace("$","").replace("_","").replace("^","");
 atom_index_range=','.join(str(ProIndices[0][i]+1) for i in range(np.shape(ProIndices[0])[0])); #creates a list of projected atoms
 if(ProLabels[0]=='' or ProLabels[0]==' '): #check if this projection of whole composite.
-    atom_index_range=str(ElemIndex[-1])
-name=str(SYSTEM+'_'+ProLabels[0]+'['+atom_index_range+']'+'('+str(ProLabels[1])+')('+str(ProLabels[2])+')('+str(ProLabels[3])+')'+'_A'); #A for All,B for Bnads, D for DOS.
+    atom_index_range='All'
+name=str('Ions'+'_'+ProLabels[0]+'['+atom_index_range+']'+'('+str(ProLabels[1])+')('+str(ProLabels[2])+')('+str(ProLabels[3])+')'+'_A'); #A for All,B for Bnads, D for DOS.
 '@
 #Making a full dynamic projected file string for python use
 $FileString=@"
@@ -214,7 +214,7 @@ ax2.set_xticklabels([np.round((DOS_Limit[0]+DOS_Limit[1])/2,1),np.round(DOS_Limi
 gs.update(left=0.15,bottom=0.15,wspace=0.0, hspace=0.0) # set the spacing between axes.
 #===================Name it & Save===============================
 SYSTEM=SYSTEM.replace("$","").replace("_","").replace("^","");
-name=str(SYSTEM +'_A'); #A for All,B for Bands, D for DOS.
+name=str('Plot'+'_A'); #A for All,B for Bands, D for DOS.
 '@ #Simple plot variable
 
 #Making a full dynamic simple plot file string for python use
@@ -278,7 +278,7 @@ lw_List=[[0.3+8*(red[i,j]+red[i+1,j]+green[i,j]+green[i+1,j]+blue[i,j]+blue[i+1,
  for i in range(NKPTS-1)] for j in range (np.shape(E)[1])]; # 0.3 as residual width
 #=================Plotting============================
 wd=WidthToColumnRatio; #sets width w.r.t atricle's column width
-plt.figure(figsize=(wd*3.4,wd*3))
+plt.figure(figsize=(wd*3.4,wd*FigureHeight))
 gs = GridSpec(1,1)
 ax1 = plt.subplot(gs[0])
 def ax_settings(ax, x_ticks, x_labels, x_coord,y_coord,Element):
@@ -313,8 +313,8 @@ ProLabels=[prolabel.replace("$","").replace("_","").replace("^","") for prolabel
 SYSTEM=SYSTEM.replace("$","").replace("_","").replace("^","");
 atom_index_range=','.join(str(ProIndices[0][i]+1) for i in range(np.shape(ProIndices[0])[0])); #creates a list of projected atoms
 if(ProLabels[0]=='' or ProLabels[0]==' '): #check if this projection of whole composite.
-    atom_index_range=str(ElemIndex[-1])
-name=str(SYSTEM+'_'+ProLabels[0]+'['+atom_index_range+']'+'('+str(ProLabels[1])+')('+str(ProLabels[2])+')('+str(ProLabels[3])+')'+'_B'); #A for All,B for Bnads, D for DOS.
+    atom_index_range='All'
+name=str('Ions'+'_'+ProLabels[0]+'['+atom_index_range+']'+'('+str(ProLabels[1])+')('+str(ProLabels[2])+')('+str(ProLabels[3])+')'+'_B'); #A for All,B for Bnads, D for DOS.
 '@
 
 #Making a full dynamic projected bands plot file string for python use
@@ -341,7 +341,7 @@ max_E=np.max(np.where(maxEnergy <=yh)); min_E=np.min(np.where(minEnergy >=yl))
 E=E[:,min_E:max_E+1]; #Updated energy in E_limit 
 #=================Plotting============================
 wd=WidthToColumnRatio; #sets width w.r.t atricle's column width
-plt.figure(figsize=(wd*3.4,wd*3))
+plt.figure(figsize=(wd*3.4,wd*FigureHeight))
 gs = GridSpec(1,1)
 ax1 = plt.subplot(gs[0])
 def ax_settings(ax, x_ticks, x_labels, x_coord,y_coord,Element):
@@ -367,7 +367,7 @@ ax_settings(ax1,ticks,ticklabels,text_x,text_y,ProLabels[0])
 gs.update(left=left,bottom=bottom,top=top,wspace=0.0, hspace=0.0) # set the spacing between axes.
 #===================Name it & Save===============================
 SYSTEM=SYSTEM.replace("$","").replace("_","").replace("^",""); #Remove $ and _ characters in path
-name=str(SYSTEM+'_B'); #A for All,B for Bnads, D for DOS.
+name=str('Plot'+'_B'); #A for All,B for Bnads, D for DOS.
 '@
 #Making a full dynamic projected bands plot file string for python use
 $BandsFileString=@"
