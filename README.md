@@ -1,26 +1,30 @@
 # Vasp2Visual
-A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command **Export-VaspRun** in a folder containing **vasprun.xml**. The plot file is generated after running **Get-Plot** is editable per your choice,although the plot you get is publication ready. You are strongly recommended to download [STIX Fonts](https://www.stixfonts.org/) to make your plot fonts similar to article's fonts. The basic commands include the following.
+A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command **Export-VaspRun** in a folder containing **vasprun.xml**. The plot file is generated after running **Get-Plot** is editable per your choice,although the plot you get is publication ready. You are strongly recommended to download [STIX Fonts](https://www.stixfonts.org/) to make your plot fonts similar to article's fonts. You need to install various python module including numpy, matplotlib and for interactive plots, you need to install [Plotly](https://plot.ly/python/getting-started/). The basic commands include the following.
 ```powershell
 PS> Get-Command -Module Vasp2Visual
-CommandType     Name
------------     ----
-Function        Close-Writers
-Function        Disable-SelectiveDynamics
-Function        Enable-SelectiveDynamics
-Function        Export-LOCPOT
-Function        Export-VaspRun
-Function        Find-GapOfBands
-Function        Format-DataInFile
-Function        Get-IndexedPlot
-Function        Get-KPath
-Function        Get-Plot
-Function        Get-PlotArguments
-Function        Measure-Distance
-Function        Merge-ToSlab
-Function        Out-Path
-Function        Select-SitesInLayers
-Function        Show-BandInfo
-Function        Show-LayersInfo
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Function        Close-Writers                                      1.0.0.0    Vasp2Visual
+Function        Disable-SelectiveDynamics                          1.0.0.0    Vasp2Visual
+Function        Enable-SelectiveDynamics                           1.0.0.0    Vasp2Visual
+Function        Export-LOCPOT                                      1.0.0.0    Vasp2Visual
+Function        Export-VaspRun                                     1.0.0.0    Vasp2Visual
+Function        Find-GapOfBands                                    1.0.0.0    Vasp2Visual
+Function        Format-DataInFile                                  1.0.0.0    Vasp2Visual
+Function        Get-AlignedPotential                               1.0.0.0    Vasp2Visual
+Function        Get-ConvolvedPotential                             1.0.0.0    Vasp2Visual
+Function        Get-IndexedPlot                                    1.0.0.0    Vasp2Visual
+Function        Get-InteractivePlot                                1.0.0.0    Vasp2Visual
+Function        Get-KPath                                          1.0.0.0    Vasp2Visual
+Function        Get-Plot                                           1.0.0.0    Vasp2Visual
+Function        Get-PlotArguments                                  1.0.0.0    Vasp2Visual
+Function        Get-PlotlyHashTable                                1.0.0.0    Vasp2Visual
+Function        Measure-Distance                                   1.0.0.0    Vasp2Visual
+Function        Merge-ToSlab                                       1.0.0.0    Vasp2Visual
+Function        Out-Path                                           1.0.0.0    Vasp2Visual
+Function        Select-SitesInLayers                               1.0.0.0    Vasp2Visual
+Function        Show-BandInfo                                      1.0.0.0    Vasp2Visual
+Function        Show-LayersInfo                                    1.0.0.0    Vasp2Visual
 ```
 ## Get-IntoYourWorkStation
 - Launch your Powershell console and run **Set-ExecutionPolicy Unrestricted**. This will allow you to run scripts.
