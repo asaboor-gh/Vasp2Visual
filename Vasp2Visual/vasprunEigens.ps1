@@ -33,7 +33,7 @@ Write-Progress "Collecting Total DOS ..."
 $tsw = New-Object System.IO.StreamWriter "$loc\tDOS.txt" #writer for DOS
 $Writers+=$tsw;
 $extraSpin=$xml.modeling.calculation.dos.total.array.set.set.comment.EndsWith(2) #check spin block 
-$tsw.WriteLine("#$sys#Energy  TotDOS   IntegDOS")
+$tsw.WriteLine("#$sys#Energy  TotDOS   IntegDOS#E_Fermi=$eFermi")
 if(-not $extraSpin){ $val=$xml.modeling.calculation.dos.total.array.set.set.r; ForEach($v in $val){ $tsw.WriteLine($v)}
 }Else{$vals=$xml.modeling.calculation.dos.total.array.set.set[0].r; ForEach($vs in $vals){ $tsw.WriteLine($vs)}} 
 $tsw.Flush();$tsw.Close();

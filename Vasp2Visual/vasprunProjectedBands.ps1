@@ -94,7 +94,7 @@ if($NBANDS.Equals(0)){Remove-Item .\Bands.txt -Force -ErrorAction Ignore;
 Remove-Item .\Projection.txt -Force -ErrorAction Ignore;} # Remove unnecessary files
 #Write Information of system only in Bands Folder
 if($NBANDS.Equals(0)){
-Write-Host "In DOS folder, no bands are collected!" -ForegroundColor Red
+Write-Host "In DOS folder, no bands are collected! E-fermi is written in header of tDOS.txt" -ForegroundColor Red
 }Else{
 $infoFile= New-Item .\SysInfo.txt  -Force #Create file
 Write-Host "Writing System information on file [$($infoFile.BaseName)] ..." -ForegroundColor Yellow -NoNewline
