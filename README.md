@@ -135,7 +135,23 @@ ProIndices                     [(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]
 #You can edit any key, and get plot using the cmdlet
 PS> Get-InteractivePlot -PlotlyHashTable $x
 ```
-- Seperate DOS plotting scripts are under work!
+- You can plot DOS with three differnt switches *-LinePlot*, *-AreaPlot* and *StackPlot*. In addition you can use *-HalfColumnWide* switch to make less wide plot. 
+Usage:
+```powershell
+PS> $x=Get-DensityHashTable; $x
+Name                           Value                                           
+----                           -----                                           
+textLocation                   [0.05,0.9]                                      
+DOS_Limit                      [0.0,0.6]                                       
+FigureHeight                   2.5                                             
+E_Limit                        [5,-5]                                          
+ProLabels                      ['Ga','s','p','d']                              
+ProIndices                     [(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)] 
+#You can edit any key using $x.key="value" and get DOS plot using the cmdlet
+PS> Get-DensityPlot -LinePlot $x -HalfColumnWide
+Required files not found. Generating using 'Export-VaspRun' ...
+Files now exist. Plotting ...
+```
 ## Get-Automated
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** function.
 - Make Slab in z-direction (make sure none of POSCAR have zx,zy,xz,yz non-zero i.e angle c should be 90, otherwise result will be wrong. Rotate POSCAR in pure z-direction using Vesta before inputting here and after making slab, rotate it back.
