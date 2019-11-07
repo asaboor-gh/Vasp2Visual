@@ -15,9 +15,14 @@ if($Z_Dir.IsPresent){[string]$InputFile='zDir_Pot.txt'}
 if($V_av.IsPresent){$col=1;$ylabel='V<sub>av</sub>'}
 if($V_min.IsPresent){$col=2;$ylabel='V<sub>min</sub>'}
 if($V_max.IsPresent){$col=3;$ylabel='V<sub>max</sub>'}
-$sys=(Get-Content $InputFile)[0].Split('_')[0].Trim('#')
 $Interval=@($Interval)
 if($($Interval[1]-$Interval[0]) -gt 1){$shift='div'}Else{$shift=0}
+if(-not $(Test-Path $InputFile)){
+    Write-Host "$InputFile not found. It may take a while generating it ..." -ForegroundColor Green;
+    Export-LOCPOT;}
+    if($(Test-Path $InputFile)){ #checks if file generated.
+    Write-Host "$InputFile exists. Plotting convolved potential ..." -ForegroundColor Yellow;
+    $sys=(Get-Content $InputFile)[0].Split('_')[0].Trim('#')
 $fileString=@"
 import numpy as np
 import plotly.graph_objects as go
@@ -45,6 +50,7 @@ fig.write_html(filename.split('.')[0]+".html")
 $fileString|Set-Content .\ConvolvedPlotly.py
 python .\ConvolvedPlotly.py
 & .\"$($InputFile.Split('.')[0]).html"
+} #This block executed only if file found.
 }
 
 Function Get-AlignedPotential{

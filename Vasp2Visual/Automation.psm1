@@ -2,8 +2,11 @@
 [CmdletBinding()]
 Param(
 [Parameter(Mandatory="True")][int]$BandNumber)
-if(-not (Test-Path .\Bands.txt)){Write-Host "'Bands.txt' not found. Try generating it using 'Export-VaspRun'." -ForegroundColor Red;
-}Else{
+if(-not (Test-Path .\Bands.txt)){Write-Host "'Bands.txt' not found. Generating it using 'Export-VaspRun' ..." -ForegroundColor Green;
+    Export-VaspRun;}
+    if($(Test-Path .\Bands.txt)){ #checks if file generated.
+    Write-Host "'Bands.txt' exists. Fetching Info ..." -ForegroundColor Yellow;
+
 $data= (Get-Content .\Bands.txt|Select-Object -Skip 1);
 $actualIndex=[int]$($BandNumber+3)
 $arr =New-Object 'object[]' $data.Count
@@ -37,8 +40,10 @@ Function Measure-Distance{
 [CmdletBinding()]
 Param(
 [Parameter(Mandatory="True")][array]$K1B1_K2B2)
-if(-not (Test-Path .\Bands.txt)){Write-Host "'Bands.txt' not found. Try generating it using 'Export-VaspRun'." -ForegroundColor Red;
-}Else{
+if(-not (Test-Path .\Bands.txt)){Write-Host "'Bands.txt' not found. Generating it using 'Export-VaspRun' ..." -ForegroundColor Green;
+    Export-VaspRun;}
+    if($(Test-Path .\Bands.txt)){ #checks if file generated.
+    Write-Host "'Bands.txt' exists. Calculating ..." -ForegroundColor Yellow;
 $data= (Get-Content .\Bands.txt|Select-Object -Skip 1);
 $First=($data[[int]$K1B1_K2B2[0][0]].split()|Where-Object {$_});
 $Second=($data[[int]$K1B1_K2B2[1][0]].split()|Where-Object {$_});
@@ -54,8 +59,10 @@ Function Get-IndexedPlot{
 [CmdletBinding()] Param(
 [Parameter(Mandatory="True")][array]$E_Limit,[Parameter()]$xTickDistance=10)  #Get Hashtable from function Get-PlotArguments
 $variablesList="E_Limit=[$($E_Limit -join ',')]; distance=$xTickDistance;"
-if(-not (Test-Path .\Bands.txt)){Write-Host "'Bands.txt' not found. Try generating it using 'Export-VaspRun'." -ForegroundColor Red;
-}Else{
+if(-not (Test-Path .\Bands.txt)){Write-Host "'Bands.txt' not found. Generating it using 'Export-VaspRun' ..." -ForegroundColor Green;
+    Export-VaspRun;}
+    if($(Test-Path .\Bands.txt)){ #checks if file generated.
+    Write-Host "'Bands.txt' exists. Plotting ..." -ForegroundColor Yellow;
 $systemInfo=(Get-Content .\SysInfo.txt)[0,1]
 $plotlines=@'
 #====No Edit Below Except Last Few Lines of Legend and File Paths in np.loadtxt('Path/To/File')=====

@@ -106,9 +106,10 @@ $consoleInput=@"
 $variablesList
 "@
 if(-not $(Test-Path ./Bands.txt)){
-    Write-Host "Generating Files ..." -ForegroundColor Green
-    Export-VaspRun
-}
+    Write-Host "Generating Files using 'Export-VaspRun'..." -ForegroundColor Green
+    Export-VaspRun}
+if($(Test-Path ./Bands.txt)){
+    Write-Host "Files generated. Plotting..." -ForegroundColor Yellow
 $pythonFileContent=@"
 #=================Input Variables=====================
 $($consoleInput)
@@ -118,6 +119,7 @@ $($FileInput)
 $pythonFileContent|Set-Content .\Interactive.py
 python .\Interactive.py #strat plotting
 Invoke-Expression .\Interactive.html
+}
 }
 
 Export-ModuleMember -Function "Get-PlotlyHashTable"

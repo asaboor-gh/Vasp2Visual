@@ -41,6 +41,10 @@ Param([Parameter()][switch]$HalfColumnWide,
 [Parameter()][switch]$BandsDOS,#[Parameter()][switch]$DOS, 
 [Parameter()][switch]$Bands,
 [hashtable]$PlotArguments)  #Get Hashtable from function Get-PlotArguments
+if(-not (Test-Path .\Bands.txt)){Write-Host "Required files not found. Generating using 'Export-VaspRun' ..." -ForegroundColor Green;
+    Export-VaspRun;}
+    if($(Test-Path .\Bands.txt)){ #checks if file generated.
+    Write-Host "Files now exist. Plotting ..." -ForegroundColor Yellow;
 #making a plot file in order
 $variablesList=@();
 $(Foreach($key in $PlotArguments.Keys){
@@ -63,6 +67,7 @@ $($FileInput)
 "@
 $pythonFileContent|Set-Content .\Plot.py
 python .\Plot.py #strat plotting
+} #if block ends
 }
 Function Export-LOCPOT{
   if(-not $(Test-Path -Path .\LOCPOT)){
