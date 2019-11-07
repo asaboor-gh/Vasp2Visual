@@ -13,6 +13,8 @@ Function        Find-GapOfBands                                    1.0.0.0    Va
 Function        Format-DataInFile                                  1.0.0.0    Vasp2Visual
 Function        Get-AlignedPotential                               1.0.0.0    Vasp2Visual
 Function        Get-ConvolvedPotential                             1.0.0.0    Vasp2Visual
+Function        Get-DensityHashTable                               1.0.0.0    Vasp2Visual
+Function        Get-DensityPlot                                    1.0.0.0    Vasp2Visual
 Function        Get-IndexedPlot                                    1.0.0.0    Vasp2Visual
 Function        Get-InteractivePlot                                1.0.0.0    Vasp2Visual
 Function        Get-KPath                                          1.0.0.0    Vasp2Visual
