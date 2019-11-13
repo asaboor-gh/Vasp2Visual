@@ -35,14 +35,14 @@ $total_2=[array]$data2[6].Split()|Where-Object {$_}
 $max_elem_index=[int]([Math]::Max($total_1.Count,$total_2.Count)-1)
 $total_slab=Foreach($i in 0..$max_elem_index){[int]$total_1[$i]+[int]$total_2[$i]}  #index_out_of_range doesnt make problem here.
 $diff_elem=(Compare-Object -ReferenceObject $elem_1 -DifferenceObject $elem_2 -PassThru)
-$Elements="$elem_1     $diff_elem" #creates elements in slab
+$Elements="$elem_1  $diff_elem" #creates elements in slab
 $outfile=New-Item -Path .\POSCAR_New.vasp -Force
 $POSACR_init=@"
 $($data1[0].Trim()+'/'+$data2[0].Trim())
-$("{0:n10}" -f ($lc1*$x1[0]))
-$("{0,16:n9}" -f 1)  $("{0,16:n9}" -f ($x1[1]/$x1[0]))  $("{0,16:n9}" -f 0)
-$("{0,16:n9}" -f ($y1[0]/$x1[0]))  $("{0,16:n9}" -f ($y1[1]/$x1[0]))  $("{0,16:n9}" -f 0)
-$("{0,16:n9}" -f 0)  $("{0,16:n9}" -f 0)  $("{0,16:n9}" -f ($totalZ/($lc1*$x1[0])))
+$("{0:n16}" -f ($lc1*$x1[0]))
+$("{0,24:N16}" -f 1)  $("{0,24:N16}" -f ($x1[1]/$x1[0]))  $("{0,24:N16}" -f 0)
+$("{0,24:N16}" -f ($y1[0]/$x1[0]))  $("{0,24:N16}" -f ($y1[1]/$x1[0]))  $("{0,24:N16}" -f 0)
+$("{0,24:N16}" -f 0)  $("{0,24:N16}" -f 0)  $("{0,24:N16}" -f ($totalZ/($lc1*$x1[0])))
   $Elements
   $total_slab
 Direct
@@ -57,24 +57,28 @@ $arr1=$data1[$ii..$N1]; $arr2=$data2[$ii..$N2];
 $start1=0;$stop1=[int]$total_1[0]-1
 $start2=0;$stop2=[int]$total_2[0]-1
 ForEach($index in 0..$max_elem_index){
-
+if($index -lt $total_1.Count){
 ForEach($i in $start1..$stop1){ #Array1
 if($i -lt $(($total_1|Measure-Object -Sum).Sum)){
 [array]$value=$arr1[$i].Split()|Where-Object {$_}
 $value_new=([float]$value[2])*$factor1
- "{0,12:n9}" -f $value[0]+'       '+"{0,12:n9}" -f $value[1]+'      '+$("{0,12:n9}" -f ($value_new))|Add-Content $outfile
+$line="{0,24:N16}" -f ([float]$value[0]) + "{0,24:N16}" -f ([float]$value[1]) + "{0,24:N16}" -f ($value_new)
+$line|Add-Content $outfile
 }}
 $start1+=[int]$total_1[$index]; 
 $stop1=$start1+ [int]$total_1[$index+1]-1
-
+}
+if($index -lt $total_2.Count){
 ForEach($i in $start2..$stop2){ #Array2
 if($i -lt $(($total_2|Measure-Object -Sum).Sum)){
 [array]$value=$arr2[$i].Split()|Where-Object {$_}
 $value_new=([float]$value[2])*$factor2+$factor1
-"{0,12:n9}" -f $value[0]+'       '+"{0,12:n9}" -f $value[1]+'      '+$("{0,12:n9}" -f ($value_new))|Add-Content $outfile
+$line="{0,24:N16}" -f ([float]$value[0]) + "{0,24:N16}" -f ([float]$value[1]) + "{0,24:N16}" -f ($value_new)
+$line|Add-Content $outfile
 }}
 $start2+=[int]$total_2[$index]; 
 $stop2=$start2+ [int]$total_2[[int]($index+1)]-1
+}
 }
 Write-Host "File [POSCAR_New.vasp] created." -ForegroundColor Green
 }
