@@ -227,4 +227,4 @@ You can get a beamer presenatation file immediately in your working folder by ru
 ```powershell
 PS> New-Presentation -Blank #or use -Template switch
 ```
-This will generate a *main.tex* file. You can create a loop in powershell to make slides automatically for your all pictures in subdirectories.
+This will generate a *main.tex* file. You can create a loop in powershell to make slides automatically for your all pictures in subdirectories. ![Time Beam](TimeBeam.png)
