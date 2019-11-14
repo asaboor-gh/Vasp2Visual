@@ -23,6 +23,7 @@ Function        Get-PlotArguments                                  1.0.0.0    Va
 Function        Get-PlotlyHashTable                                1.0.0.0    Vasp2Visual
 Function        Measure-Distance                                   1.0.0.0    Vasp2Visual
 Function        Merge-ToSlab                                       1.0.0.0    Vasp2Visual
+Function        New-Presentation                                   1.0.0.0    Vasp2Visual
 Function        Out-Path                                           1.0.0.0    Vasp2Visual
 Function        Select-SitesInLayers                               1.0.0.0    Vasp2Visual
 Function        Show-BandInfo                                      1.0.0.0    Vasp2Visual
