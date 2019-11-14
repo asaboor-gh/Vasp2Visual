@@ -222,4 +222,9 @@ Point_2                        {0.8660, 3.3817}
 Distance                       0                                               
 Distance: 0 [dimensionless] is copied to clipboard.
 ```
-
+### Present-It
+You can get a beamer presenatation file immediately in your working folder by running
+```powershell
+PS> New-Presentation -Blank #or use -Template switch
+```
+This will generate a *main.tex* file. You can create a loop in powershell to make slides automatically for your all pictures in subdirectories.
