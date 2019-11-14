@@ -1,0 +1,103 @@
+\NeedsTeXFormat{LaTeX2e}
+
+\ProvidesPackage{mystyle}[2019 For Beamer LaTeX]
+
+\RequirePackage{tikz}
+\RequirePackage{ifthen}
+\usepackage{color}
+\usepackage{adjustbox}
+\usepackage{colortbl}
+
+\definecolor{gold}{RGB}{255,215,0}
+\definecolor{darkgreen}{RGB}{0, 51, 0}
+\definecolor{lightgreen}{RGB}{0, 128, 128}
+\definecolor{forestgreen}{RGB}{230, 230, 220}
+\definecolor{mypurple}{RGB}{231, 242,246}
+\definecolor{mwhite}{RGB}{255,250,250}
+
+\setbeamercolor{structure}{fg=blue!70!black}
+\setbeamercolor{frametitle}{bg={}}%lightgreen!30!white}
+%\setbeamercolor{frametitle}{fg=lightgreen!70!white}
+\setbeamercolor{framesubtitle}{fg=lightgreen}
+\setbeamercolor{framesubtitle}{bg=mypurple}
+\setbeamercolor{background canvas}{bg=white}%mypurple!95!black}
+\setbeamercolor{title}{bg=mwhite}
+\setbeamercolor{title}{fg=blue!50!red} 
+%\setbeamercolor{author}{bg=white} 
+\setbeamercolor{author}{fg=red!80!black}
+\setbeamercolor{institute}{fg=blue!70!black}
+\setbeamercolor{alerted text}{fg=red}
+%\setbeamercolor{block body}{bg=red, fg=white}
+%\setbeamercolor{date}{bg=white}
+\setbeamercolor{date}{fg=red!70!black}
+%\setbeamercolor{institute}{bg=white}
+%\setbeamertemplate{footline}[frame number]
+%----------------------------------------------------------------------- 
+%DEFINITION OF STYLES FOR TikZ GRAPHICS
+%_______________________________________________________
+\tikzstyle{information tex}=[fill=white,inner sep=0.5ex]
+\tikzstyle{title text}=[fill=black!3!white, opacity=0.6,inner sep=1.5ex]
+\tikzstyle{information text}=[rounded corners, draw=gray!30,fill=white,inner sep=1ex]
+\tikzstyle{information textt}=[rounded corners,fill=white,inner sep=2ex]
+\tikzstyle{information texttt}=[rounded corners,fill=white,inner sep=2.5ex]
+\tikzstyle{myblur} = [preaction={
+	fill=gray,opacity=.15,
+	path fading=rectangle with fuzzy edge 20 percent,
+	transform canvas={xshift=3.5 mm,yshift=-4mm}}]
+\tikzstyle{myblurr} = [preaction={
+	fill=black,opacity=.15,
+	path fading=rectangle with fuzzy edge 20 percent,
+	transform canvas={xshift=-0.25 mm,yshift=0.3mm}}]
+
+%_______________________________________________________
+\usepackage[font=Times,timeinterval=1, timeduration=\TotalTime, timedeath=0, fillcolorwarningsecond=yellow,
+timewarningfirst=50,timewarningsecond=80,resetatpages=\inserttotalframenumber]{tdclock}
+%_______________________________________________________
+\newcommand{\progressbar}{%
+	\pgfmathsetmacro{\ratio}{\insertframenumber/\inserttotalframenumber}
+   \pgfmathsetmacro{\start}{\ratio}
+   \pgfmathsetmacro{\var}{100*\ratio}
+	\begin{tikzpicture}
+	\filldraw[gray!15] (0,0.11) rectangle (\paperwidth,0.12);
+	\filldraw[lightgreen!80] (0,0.11) rectangle (\ratio*\paperwidth-50,0.12);
+    \filldraw[gray!15] (\start*\paperwidth-35,0) --(\start*\paperwidth-32,0.115)--(\start*\paperwidth-35,0.23)--(\start*\paperwidth-13,0.23)--(\start*\paperwidth-10,0.115)--(\start*\paperwidth-13,0)--cycle;
+   \node[] at (\start*\paperwidth-23,0.125){\cronominutes\pdfcolon\cronoseconds}; %\cronominutes\pdfcolon\cronoseconds
+\filldraw[red!\var!blue] (\start*\paperwidth-16,0)--(\start*\paperwidth-13,0.23)--(\start*\paperwidth-3,0.23)--(\start*\paperwidth,0.115)--(\start*\paperwidth-3,0)--cycle;
+\node[] at (\start*\paperwidth-8,0.125){\color{white}\TotalTime};
+\filldraw[lightgreen!80] (\start*\paperwidth-55,0) --(\start*\paperwidth-52,0.115)--(\start*\paperwidth-55,0.23)--(\start*\paperwidth-42,0.23)--(\start*\paperwidth-45,0)--cycle;
+\node[] at (\start*\paperwidth-48,0.125){\color{white}\insertframenumber};
+\filldraw[blue!\var!red] (\start*\paperwidth-35,0) --(\start*\paperwidth-32,0.115)--(\start*\paperwidth-35,0.23)--(\start*\paperwidth-42,0.23)--(\start*\paperwidth-45,0)--cycle;
+\node[] at (\start*\paperwidth-38,0.125){\color{white}\inserttotalframenumber};
+	%\node[fill=white,inner sep=0ex] at (0.5*\paperwidth,0.1) {\insertframenumber/\inserttotalframenumber};
+	\end{tikzpicture}
+}
+\setbeamertemplate{footline}{\progressbar}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{frametitle}[default][center]
+%----------------------------------------------------
+%=====Environments Definitions=======
+\newcommand{\head}[1]{
+\pgfmathsetmacro{\var}{100*\insertframenumber/\inserttotalframenumber}
+\begin{center}\begin{tikzpicture}
+	\node[align=center] {\color{blue!\var!red}\Large \bf #1};
+\end{tikzpicture}\end{center} \vspace{-4mm}}%Header or frame title
+\newcommand{\SingleFrame}[2]{\frame{\setcounter{subfigure}{0} \head{#1}#2}}
+\newcommand{\DoubleFrame}[3]{\frame{\setcounter{subfigure}{0} \head{#1}%FrameTitle
+	\begin{columns}\begin{column}[c]{0.4\textwidth}#2
+	\end{column}\begin{column}[c]{0.6\textwidth}#3\end{column}\end{columns}}} % Double frame end here.
+\newcommand{\Figures}[1]{\begin{figure}\begin{minipage}[c]{\textwidth}\centering
+	#1  % #1 means \subfigure[]{\includegraphics[scale=0.48]{\filepath}}
+	\end{minipage}\end{figure}} %4 figures environment ends here.
+\newcommand{\rNode}[1]{\begin{tikzpicture}
+	\filldraw[red] (1pt,0) -- (0.5\textwidth,0)--(0.5\textwidth-6pt,4pt)--(7pt,4pt)--cycle;
+	\draw[] node[align=left, anchor=north west, text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=red!50!white, bottom color=gray!10!white, text opacity=1] {\small #1};	\end{tikzpicture}} 
+\newcommand{\gNode}[1]{\begin{tikzpicture}
+	\filldraw[green] (1pt,0) -- (0.5\textwidth,0)--(0.5\textwidth-6pt,4pt)--(7pt,4pt)--cycle;
+	\draw[] node[align=left, anchor=north west,text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=green!50!white, bottom color=gray!10!white, text opacity=1] { \small #1};	\end{tikzpicture}}
+\newcommand{\bNode}[1]{\begin{tikzpicture}
+	\filldraw[blue] (1pt,0) -- (0.5\textwidth,0)--(0.5\textwidth-6pt,4pt)--(7pt,4pt)--cycle;
+	\draw[] node[align=left, anchor=north west,text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=blue!50!white, bottom color=gray!10!white, text opacity=1] {\small #1};	\end{tikzpicture}}
+\newcommand{\wNode}[1]{\begin{tikzpicture}
+	\filldraw[black] (1pt,0) -- (0.5\textwidth,0)--(0.5\textwidth-6pt,4pt)--(7pt,4pt)--cycle;
+	\draw[] node[align=left, anchor=north west,text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=gray!50!white, bottom color=gray!10!white, text opacity=1] {\small #1};	\end{tikzpicture}}
+%======TikZ line should not be merged to another line to preserve formatting======
