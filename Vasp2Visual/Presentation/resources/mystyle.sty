@@ -20,18 +20,15 @@
 %\setbeamercolor{frametitle}{fg=lightgreen!70!white}
 \setbeamercolor{framesubtitle}{fg=lightgreen}
 \setbeamercolor{framesubtitle}{bg=mypurple}
-\setbeamercolor{background canvas}{bg=white}%mypurple!95!black}
+\setbeamercolor{background canvas}{bg=mypurple!95!black}
 \setbeamercolor{title}{bg=mwhite}
 \setbeamercolor{title}{fg=blue!50!red} 
 %\setbeamercolor{author}{bg=white} 
 \setbeamercolor{author}{fg=red!80!black}
 \setbeamercolor{institute}{fg=blue!70!black}
 \setbeamercolor{alerted text}{fg=red}
-%\setbeamercolor{block body}{bg=red, fg=white}
-%\setbeamercolor{date}{bg=white}
 \setbeamercolor{date}{fg=red!70!black}
 %\setbeamercolor{institute}{bg=white}
-%\setbeamertemplate{footline}[frame number]
 %----------------------------------------------------------------------- 
 %DEFINITION OF STYLES FOR TikZ GRAPHICS
 %_______________________________________________________
@@ -83,21 +80,21 @@ timewarningfirst=50,timewarningsecond=80,resetatpages=\inserttotalframenumber]{t
 \end{tikzpicture}\end{center} \vspace{-4mm}}%Header or frame title
 \newcommand{\SingleFrame}[2]{\frame{\setcounter{subfigure}{0} \head{#1}#2}}
 \newcommand{\DoubleFrame}[3]{\frame{\setcounter{subfigure}{0} \head{#1}%FrameTitle
-	\begin{columns}\begin{column}[c]{0.4\textwidth}#2
-	\end{column}\begin{column}[c]{0.6\textwidth}#3\end{column}\end{columns}}} % Double frame end here.
+	\begin{columns}\begin{column}[c]{0.35\paperwidth}#2
+	\end{column}\begin{column}[c]{0.55\paperwidth}#3\end{column}\end{columns}}} % Double frame end here.
 \newcommand{\Figures}[1]{\begin{figure}\begin{minipage}[c]{\textwidth}\centering
 	#1  % #1 means \subfigure[]{\includegraphics[scale=0.48]{\filepath}}
 	\end{minipage}\end{figure}} %4 figures environment ends here.
 \newcommand{\rNode}[1]{\begin{tikzpicture}
 	\filldraw[red] (1pt,0) -- (0.5\textwidth,0)--(0.5\textwidth-6pt,4pt)--(7pt,4pt)--cycle;
-	\draw[] node[align=left, anchor=north west, text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=red!50!white, bottom color=gray!10!white, text opacity=1] {\small #1};	\end{tikzpicture}} 
+	\draw[] node[align=left, anchor=north west, text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=red!50!white, bottom color=mypurple!95!black, text opacity=1] {#1};	\end{tikzpicture}} 
 \newcommand{\gNode}[1]{\begin{tikzpicture}
 	\filldraw[green] (1pt,0) -- (0.5\textwidth,0)--(0.5\textwidth-6pt,4pt)--(7pt,4pt)--cycle;
-	\draw[] node[align=left, anchor=north west,text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=green!50!white, bottom color=gray!10!white, text opacity=1] { \small #1};	\end{tikzpicture}}
+	\draw[] node[align=left, anchor=north west,text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=green!50!white, bottom color=mypurple!95!black, text opacity=1] {#1};	\end{tikzpicture}}
 \newcommand{\bNode}[1]{\begin{tikzpicture}
 	\filldraw[blue] (1pt,0) -- (0.5\textwidth,0)--(0.5\textwidth-6pt,4pt)--(7pt,4pt)--cycle;
-	\draw[] node[align=left, anchor=north west,text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=blue!50!white, bottom color=gray!10!white, text opacity=1] {\small #1};	\end{tikzpicture}}
+	\draw[] node[align=left, anchor=north west,text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=blue!50!white, bottom color=mypurple!95!black, text opacity=1] {#1};	\end{tikzpicture}}
 \newcommand{\wNode}[1]{\begin{tikzpicture}
 	\filldraw[black] (1pt,0) -- (0.5\textwidth,0)--(0.5\textwidth-6pt,4pt)--(7pt,4pt)--cycle;
-	\draw[] node[align=left, anchor=north west,text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=gray!50!white, bottom color=gray!10!white, text opacity=1] {\small #1};	\end{tikzpicture}}
+	\draw[] node[align=left, anchor=north west,text width= \textwidth ,inner sep=0.8ex,opacity=0.4, top color=gray!50!white, bottom color=mypurple!95!black, text opacity=1] {#1};	\end{tikzpicture}}
 %======TikZ line should not be merged to another line to preserve formatting======
