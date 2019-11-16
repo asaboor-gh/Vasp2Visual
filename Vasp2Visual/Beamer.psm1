@@ -44,7 +44,9 @@ $start=@'
 %	PRESENTATION SLIDE TITLE
 %----------------------------------------------------------------------- 
 {
-\usebackgroundtemplate{\includegraphics[width=\paperwidth]{resources/home.png}}
+	\usebackgroundtemplate{\begin{tikzpicture}
+	\node[align=center,opacity=0.2]{ \includegraphics[width=0.55\paperwidth]{resources/ud.png}};
+\end{tikzpicture}}
 \begin{frame}[plain,noframenumbering]
 \begin{center}
 	\begin{tikzpicture}	
@@ -144,18 +146,18 @@ $end=@'
 %	PRESENTATION SLIDE FINAL
 %-----------------------------------------------------------------------
 {
-	\usebackgroundtemplate{\includegraphics[width=\paperwidth]{resources/home.png}}
-\begin{frame}[plain,noframenumbering]
-\begin{center}
-	\begin{tikzpicture}
-	\draw[] node[align=center, text width=0.28\textwidth ,inner sep=10pt,opacity=0.6] {\rNode{{\color{blue!50!green} \bf \LARGE THANKS }}};
+	\usebackgroundtemplate{\begin{tikzpicture}
+		\node[align=center,opacity=0.7]{ \includegraphics[width=0.55\paperwidth]{resources/ud.png}};
+		\end{tikzpicture}}
+	\begin{frame}[plain,noframenumbering]
+	\vfill \hfill
+		\begin{tikzpicture}
+		\draw[] node[align=center, text width=0.4\textwidth,inner sep=10pt,opacity=0.6] {{\color{blue!70!green} \bf \LARGE THANKS } \\ \qquad \\
+	\href{https://github.com/massgh/Beamer-Timer/tree/master/}{\bf \color{blue!80!black}Beamer-Timer@Github}	
+	};
 	\end{tikzpicture}
-\end{center}
-\begin{center}
-\beamerbutton{\href{https://github.com/massgh/Beamer-Timer/tree/master/}{\bf \color{yellow}Beamer-Timer@Github}}
-\end{center}
-\end{frame}
-}
+	\end{frame}
+	}
 \end{document}
 '@
 if($Blank.IsPresent){
