@@ -171,7 +171,7 @@ $end
 	Write-Host "Use [-Blank] or [-Template] switch with command [New-Presentation]" -ForegroundColor Yellow
 break;}
 Copy-Item $PSScriptRoot\Presentation -Recurse -Destination .
-Set-Location .\Presentation
+Set-Location "$(Get-Location)\Presentation"
 $FileContent|Set-Content .\main.tex -Force
 Write-Host "Opening main.tex ..." -ForegroundColor Green
 Invoke-Expression .\main.tex
