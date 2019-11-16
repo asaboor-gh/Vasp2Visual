@@ -224,8 +224,8 @@ Distance                       0
 Distance: 0 [dimensionless] is copied to clipboard.
 ```
 ### Present-It
-You can get a beamer presenatation file immediately in your working folder by running
+The [Beamer-Timer](https://github.com/massgh/Beamer-Timer) is available as standslone repository but it is included in this package as well. You can get a beamer presenatation file immediately in your working folder by running
 ```powershell
 PS> New-Presentation -Blank #or use -Template switch
 ```
-This will generate a *main.tex* file. You can create a loop in powershell to make slides automatically for your all pictures in subdirectories. ![Time Beam](TimeBeam.png)
+This will generate a *main.tex* file. You can create a loop in powershell to make slides automatically for your all pictures in subdirectories. ![Time Beam](TimeBeam.jpg)
