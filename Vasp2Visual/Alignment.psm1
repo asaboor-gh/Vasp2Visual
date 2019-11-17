@@ -92,8 +92,8 @@ plt.figure(figsize=(3.8,2.5))
 data2=data[:,$($col)]
 x_data=data[-1,0]*np.linspace(0,1,np.shape(data2)[0])
 plt.plot(x_data,data2[:],lw=0.7)
-left=np.max(data[:,0])*0.2;right=np.max(data[:,0])*0.8;
-div=28 #periodicity of original potential
+left=np.max(data[:,0])*$($LeftRightPositions[0]);right=np.max(data[:,0])*$($LeftRightPositions[1]);
+div=$($Periodicity) #periodicity of original potential
 new_half_div=int((np.shape(data2)[0]-div+1)/(np.shape(data2)[0]/div)/2) #periodicity of convolved potential
 arr_con=np.convolve(data2[:], np.ones((div,))/div, mode='valid')
 x_con=np.max(data[:,0])*np.linspace(0,1,np.shape(arr_con)[0])
@@ -118,7 +118,7 @@ xlabel= `'$([string]$InputFile.Split('Dir')[0]) `'+'('+u'\u212B'+')'
 plt.xlabel(xlabel); plt.ylabel(r'$($ylabel)'); plt.xlim([data[0,0],data[-1,0]])
 plt.subplots_adjust(left=0.17,bottom=0.16)
 filename=`'$([string]$InputFile.Trim('Dir')[0])`'+'Pot.pdf'
-plt.savefig(filename)
+plt.savefig(filename,transparent=True)
 "@
 $fileString|Set-Content .\Pot_av.py
 python .\Pot_av.py
