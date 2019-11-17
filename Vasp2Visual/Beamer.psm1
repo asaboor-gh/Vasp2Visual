@@ -153,7 +153,8 @@ $end=@'
 	\vfill \hfill
 		\begin{tikzpicture}
 		\draw[] node[align=center, text width=0.4\textwidth,inner sep=10pt,opacity=0.6] {{\color{blue!70!green} \bf \LARGE THANKS } \\ \qquad \\
-	\href{https://github.com/massgh/Beamer-Timer/tree/master/}{\bf \color{blue!80!black}Beamer-Timer@Github}	
+	\href{https://github.com/massgh/Beamer-Timer/tree/master/}{\bf \color{blue!80!black}Beamer-Timer@Github} \\ \qquad \\
+	\href{https://github.com/massgh/Vasp2Visual/tree/master/}{\bf \color{blue!80!black}Vasp2Visual@Github}		
 	};
 	\end{tikzpicture}
 	\end{frame}
