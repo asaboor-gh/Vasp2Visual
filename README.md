@@ -229,6 +229,6 @@ The [Beamer-Timer](https://github.com/massgh/Beamer-Timer) is available as stand
 PS> New-Presentation -Blank #or use -Template switch
 ```
 This will generate a *main.tex* file. You can create a loop in powershell to make slides automatically for your all pictures in subdirectories. 
-- You will get a bonus Reveal-Markdown directory containing a *reveal.md* file and a theme *myserif.css*. If you have [reveal-vscode](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal) extension installed on VSCode, you can create interactive HTML presentation just using markdown and can also convert it to PDF and static HTML website. 
+- You will get a bonus Reveal-Markdown directory containing a *reveal.md* file and a theme *myserif.css*. If you have [reveal-vscode](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal) extension installed on VSCode, you can create interactive HTML presentation just using markdown and can also convert it to PDF and static HTML website like [revealjs](https://revealjs.com/)
 ![Time Beam](TimeBeam.jpg)
 
