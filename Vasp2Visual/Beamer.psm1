@@ -176,7 +176,7 @@ break;}
 Copy-Item $PSScriptRoot\Presentation -Recurse -Destination .
 Set-Location "$(Get-Location)\Presentation"
 $FileContent|Set-Content .\main.tex -Force
-Write-Host "Opening main.tex ..." -ForegroundColor Green
-Invoke-Expression .\main.tex
+Write-Host "Open [main.tex] or [Reveal-Markdown/reveal.md] to get LATEX or HTML presntations respectively.
+[reveal.md] will only work if you have installed an extension https://github.com/evilz/vscode-reveal on VSCode." -ForegroundColor Green
 }
 Export-ModuleMember -Function "New-Presentation"
