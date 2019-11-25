@@ -29,6 +29,7 @@ Function        Select-SitesInLayers                               1.0.0.0    Va
 Function        Show-BandInfo                                      1.0.0.0    Vasp2Visual
 Function        Show-LayersInfo                                    1.0.0.0    Vasp2Visual
 ```
+----------
 ## Get-IntoYourWorkStation
 - Launch your Powershell console and run **Set-ExecutionPolicy Unrestricted**. This will allow you to run scripts.
 - Find the path to Powershell Module by running **$env:PSModulePath** command and then download the directory [Vasp2Visual](Vasp2Visual) in that path. There are usually three paths.
@@ -41,6 +42,7 @@ PS> $env:PSModulePath
 - Running **Import-Module Vasp2Visual** in Powershell console will make all commands in this module available to use. If you want to make it permanent, include this import command in your powershell profile by typying **your_editor $PROFILE**.
 - Now run **Get-Module** command. This will show you that Vasp2Visual is ready and you can see list of commands.
 - You need vasprun.xml file to collect data. It is recommended that if you have **vasprun.xml** file from DOS calculations,put that file in a folder named **dos** or **DOS** in the root folder where vasprun.xml is present from a bandstructure calculation and *run plotting commands only in root folder* but run *Export-VaspRun* in each folder in case of BandDOS composite plots.
+----------
 ## Get-FunctionsWork
 - Watch [Vasp2Visual.mp4](Vasp2Visual.mp4) to know how to run the commands.
 
@@ -89,6 +91,8 @@ PS> (Format-DataInFile .\Bands.txt).B0[7]
     -14.005
 ```
 ![DataView](ExcelView1.jpg)
+
+--------------
 ## Collect-VaspData
 In order to collect data from **vasprun.xml**, run the command
 ```powershell
@@ -122,6 +126,8 @@ PS> Get-AlignedPotential -Z_Dir -V_min -LeftRightPositions 0.25,0.75 -Periodicit
 ```
 - Periodicity can be obtained by *Get-ConvolvedPotential* with plotting over a guessed range of interval. Aligned potential looks like the below one.
 ![AlignPlot](alignedPot.jpg)
+
+--------------------------
 ### Get-PublicationsReadyPlots
 - Seperate and composite plots can be made using switches like *-Bands*, *-BandDOS*, *-ProjectedBands*, *-ProjectedBandDOS*. Plot size could be decreased to half of an article column width by using *-HalfColumnWide* switch. You can make your own plots from data.
 ## Get-More
@@ -155,6 +161,7 @@ PS> Get-DensityPlot -LinePlot $x -HalfColumnWide
 Required files not found. Generating using 'Export-VaspRun' ...
 Files now exist. Plotting ...
 ```
+-----------------
 ## Get-Automated
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use **Export-LOCPOT** function.
 - Make Slab in z-direction (make sure none of POSCAR have zx,zy,xz,yz non-zero i.e angle c should be 90, otherwise result will be wrong. Rotate POSCAR in pure z-direction using Vesta before inputting here and after making slab, rotate it back.
@@ -223,6 +230,7 @@ Point_2                        {0.8660, 3.3817}
 Distance                       0                                               
 Distance: 0 [dimensionless] is copied to clipboard.
 ```
+-----------------------
 ### Present-It
 The [Beamer-Timer](https://github.com/massgh/Beamer-Timer) is available as standslone repository but it is included in this package as well. You can get a beamer presenatation file immediately in your working folder by running
 ```powershell
