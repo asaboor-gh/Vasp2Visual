@@ -10,7 +10,7 @@ enableMenu: true
 title: "VSCode Reveal intro"
 ---
 
-# Markdown Slides
+## Markdown Slides
 :::block
 Let's have fun with [**reveal.js**](https://github.com/hakimel/reveal.js/) and [**vscode-reveal**](https://github.com/evilz/vscode-reveal) extension for VSCode. You can also get a LATEX Beamer template [**Beamer-Timer**](https://github.com/massgh/Beamer-Timer). Both reveal.js and Beamer-Timer are included in [**Vasp2Visual**](https://github.com/massgh/Vasp2Visual). {style=background:cyan;width:95%}
 ::: 
