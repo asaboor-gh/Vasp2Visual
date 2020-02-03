@@ -144,7 +144,7 @@ ProIndices                     [(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]
 #You can edit any key, and get plot using the cmdlet
 PS> Get-InteractivePlot -PlotlyHashTable $x
 ```
-- If you have disconnected K-path, you can join it in figure automatically be using JoinPathAt="\[break points array\]" in plot arguments.
+- If you have disconnected K-path, you can join it in figure automatically be using $x.JoinPathAt="\[break points array\]" in plot arguments ($x=Get-PlotlyHashTable/Get-PlotArguments etc). Say we have 'L' and 'M' points at index 20,40 and do not have kpoints between them, we can just set $x.JoinPathAt="\[20,40]" and plotting function will do the job automatically.
 - You can plot DOS with three differnt switches *-LinePlot*, *-AreaPlot* and *StackPlot*. In addition you can use *-HalfColumnWide* switch to make less wide plot. 
 Usage:
 ```powershell
