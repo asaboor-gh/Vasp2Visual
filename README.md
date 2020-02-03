@@ -144,6 +144,7 @@ ProIndices                     [(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]
 #You can edit any key, and get plot using the cmdlet
 PS> Get-InteractivePlot -PlotlyHashTable $x
 ```
+- If you have disconnected K-path, you can join it in figure automatically be using JoinPathAt="\[break points array\]" in plot arguments.
 - You can plot DOS with three differnt switches *-LinePlot*, *-AreaPlot* and *StackPlot*. In addition you can use *-HalfColumnWide* switch to make less wide plot. 
 Usage:
 ```powershell
