@@ -38,12 +38,12 @@ E=E[:,min_E:max_E+1]; #Updated energy in E_limit
 #===============Make Collections======================
 text_plotly=[[str(ProLabels[1:])+'<<'+'RGB'+str((int(100*red[i,j]),int(100*green[i,j]),int(100*blue[i,j]))) for i in range(NKPTS)] for j in range (np.shape(E)[1])];
 rgb_plotly=[['rgb'+str((int(255*red[i,j]),int(255*green[i,j]),int(255*blue[i,j]))) for i in range(NKPTS)] for j in range (np.shape(E)[1])];
-lw_plotly=[[np.round(1+50*(red[i,j]+green[i,j]+blue[i,j])/3,4) for i in range(NKPTS)] for j in range (np.shape(E)[1])]; # 1 as residual width
+lw_plotly=[[np.round(1+30*(red[i,j]+green[i,j]+blue[i,j])/3,4) for i in range(NKPTS)] for j in range (np.shape(E)[1])]; # 1 as residual width
 tick_plotly=[K[tickIndices[i]] for i in range(len(tickIndices))]; tlab_plotly=ticklabels;
 #=================Plotting============================
 fig = go.Figure()
 for i in range(np.shape(E)[1]):
-    fig.add_trace(go.Scatter(x=K,y=E[:,i],mode='lines', line=dict(color='rgb(20,24,222)',width=2),name='Band '+str(i+1)))
+    fig.add_trace(go.Scatter(x=K,y=E[:,i],mode='lines', line=dict(color='rgb(20,24,222)',width=1.2),name='Band '+str(i+1)))
 for i in range(np.shape(E)[1]):
     fig.add_trace(go.Scatter(x=K,y=E[:,i],mode='markers+lines', visible=False,hovertext=text_plotly[:][i],
                 marker=dict(size=lw_plotly[:][i], color=rgb_plotly[:][i]) ,
@@ -78,8 +78,8 @@ for j in range(2*np.shape(E)[1]):
         projected.append(False)
 if(JoinPathAt):
     for pt in JoinPathAt:
-        simple.append(True)
-        projected.append(True)
+        projected.append(True);projected.append(True) #Double append for double lines
+        simple.append(True);simple.append(True)
 fig.update_layout(updatemenus=[go.layout.Updatemenu(
             type="buttons",direction="right", active=0,x=1,y=1.2,
             buttons=list([
