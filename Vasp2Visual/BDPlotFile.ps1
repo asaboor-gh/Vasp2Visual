@@ -8,7 +8,7 @@ plt.show(block=False)
 '@
 $SystemVariables=@"
 #=================System Variables====================
-$((Get-Content .\SysInfo.txt -Raw).Trim() )
+$((Get-Content .\SysInfo.py -Raw).Trim() )
 "@
 $ImportPackages=@'
 #====No Edit Below Except Last Few Lines of Legend and File Paths in np.loadtxt('Path/To/File')=====
@@ -45,61 +45,45 @@ $CollectData=@'
 K=KE[:,3]; E=KE[:,4:]-E_Fermi; #Seperate KPOINTS and Eigenvalues in memory
 D=pdos[:,0]-E_Fermi;TDOS=data_dos[:,1]; eGrid_DOS=int(np.shape(TDOS)[0]/ISPIN); #Energy grid mesh
 yh=max(E_Limit);yl=min(E_Limit); nField_DOS=int(np.shape(pdos)[1]-1); #Fields in DOS projection
+
 #============Calculation of ION(s)-Contribution=======
-holder=np.zeros((NKPTS,NBANDS*nField_Projection))
-holder_dos=np.zeros((eGrid_DOS,nField_DOS))
-for i in ProIndices[0]: #Indices for ion to claculate contribution of.
-    new_mat=data[i*NKPTS:(i+1)*NKPTS,:]
-    new_dos=pdos[i*eGrid_DOS:(i+1)*eGrid_DOS,1:]
-    tot_pro=np.add(new_mat,holder)
-    tot_dos=np.add(new_dos,holder_dos)
-    holder=new_mat
-    holder_dos=new_dos
-#=================================================================
-#=========Seperating Orbital Projection for Bands and DOS==========
-get_pro=np.zeros((NKPTS,nField_Projection)); #Defined matrix to pick Bands
-def get_rgbProjection(NKPTS_by_nField_Matrix):
-    mat_copy=copy.deepcopy(NKPTS_by_nField_Matrix) #copy matrix
-    projection=np.zeros((np.shape(E))) #making a matrix to collect projections of one type
-    for i in range(0,NBANDS*nField_Projection,nField_Projection):
-        projection[:,int(i/nField_Projection)]=(tot_pro[:,i:i+nField_Projection]*mat_copy).sum(axis=1)         
-    return projection   
-get_dos=np.zeros((eGrid_DOS,nField_DOS)) #Defined matrix to pick DOS
-def get_rgbDOS(nGrid_by_nField_Matrix): 
-    mat_copy=copy.deepcopy(nGrid_by_nField_Matrix)
-    dos_orb=(tot_dos*mat_copy).sum(axis=1)
-    return dos_orb        
-#==================================================================
 #Get (R,G.B) values from projection and Normlalize in plot range
 maxEnergy=np.min(E,axis=0); minEnergy=np.max(E,axis=0); #Gets bands in visible energy limits.
 max_E=np.max(np.where(maxEnergy <=yh)); min_E=np.min(np.where(minEnergy >=yl))
+r_data=np.reshape(data,(-1,NKPTS,NBANDS,nField_Projection))
+s_data=np.take(r_data[:,:,min_E:max_E+1,:],ProIndices[0],axis=0).sum(axis=0)
+red=np.take(s_data,ProIndices[1],axis=2).sum(axis=2)
+green=np.take(s_data,ProIndices[2],axis=2).sum(axis=2)
+blue=np.take(s_data,ProIndices[3],axis=2).sum(axis=2)
+max_con=max(max(map(max,red[:,:])),max(map(max,green[:,:])),max(map(max,blue[:,:])))
+red=red[:,:]/max_con;green=green[:,:]/max_con;blue=blue[:,:]/max_con #Values are ready in E_Limit
+E=E[:,min_E:max_E+1]; #Updated energy in E_limit 
+#DOS-Projections
 max_index=np.max(np.where(D[:eGrid_DOS] <=yh)); min_index=np.min(np.where(D[:eGrid_DOS] >=yl))
-for i in ProIndices[1]: #projection in red color
-    get_pro[:,i]=1;get_dos[:,i]=1;
-    red=get_rgbProjection(get_pro)
-    red_dos=get_rgbDOS(get_dos)
-    get_pro[:,:]=0;get_dos[:,:]=0 #Return back to zero
-for j in ProIndices[2]: #projection in green color
-    get_pro[:,j]=1;get_dos[:,j]=1;
-    green=get_rgbProjection(get_pro)
-    green_dos=get_rgbDOS(get_dos)
-    get_pro[:,:]=0;get_dos[:,:]=0 #Return back to zero
-for k in ProIndices[3]: #projection in blue color
-    get_pro[:,k]=1;get_dos[:,k]=1;
-    blue=get_rgbProjection(get_pro)
-    blue_dos=get_rgbDOS(get_dos)
-    get_pro[:,:]=0;get_dos[:,:]=0 #Return back to zero
-max_con=max(max(map(max,red[:,min_E:max_E+1])),max(map(max,green[:,min_E:max_E+1])),max(map(max,blue[:,min_E:max_E+1])))
-red=red[:,min_E:max_E+1]/max_con;green=green[:,min_E:max_E+1]/max_con;blue=blue[:,min_E:max_E+1]/max_con #Values are ready in E_Limit
-red_dos=red_dos[min_index:max_index+1];green_dos=green_dos[min_index:max_index+1]; blue_dos=blue_dos[min_index:max_index+1]; #DOS in E_Limit
+r_data_dos=np.reshape(pdos[:,1:],(-1,eGrid_DOS,nField_DOS))
+s_data_dos=np.take(r_data_dos[:,min_index:max_index+1,:],ProIndices[0],axis=0).sum(axis=0)
+red_dos=np.take(s_data_dos,ProIndices[1],axis=1).sum(axis=1)
+green_dos=np.take(s_data_dos,ProIndices[2],axis=1).sum(axis=1)
+blue_dos=np.take(s_data_dos,ProIndices[3],axis=1).sum(axis=1)
 Elem_dos=red_dos+blue_dos+green_dos; #ION DOS in E_Limit
-E=E[:,min_E:max_E+1]; D=D[min_index:max_index+1]  #Updated energy in E_limit (max_E+1 is to include last band as well,python does not read last point in slices.)
 TDOS=TDOS[min_index:max_index+1]; #Updated total DOS
+D=D[min_index:max_index+1]; #Updated energy in E_limit for DOS 
 #===============Make Collections======================
-E_List=[[[(K[i],E[i,j]),(K[i+1],E[i+1,j])]for i in range(NKPTS-1)]for j in range(np.shape(E)[1])];
-rgb_List=[[(red[i:(i+2),j].sum()/2,green[i:(i+2),j].sum()/2,blue[i:(i+2),j].sum()/2,1) for i in range(NKPTS-1)] for j in range (np.shape(E)[1])];
+rgb_List=[[(red[i:(i+2),j].max(),green[i:(i+2),j].max(),blue[i:(i+2),j].max(),1) for i in range(NKPTS-1)] for j in range (np.shape(E)[1])];
 lw_List=[[0.3+8*(red[i,j]+red[i+1,j]+green[i,j]+green[i+1,j]+blue[i,j]+blue[i+1,j])/6 \
  for i in range(NKPTS-1)] for j in range (np.shape(E)[1])]; # 0.3 as residual width
+lw_List=np.array(lw_List) #changing to numpy arry
+#Lets check if axis break exists
+try:
+    JoinPathAt
+except NameError:
+    JoinPathAt = []
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        K[pt:]=K[pt:]-K[pt]+K[pt-1]
+        lw_List[:,pt-1]=0.1
+#Making E-collections with update K-Path
+E_List=[[[(K[i],E[i,j]),(K[i+1],E[i+1,j])]for i in range(NKPTS-1)]for j in range(np.shape(E)[1])];
 '@ #Date Manged till here.
 $PlotData=@'
 #=================Plotting============================
@@ -130,6 +114,11 @@ ax1.set_ylabel(r'$E-E_F$(eV)')
 ax1.set_xlabel('High Symmetry Path');
 ticks=[K[ii] for ii in tickIndices];ticklabels[-1]=str(ticklabels[-1]) +"/"+ str(np.round(DOS_Limit[0],1))
 ax_settings(ax1,ticks,ticklabels,text_x,text_y,ProLabels[0])
+#Draw lines at breakpoints
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        ax1.plot([K[pt],K[pt]],[yl,yh],'k',linewidth=1)
+        ax1.plot([K[pt],K[pt]],[yl,yh],'w',linewidth=0.3)
 #=============Dummy Plots for Legend====================================
 ax2.plot([],[],color=((167/300, 216/300, 222/300)),linewidth=2,label='Total');
 ax2.plot([],[],color=((1,0,0)),linewidth=2,label=ProLabels[1]);
@@ -140,7 +129,7 @@ ax2.fill_betweenx(D,TDOS,color=(167/300, 216/300, 222/300),facecolor=(1, 1, 1),l
 ax2.fill_betweenx(D,blue_dos+green_dos+red_dos,color=(0,0,1),linewidth=0); 
 ax2.fill_betweenx(D,green_dos+red_dos,color=(0,1,0),linewidth=0);
 ax2.fill_betweenx(D,red_dos,color=(1,0,0),linewidth=0);
-ax2.set_ylim([yl,yh]);ax2.set_xlim([DOS_Limit[0],DOS_Limit[1]]);
+ax2.set_ylim([D[0],D[-1]]);ax2.set_xlim([DOS_Limit[0],DOS_Limit[1]]);
 ax2.set_yticks([]); ax2.set_xlabel('DOS'); ax2.set_xticks([(DOS_Limit[0]+DOS_Limit[1])/2,DOS_Limit[1]])
 ax2.set_xticklabels([np.round((DOS_Limit[0]+DOS_Limit[1])/2,1),np.round(DOS_Limit[1],1)]);
 gs.update(left=0.15,bottom=0.15,wspace=0.0, hspace=0.0) # set the spacing between axes.
@@ -174,6 +163,14 @@ K=KE[:,3]; E=KE[:,4:]-E_Fermi; #Seperate KPOINTS and Eigenvalues in memory
 D=data_dos[:,0]-E_Fermi;TDOS=data_dos[:,1]; eGrid_DOS=int(np.shape(TDOS)[0]/ISPIN); #Energy grid mesh
 yh=max(E_Limit);yl=min(E_Limit);        
 #==================================================================
+#Lets check if axis break exists
+try:
+    JoinPathAt
+except NameError:
+    JoinPathAt = []
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        K[pt:]=K[pt:]-K[pt]+K[pt-1]
 maxEnergy=np.min(E,axis=0); minEnergy=np.max(E,axis=0); #Gets bands in visible energy limits.
 max_E=np.max(np.where(maxEnergy <=yh)); min_E=np.min(np.where(minEnergy >=yl))
 max_index=np.max(np.where(D[:eGrid_DOS] <=yh)); min_index=np.min(np.where(D[:eGrid_DOS] >=yl))
@@ -199,8 +196,12 @@ k_segments= LineCollection(kpts1,colors='k', linestyle='dashed',linewidths=(0.3)
 ax1.add_collection(k_segments)
 ax1.plot([K[0],K[-1]],[0,0],'k',linewidth=0.3,linestyle='dashed',alpha=0.6) #Horizontal Line
 #Full Data Plot
-for i in range(np.shape(E)[1]):
-    ax1.plot(K,E[:,i],color=((0,0,0.7)), linestyle='solid',linewidth=0.8)
+ax1.plot(K,E[:,:],color=((0,0,0.7)), linestyle='solid',linewidth=0.8)
+#Draw lines at breakpoints
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        ax1.plot([K[pt],K[pt]],[yl,yh],'k',linewidth=1)
+        ax1.plot([K[pt],K[pt]],[yl,yh],'w',linewidth=0.3)
 ax1.autoscale_view()
 ax1.set_ylabel(r'$E-E_F$(eV)')
 ax1.set_xlabel('High Symmetry Path');
@@ -237,45 +238,35 @@ data=np.loadtxt('./Projection.txt')
 KE=np.loadtxt('./Bands.txt')
 K=KE[:,3]; E=KE[:,4:]-E_Fermi; #Seperate KPOINTS and Eigenvalues in memory
 yh=max(E_Limit);yl=min(E_Limit);  
-#============Calculation of ION(s)-Contribution=======
-holder=np.zeros((NKPTS,NBANDS*nField_Projection))
-for i in ProIndices[0]: #Indices for ion to claculate contribution of.
-    new_mat=data[i*NKPTS:(i+1)*NKPTS,:]
-    tot_pro=np.add(new_mat,holder)
-    holder=new_mat
-#=================================================================
-#=========Seperating Orbital Projection for Bands and DOS==========
-get_pro=np.zeros((NKPTS,nField_Projection)); #Defined matrix to pick Bands
-def get_rgbProjection(NKPTS_by_nField_Matrix):
-    mat_copy=copy.deepcopy(NKPTS_by_nField_Matrix) #copy matrix
-    projection=np.zeros((np.shape(E))) #making a matrix to collect projections of one type
-    for i in range(0,NBANDS*nField_Projection,nField_Projection):
-        projection[:,int(i/nField_Projection)]=(tot_pro[:,i:i+nField_Projection]*mat_copy).sum(axis=1)         
-    return projection          
-#==================================================================
+#============Calculation of ION(s)-Contribution=======  
 #Get (R,G.B) values from projection and Normlalize in plot range
 maxEnergy=np.min(E,axis=0); minEnergy=np.max(E,axis=0); #Gets bands in visible energy limits.
 max_E=np.max(np.where(maxEnergy <=yh)); min_E=np.min(np.where(minEnergy >=yl))
-for i in ProIndices[1]: #projection in red color
-    get_pro[:,i]=1;
-    red=get_rgbProjection(get_pro)
-    get_pro[:,:]=0; #Return back to zero
-for j in ProIndices[2]: #projection in green color
-    get_pro[:,j]=1;
-    green=get_rgbProjection(get_pro)
-    get_pro[:,:]=0; #Return back to zero
-for k in ProIndices[3]: #projection in blue color
-    get_pro[:,k]=1;
-    blue=get_rgbProjection(get_pro)
-    get_pro[:,:]=0; #Return back to zero
-max_con=max(max(map(max,red[:,min_E:max_E])),max(map(max,green[:,min_E:max_E])),max(map(max,blue[:,min_E:max_E])))
-red=red[:,min_E:max_E+1]/max_con;green=green[:,min_E:max_E+1]/max_con;blue=blue[:,min_E:max_E+1]/max_con #Values are ready in E_Limit
+
+r_data=np.reshape(data,(-1,NKPTS,NBANDS,nField_Projection))
+s_data=np.take(r_data[:,:,min_E:max_E+1,:],ProIndices[0],axis=0).sum(axis=0)
+red=np.take(s_data,ProIndices[1],axis=2).sum(axis=2)
+green=np.take(s_data,ProIndices[2],axis=2).sum(axis=2)
+blue=np.take(s_data,ProIndices[3],axis=2).sum(axis=2)
+max_con=max(max(map(max,red[:,:])),max(map(max,green[:,:])),max(map(max,blue[:,:])))
+red=red[:,:]/max_con;green=green[:,:]/max_con;blue=blue[:,:]/max_con #Values are ready in E_Limit
 E=E[:,min_E:max_E+1]; #Updated energy in E_limit 
 #===============Make Collections======================
-E_List=[[[(K[i],E[i,j]),(K[i+1],E[i+1,j])]for i in range(NKPTS-1)]for j in range(np.shape(E)[1])];
-rgb_List=[[(red[i:(i+2),j].sum()/2,green[i:(i+2),j].sum()/2,blue[i:(i+2),j].sum()/2,1) for i in range(NKPTS-1)] for j in range (np.shape(E)[1])];
+rgb_List=[[(red[i:(i+2),j].max(),green[i:(i+2),j].max(),blue[i:(i+2),j].max(),1) for i in range(NKPTS-1)] for j in range (np.shape(E)[1])];
 lw_List=[[0.3+8*(red[i,j]+red[i+1,j]+green[i,j]+green[i+1,j]+blue[i,j]+blue[i+1,j])/6 \
  for i in range(NKPTS-1)] for j in range (np.shape(E)[1])]; # 0.3 as residual width
+lw_List=np.array(lw_List) #changing to numpy arry
+#Lets check if axis break exists
+try:
+    JoinPathAt
+except NameError:
+    JoinPathAt = []
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        K[pt:]=K[pt:]-K[pt]+K[pt-1]
+        lw_List[:,pt-1]=0.1
+#Making E-collections with update K-Path
+E_List=[[[(K[i],E[i,j]),(K[i+1],E[i+1,j])]for i in range(NKPTS-1)]for j in range(np.shape(E)[1])];
 #=================Plotting============================
 wd=WidthToColumnRatio; #sets width w.r.t atricle's column width
 plt.figure(figsize=(wd*3.4,wd*FigureHeight))
@@ -302,6 +293,11 @@ ax1.autoscale_view()
 ax1.set_ylabel(r'$E-E_F$(eV)')
 ticks=[K[ii] for ii in tickIndices];
 ax_settings(ax1,ticks,ticklabels,text_x,text_y,ProLabels[0])
+#Draw lines at breakpoints
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        ax1.plot([K[pt],K[pt]],[yl,yh],'k',linewidth=1)
+        ax1.plot([K[pt],K[pt]],[yl,yh],'w',linewidth=0.3)
 #=============Dummy Plots for Legend====================================
 ax1.plot([],[],color=((1,0,0)),linewidth=2,label=ProLabels[1]);
 ax1.plot([],[],color=((0,1,0)),linewidth=2,label=ProLabels[2]);
@@ -336,6 +332,14 @@ KE=np.loadtxt('./Bands.txt')
 K=KE[:,3]; E=KE[:,4:]-E_Fermi; #Seperate KPOINTS and Eigenvalues in memory
 yh=max(E_Limit);yl=min(E_Limit);            
 #==================================================================
+#Lets check if axis break exists
+try:
+    JoinPathAt
+except NameError:
+    JoinPathAt = []
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        K[pt:]=K[pt:]-K[pt]+K[pt-1]
 maxEnergy=np.min(E,axis=0); minEnergy=np.max(E,axis=0); #Gets bands in visible energy limits.
 max_E=np.max(np.where(maxEnergy <=yh)); min_E=np.min(np.where(minEnergy >=yl))
 E=E[:,min_E:max_E+1]; #Updated energy in E_limit 
@@ -358,8 +362,12 @@ k_segments= LineCollection(kpts1,colors='k', linestyle='dashed',linewidths=(0.3)
 ax1.add_collection(k_segments)
 ax1.plot([K[0],K[-1]],[0,0],'k',linewidth=0.3,linestyle='dashed',alpha=0.6) #Horizontal Line
 #Full Data Plot
-for i in range(np.shape(E)[1]):
-    ax1.plot(K,E[:,i],color=((0,0,0.7)),linewidth=0.7)
+ax1.plot(K,E[:,:],color=((0,0,0.7)),linewidth=0.7)
+#Draw lines at breakpoints
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        ax1.plot([K[pt],K[pt]],[yl,yh],'k',linewidth=1)
+        ax1.plot([K[pt],K[pt]],[yl,yh],'w',linewidth=0.3)
 ax1.autoscale_view()
 ax1.set_ylabel(r'$E-E_F$(eV)')
 ticks=[K[ii] for ii in tickIndices];

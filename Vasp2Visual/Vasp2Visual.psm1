@@ -29,7 +29,7 @@ Foreach($stwr in $Writers){$stwr.Close()}
 Write-Host "All opened StreamWriters are now closed." -ForegroundColor Green
 }
 Function Get-PlotArguments{ #Creates an ordered hashtable to use in plot arguments
-[ordered]@{tickIndices="[0,25,50,75,100,-1]"; ticklabels="['L',r'$\Gamma$','X','W','K',r'$\Gamma$']";
+[ordered]@{JoinPathAt="[]";tickIndices="[0,25,50,75,100,-1]"; ticklabels="['L',r'$\Gamma$','X','W','K',r'$\Gamma$']";
 E_Limit="[10,-15]"; DOS_Limit="[0.0,1.2]"; textLocation="[0.05,0.9]";FigureHeight=3;
 ProLabels="['Ga','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
 }

@@ -9,7 +9,7 @@ $Writers+=$swe;
 $x=@() #for Header
 Foreach($j in $bandInterval) { #Header loop
 $x+="B$j"
-} $x=$x -join '       ';
+} $x=$x -join "    ";
 $swe.WriteLine("   $x")
 $old1=""; 
 For ($j=$ibzkpt; $j -le ($NKPT-1); $j++) {  #rows loop

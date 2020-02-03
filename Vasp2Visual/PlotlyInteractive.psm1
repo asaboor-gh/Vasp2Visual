@@ -1,5 +1,5 @@
 ﻿Function Get-PlotlyHashTable{ #Creates an ordered hashtable to use in plot arguments
-[ordered]@{tickIndices="[0,30,60,90,-1]"; ticklabels="[u'\u0393','M','K',u'\u0393','A'] ";
+[ordered]@{JoinPathAt="[]";tickIndices="[0,30,60,90,-1]"; ticklabels="[u'\u0393','M','K',u'\u0393','A'] ";
 E_Limit="[5,-5]"; ProLabels="['Ga','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
 }
 #Plot file content.
@@ -14,38 +14,26 @@ data=np.loadtxt('./Projection.txt')
 KE=np.loadtxt('./Bands.txt')
 K=KE[:,3]; E=KE[:,4:]-E_Fermi; #Seperate KPOINTS and Eigenvalues in memory
 yh=max(E_Limit);yl=min(E_Limit);  
-#============Calculation of ION(s)-Contribution=======
-holder=np.zeros((NKPTS,NBANDS*nField_Projection))
-for i in ProIndices[0]: #Indices for ion to claculate contribution of.
-    new_mat=data[i*NKPTS:(i+1)*NKPTS,:]
-    tot_pro=np.add(new_mat,holder)
-    holder=new_mat
-#=========Seperating Orbital Projection for Bands ==========
-get_pro=np.zeros((NKPTS,nField_Projection)); #Defined matrix to pick Bands
-def get_rgbProjection(NKPTS_by_nField_Matrix):
-    mat_copy=copy.deepcopy(NKPTS_by_nField_Matrix) #copy matrix
-    projection=np.zeros((np.shape(E))) #making a matrix to collect projections of one type
-    for i in range(0,NBANDS*nField_Projection,nField_Projection):
-        projection[:,int(i/nField_Projection)]=(tot_pro[:,i:i+nField_Projection]*mat_copy).sum(axis=1)         
-    return projection          
-#==================================================================
+#Lets check if axis break exists
+try:
+    JoinPathAt
+except NameError:
+    JoinPathAt = []
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        K[pt:]=K[pt:]-K[pt]+K[pt-1]
+#============Calculation of ION(s)-Contribution=======  
 #Get (R,G.B) values from projection and Normlalize in plot range
 maxEnergy=np.min(E,axis=0); minEnergy=np.max(E,axis=0); #Gets bands in visible energy limits.
 max_E=np.max(np.where(maxEnergy <=yh)); min_E=np.min(np.where(minEnergy >=yl))
-for i in ProIndices[1]: #projection in red color
-    get_pro[:,i]=1;
-    red=get_rgbProjection(get_pro)
-    get_pro[:,:]=0; #Return back to zero
-for j in ProIndices[2]: #projection in green color
-    get_pro[:,j]=1;
-    green=get_rgbProjection(get_pro)
-    get_pro[:,:]=0; #Return back to zero
-for k in ProIndices[3]: #projection in blue color
-    get_pro[:,k]=1;
-    blue=get_rgbProjection(get_pro)
-    get_pro[:,:]=0; #Return back to zero
-max_con=max(max(map(max,red[:,min_E:max_E])),max(map(max,green[:,min_E:max_E])),max(map(max,blue[:,min_E:max_E])))
-red=red[:,min_E:max_E+1]/max_con;green=green[:,min_E:max_E+1]/max_con;blue=blue[:,min_E:max_E+1]/max_con #Values are ready in E_Limit
+
+r_data=np.reshape(data,(-1,NKPTS,NBANDS,nField_Projection))
+s_data=np.take(r_data[:,:,min_E:max_E+1,:],ProIndices[0],axis=0).sum(axis=0)
+red=np.take(s_data,ProIndices[1],axis=2).sum(axis=2)
+green=np.take(s_data,ProIndices[2],axis=2).sum(axis=2)
+blue=np.take(s_data,ProIndices[3],axis=2).sum(axis=2)
+max_con=max(max(map(max,red[:,:])),max(map(max,green[:,:])),max(map(max,blue[:,:])))
+red=red[:,:]/max_con;green=green[:,:]/max_con;blue=blue[:,:]/max_con #Values are ready in E_Limit
 E=E[:,min_E:max_E+1]; #Updated energy in E_limit 
 #===============Make Collections======================
 text_plotly=[[str(ProLabels[1:])+'<<'+'RGB'+str((int(100*red[i,j]),int(100*green[i,j]),int(100*blue[i,j]))) for i in range(NKPTS)] for j in range (np.shape(E)[1])];
@@ -60,6 +48,11 @@ for i in range(np.shape(E)[1]):
     fig.add_trace(go.Scatter(x=K,y=E[:,i],mode='markers+lines', visible=False,hovertext=text_plotly[:][i],
                 marker=dict(size=lw_plotly[:][i], color=rgb_plotly[:][i]) ,
                 line=dict(color='rgba(100,100,20,0)',width=0.1),name='Band '+str(i+1)))
+#Draw lines at breakpoints
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        fig.add_trace(go.Scatter(x=[K[pt],K[pt]],y=[yl,yh],mode='lines',line=dict(color='rgb(0,0,0)',width=2),showlegend=False))
+        fig.add_trace(go.Scatter(x=[K[pt],K[pt]],y=[yl,yh],mode='lines',line=dict(color='rgb(222,222,222)',width=1.2),showlegend=False))
 #====Title Name======
 if(ProIndices[0][-1]< ElemIndex[-1]):
     title=SYSTEM+'['+ProLabels[0]+': '+str(ProIndices[0][0]+1)+'-'+str(ProIndices[0][-1]+1)+']'
@@ -83,7 +76,10 @@ for j in range(2*np.shape(E)[1]):
     if(j<np.shape(E)[1]):
         simple.append(True)
         projected.append(False)
-
+if(JoinPathAt):
+    for pt in JoinPathAt:
+        simple.append(True)
+        projected.append(True)
 fig.update_layout(updatemenus=[go.layout.Updatemenu(
             type="buttons",direction="right", active=0,x=1,y=1.2,
             buttons=list([
@@ -113,7 +109,7 @@ if($(Test-Path ./Bands.txt)){
 $pythonFileContent=@"
 #=================Input Variables=====================
 $($consoleInput)
-$(Get-Content .\SysInfo.txt)
+$(Get-Content .\SysInfo.py)
 $($FileInput)
 "@
 $pythonFileContent|Set-Content .\Interactive.py

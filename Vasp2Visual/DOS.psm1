@@ -27,38 +27,16 @@ pdos=np.loadtxt('./pDOS.txt')
 data_dos=np.loadtxt('./tDOS.txt')
 D=pdos[:,0]-E_Fermi;TDOS=data_dos[:,1]; eGrid_DOS=int(np.shape(TDOS)[0]); #Energy grid mesh
 yh=max(E_Limit);yl=min(E_Limit); nField_DOS=int(np.shape(pdos)[1]-1); #Fields in DOS projection
-#============Calculation of ION(s)-Contribution=======
-holder_dos=np.zeros((eGrid_DOS,nField_DOS))
-for i in ProIndices[0]: #Indices for ion to claculate contribution of.
-    new_dos=pdos[i*eGrid_DOS:(i+1)*eGrid_DOS,1:]
-    tot_dos=np.add(new_dos,holder_dos)
-    holder_dos=new_dos
-#=========Seperating Orbital Projection for  DOS==========   
-get_dos=np.zeros((eGrid_DOS,nField_DOS)) #Defined matrix to pick DOS
-def get_rgbDOS(nGrid_by_nField_Matrix): 
-    mat_copy=copy.deepcopy(nGrid_by_nField_Matrix)
-    dos_orb=(tot_dos*mat_copy).sum(axis=1)
-    return dos_orb        
-#==================================================================
-#Get (R,G.B) values from projection and Normlalize in plot range
+#============Calculation of ION(s)+Orbitals-Contribution=======
 max_index=np.max(np.where(D[:eGrid_DOS] <=yh)); min_index=np.min(np.where(D[:eGrid_DOS] >=yl))
-for i in ProIndices[1]: #projection in red color
-    get_dos[:,i]=1;
-    red_dos=get_rgbDOS(get_dos)
-    get_dos[:,:]=0 #Return back to zero
-for j in ProIndices[2]: #projection in green color
-    get_dos[:,j]=1;
-    green_dos=get_rgbDOS(get_dos)
-    get_dos[:,:]=0 #Return back to zero
-for k in ProIndices[3]: #projection in blue color
-    get_dos[:,k]=1;
-    blue_dos=get_rgbDOS(get_dos)
-    get_dos[:,:]=0 #Return back to zero
-#=================================================================
-red_dos=red_dos[min_index:max_index+1];green_dos=green_dos[min_index:max_index+1]; blue_dos=blue_dos[min_index:max_index+1]; #DOS in E_Limit
+r_data_dos=np.reshape(pdos[:,1:],(-1,eGrid_DOS,nField_DOS))
+s_data_dos=np.take(r_data_dos[:,min_index:max_index+1,:],ProIndices[0],axis=0).sum(axis=0)
+red_dos=np.take(s_data_dos,ProIndices[1],axis=1).sum(axis=1)
+green_dos=np.take(s_data_dos,ProIndices[2],axis=1).sum(axis=1)
+blue_dos=np.take(s_data_dos,ProIndices[3],axis=1).sum(axis=1)
 Elem_dos=red_dos+blue_dos+green_dos; #ION DOS in E_Limit
-D=D[min_index:max_index+1]  #Update partial in E_limit (max_index+1 is to include last band as well,python does not read last point in slices.)
 TDOS=TDOS[min_index:max_index+1]; #Updated total DOS
+D=D[min_index:max_index+1]; #Updated energy in E_limit for DOS 
 #=================Plotting============================
 plt.figure(figsize=(FigureWidth,FigureHeight))
 gs = GridSpec(1,1)

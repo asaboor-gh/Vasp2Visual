@@ -96,7 +96,7 @@ Remove-Item .\Projection.txt -Force -ErrorAction Ignore;} # Remove unnecessary f
 if($NBANDS.Equals(0)){
 Write-Host "In DOS folder, no bands are collected! E-fermi is written in header of tDOS.txt" -ForegroundColor Red
 }Else{
-$infoFile= New-Item .\SysInfo.txt  -Force #Create file
+$infoFile= New-Item .\SysInfo.py  -Force #Create file
 Write-Host "Writing System information on file [$($infoFile.BaseName)] ..." -ForegroundColor Yellow -NoNewline
 $ElemIndex=$ElemIndex -Join ', '; $ElemName=$ElemName -Join ', '; #Elements Names and Indices Intervals
 $infoString=@" 
@@ -112,13 +112,14 @@ Write-Host " SYSTEM: $sys, NIONS: $NION, NBANDS: $nTot, Filled: $filled, NKPTS: 
 Foreach($stwr in $Writers){$stwr.Close()} #Closes all Stream-Writers.
 # Crsytal System Information file.
 $volume=$xml.modeling.structure[2].crystal.i.'#text'.Trim()
-$basis=$xml.modeling.structure[2].crystal.varray.v[0..2]
+$basis=$xml.modeling.structure[2].crystal.varray.v[0..2]|ForEach-Object{$_.trim() -replace '\s+',','}
+$basis=$basis -join '],['
 $LatticeString=@"
-#First line is Volume. Other lines are basis vectors.
-$($volume)
+basis=[[$($basis)]];
+volume= $($volume);
 "@
-($LatticeString,$basis)|Set-Content ./Structure.txt
+$LatticeString|Add-Content $infoFile
 Write-Host "Files Generated: " -ForegroundColor Green -NoNewline
-$listFiles=Get-ChildItem -Name *.txt
+$listFiles=Get-ChildItem -Name *.txt,$infoFile
 Write-Host $listFiles -Separator '   ' -ForegroundColor Yellow
 #Done
