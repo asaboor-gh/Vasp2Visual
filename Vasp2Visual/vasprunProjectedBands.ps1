@@ -28,7 +28,6 @@ $writ.WriteLine("$kxyz     $x     $y")  #space fixed.
 #Add-Content -Path  .\Bands.txt -Value "   $x    $y"
 }
 $writ.Flush(); $writ.Close();  #wtiter for Bands.txt
-Remove-Item .\Kpts.txt; Remove-Item .\Eigenvals.txt; # Remove unnecessary files
 }
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 $unFilled=0 
@@ -39,9 +38,10 @@ if($x[1].Contains('0.0000')){$unFilled++; $filled=$NBANDS-$unFilled}
 Write-Host "▲ " -ForegroundColor Cyan -NoNewline
 Write-Host " SYSTEM: $sys, NIONS: $NION, NBANDS: $NBANDS, Filled: $filled, NKPTS: $NKPT " -ForegroundColor Green -BackgroundColor DarkBlue
 if($NBANDS -gt 40){ #check for more bands
-Write-Host "$sys structure contains  $NION ions and $NBANDS bands.           
- [To get all bands, Type $filled, $unFilled] ⇚ OR ⇛ [Collect almost ↑↓ 30 bands around VBM]
- Seperate entries by a comma: e.g. $filled, $unFilled                         
+Write-Host "$sys structure contains  $NION ions and $NBANDS bands. 
+ Lowest Band will be included automatically.         
+ [To get all bands, Type $($filled-1), $unFilled] ⇚ OR ⇛ [Collect almost ↑↓ 30 bands around VBM]
+ Seperate entries by a comma: e.g. $($filled-1), $unFilled                         
  NBANDS_FILLED, NBANDS_EMPTY: " -ForegroundColor Green -NoNewline 
 [string[]] $interval=(Read-Host).Split(",")
 [int]$from=$($filled-$interval[0]); [int]$NBANDS=$($interval[1]-(-$filled));[int]$nTot=$($interval[1]-(-$interval[0])-(-1));  #update indices of bands.
@@ -62,6 +62,13 @@ $ibzkpt=0;$NKPT=+1;$from=0;$NBANDS=0;$bandInterval=@();$nTot=0;$filled=0;} #Upda
 #==============================================================
 #GetBands
 Get-VaspBands -ibzkpt $ibzkpt   #++++++++++++++++++++++++++++++
+#=========================Getting Min Max Energies=========
+$E_array=(Get-Content .\Eigenvals.txt|Where-Object{$_ -notmatch 'B'})|ForEach-Object{
+    $_.Split()|Where-Object{$_ -and $_.Trim()}}
+$E_core=($E_array|Measure-Object -Minimum).Minimum
+$E_top=($E_array|Measure-Object -Maximum).Maximum
+Remove-Item .\Kpts.txt; Remove-Item .\Eigenvals.txt; # Remove unnecessary files
+#=====================================================
 $sw = New-Object System.IO.StreamWriter "$loc\Projection.txt" #writer for Projections.
 $dsw = New-Object System.IO.StreamWriter "$loc\pDOS.txt" #writer for DOS
 $Writers+=$sw; $Writers+=$dsw; #Add to global writers
@@ -102,7 +109,7 @@ $ElemIndex=$ElemIndex -Join ', '; $ElemName=$ElemName -Join ', '; #Elements Name
 $infoString=@" 
 SYSTEM, NKPTS, NBANDS, NFILLED, TypeION=[`'$sys`', $($NKPT-$ibzkpt), $nTot, $filled, $TypeION]; 
 NION, nField_Projection, E_Fermi, ISPIN=[$NION, $nOrbitals, $eFermi, $ISPIN]; 
-ElemIndex=[$ElemIndex]; ElemName=[$ElemName];
+ElemIndex=[$ElemIndex]; ElemName=[$ElemName]; E_core=$E_core; E_top=$E_top;
 "@ #Do Not change structure between @" ....."@. It's Here-String
 $infoString|Set-Content $infoFile #Here-String written on file
 } #Writing of SysInfo Ends.
