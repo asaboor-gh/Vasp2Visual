@@ -21,12 +21,11 @@ Write-Host "The file 'vasprun.xml' not found" -ForegroundColor Red;
 }
 }
 
-Function Out-Path ($AbsolutePath=$(Get-Location)){ #cahnges paths
-  $winpath=$AbsolutePath
-  if($null -ne $winpath.Drive.Name){
-  $drive=$winpath.Drive.Name.ToLower()}Else{$drive='Full Path Required for WSL'} 
+Function Out-Path ($Path=$(Get-Location)){ #cahnges paths
+  $winpath=(Get-Item $Path) #chnage string to path
+  $drive=$winpath.FullName.Split(':')[0].ToLower()
   $path=Split-Path $winpath -NoQualifier
-  $linuxPath = -Join('/mnt/',-Join($drive,(($path -replace "\\","/") -replace ":","")))
+  $linuxPath = (-Join('/mnt/',-Join($drive,(($path -replace "\\","/") -replace ":","")))).Trim("/")
   $latexPath = ($winpath -replace "\\","/").Trim("/")
   Set-Clipboard  "$linuxPath";
   [ordered]@{LinuxPath=$linuxPath;LatexPath=$latexPath;OnClipboard=$linuxPath}
