@@ -169,9 +169,17 @@ Function Format-DataInFile{
     if($ViewAsExcel.IsPresent){$objects |Out-GridView -PassThru -Title "ExcelView of $InputFile"}
     Else{$objects}
     }
+#Below function works only if JupyterDashbaord or Dash App is used before.
+Function Import-Numbers($FolderPath='.'){
+    $filedata=Get-Content $FolderPath/Result.txt
+    $array=[ordered]@{} #ordered hashtable
+    $filedata|ForEach-Object{$item=$_.Split().Trim()|Where-Object{$_}; $array.Add("$($item[0])","$($item[1])")}
+    $array #return ordered hashtable
+    }
 Export-ModuleMember -Function 'Show-BandInfo'
 Export-ModuleMember -Function 'Find-GapOfBands'
 Export-ModuleMember -Function 'Measure-Distance'
 Export-ModuleMember -Function 'Get-IndexedPlot'
 Export-ModuleMember -Function 'Get-KPath'
 Export-ModuleMember -Function 'Format-DataInFile'
+Export-ModuleMember -Function 'Import-Numbers'
