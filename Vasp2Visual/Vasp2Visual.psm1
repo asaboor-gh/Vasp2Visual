@@ -21,8 +21,15 @@ Write-Host "The file 'vasprun.xml' not found" -ForegroundColor Red;
 }
 }
 
-Function Out-Path { #cahnges paths
-. $PSScriptRoot\GetLaTeXLinuxPath.ps1
+Function Out-Path ($AbsolutePath=$(Get-Location)){ #cahnges paths
+  $winpath=$AbsolutePath
+  if($null -ne $winpath.Drive.Name){
+  $drive=$winpath.Drive.Name.ToLower()}Else{$drive='Full Path Required for WSL'} 
+  $path=Split-Path $winpath -NoQualifier
+  $linuxPath = -Join('/mnt/',-Join($drive,(($path -replace "\\","/") -replace ":","")))
+  $latexPath = ($winpath -replace "\\","/").Trim("/")
+  Set-Clipboard  "$linuxPath";
+  [ordered]@{LinuxPath=$linuxPath;LatexPath=$latexPath;OnClipboard=$linuxPath}
 }
 Function Close-Writers { #closes opened writers
 Foreach($stwr in $Writers){$stwr.Close()}
