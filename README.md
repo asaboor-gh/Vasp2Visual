@@ -58,9 +58,14 @@ PS> "Import-Module Vasp2Visual"|Add-Content $PROFILE
 ```
 If you are working in WSL on windows, you probably encounter switching between windows and linux terminals, so here is a function that changes the current windows directory path into Linux and LaTeX path formats.
 ```powershell
-PS> Out-Path
-#Current directory is copied to Clipboard as: Linux Path:  /mnt/c/Users/mass_
-#LaTeX Path:  C:/Users/mass_
+PS> Out-Path -AbsolutePath ./GaAs
+
+Name                           Value
+----                           -----
+LinuxPath                      /mnt/Full Path Required for WSL./GaAs
+LatexPath                      ./GaAs
+OnClipboard                    /mnt/Full Path Required for WSL./GaAs
+#So you need absolute path to enter in WSL from powershell. LaTeX path is fine.
 ```
 Vasp2Visual contains a cmdlet for creating a K-Path before you run a calculation on vasp(HSE).
 ```powershell
