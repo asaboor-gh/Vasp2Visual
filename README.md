@@ -30,6 +30,9 @@ Function        Show-BandInfo                                      1.0.0.0    Va
 Function        Show-LayersInfo                                    1.0.0.0    Vasp2Visual
 ```
 ----------
+## Version2 is Here
+- Version2 provides extra commands like Export-VR2 which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting. A separate full version in pure python is under developement. The difference between powershell and python versions is getting data files and getring objects in memory respectively.
+----------
 ## Get-IntoYourWorkStation
 - Launch your Powershell console and run **Set-ExecutionPolicy Unrestricted**. This will allow you to run scripts.
 - Find the path to Powershell Module by running **$env:PSModulePath** command and then download the directory [Vasp2Visual](Vasp2Visual) in that path. There are usually three paths.
