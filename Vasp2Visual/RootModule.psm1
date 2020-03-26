@@ -5,4 +5,4 @@ Import-Module $PSScriptRoot\PlotlyInteractive.psm1
 Import-Module $PSScriptRoot\Alignment.psm1
 Import-Module $PSScriptRoot\Beamer.psm1
 Import-Module $PSScriptRoot\DOS.psm1
-Import-Module $PSScriptRoot\ExtractXml.psm1
+Import-Module $PSScriptRoot\Version2\ExtractXml.psm1
