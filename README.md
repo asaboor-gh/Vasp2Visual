@@ -30,9 +30,8 @@ Function        Show-BandInfo                                      1.0.0.0    Va
 Function        Show-LayersInfo                                    1.0.0.0    Vasp2Visual
 ```
 ----------
-## Version2 is Here
-- Version2 provides extra commands like Export-VR2 which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting. A separate full version in pure python is under developement. The difference between powershell and python versions is getting data files and getring objects in memory respectively.
-- Due to highly unknown reasons, 'Export-VR2' commands only works in jupyter-notebook or version 7 of Powershell. I am trying to fix it.
+## Version2 is Here!
+- Version2 provides extra 16 commands like **Export-VR2** which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). A separate full version in pure python is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
 ----------
 ## Get-IntoYourWorkStation
 - Launch your Powershell console and run **Set-ExecutionPolicy Unrestricted**. This will allow you to run scripts.
