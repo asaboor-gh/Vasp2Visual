@@ -440,7 +440,7 @@ function Export-VR2 {
     if(-not (Test-Path $InputFile)){
         Write-Host "File $InputFile not found"
     }Else{
-        . $PSScriptRoot\MainRun.ps1
+        . $PSScriptRoot\MainVR2.ps1
     }
 
 }
