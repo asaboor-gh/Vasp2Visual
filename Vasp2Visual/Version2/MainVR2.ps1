@@ -1,5 +1,5 @@
 $timer = [Diagnostics.Stopwatch]::StartNew() #Stopwatch
-$InputFile=".\vasprun.xml" #This variable is supplied via function.
+#$InputFile=".\vasprun.xml" #This variable is supplied via function.
 $XmlObject=(Read-AsXml -VasprunFile $InputFile)
 $loadtime=$timer.Elapsed.TotalSeconds
 Write-Host "$([Math]::Round($($loadtime),3)) seconds elapsed while loading vasprun.xml($([Math]::Round(((Get-Item $InputFile).length/1MB),3)) MB)" -ForegroundColor Cyan
