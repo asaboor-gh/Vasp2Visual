@@ -1,5 +1,6 @@
 $timer = [Diagnostics.Stopwatch]::StartNew() #Stopwatch
 #$InputFile=".\vasprun.xml" #This variable is supplied via function.
+#$SkipK,$MaxFilled, $MaxEmpty are provided from calling function Export-VR2
 $XmlObject=(Read-AsXml -VasprunFile $InputFile)
 $loadtime=$timer.Elapsed.TotalSeconds
 Write-Host "$([Math]::Round($($loadtime),3)) seconds elapsed while loading vasprun.xml($([Math]::Round(((Get-Item $InputFile).length/1MB),3)) MB)" -ForegroundColor Cyan
@@ -9,25 +10,26 @@ $loc=Get-Location #Required
 
 $weights= Get-FillingWeights -XmlObject $XmlObject
 $info= Get-Summary -XmlObject $XmlObject 
-$sys=$info.SYSTEM; $NION=$info.NION; $NBANDS=$info.NBANDS; $NKPTS= $info.NKPTS; $filled=$weights.Filled; $unFilled=$weights.UnFilled;
+$sys=$info.SYSTEM; $NION=$info.NION; $NBANDS=$info.NBANDS; $NKPTS= $info.NKPTS; $filled=$weights.Filled;
 Write-Host "▲ " -ForegroundColor Red -NoNewline
 Write-Host " SYSTEM: $sys, NIONS: $NION, NBANDS: $NBANDS, Filled: $filled, NKPTS: $($NKPTS-$ibzkpt) " -ForegroundColor White -BackgroundColor Red
-if($NBANDS -gt 40){ #check for more bands
-$inquire= @"
- $sys contains $NION ions and $NBANDS bands.          
- [To get all bands, Type $filled, $unFilled] OR  [Collect almost 30 bands around VBM]
- Seperate entries by a comma: e.g. $filled, $unFilled                         
- NBANDS_FILLED, NBANDS_EMPTY:
-"@
-    Write-Host $inquire  -NoNewline -ForegroundColor Green 
-    [string[]] $interval=(Read-Host).Split(",")
-    [int]$skipB=$($filled-$interval[0]); [int]$NBANDS=$($interval[1]-(-$interval[0])); #update indices of bands.
-    }Else{$skipB=0; $NBANDS=$NBANDS;
-    } #Bands selction of interval's loop ended.
+# Select Bands range.
+$skipB,$NBANDS=@(0,$info.NBANDS); # Collect all bands if NFilled and NEmpty not given
+if(-1 -ne $MaxFilled -and -1 -eq $MaxEmpty){ #check if only NFilled given.
+    [int]$skipB,[int]$NBANDS=$(Get-SkipSelectBands -XmlObject $XmlObject -MaxFilled $MaxFilled); #update indices of bands.
+    }elseif (-1 -ne $MaxEmpty -and -1 -eq $MaxFilled) { #check if only NEmpty given.
+    [int]$skipB,[int]$NBANDS=$(Get-SkipSelectBands -XmlObject $XmlObject -MaxEmpty $MaxEmpty); #update indices of bands.
+    }elseif(-1 -ne $MaxEmpty -and -1 -ne $MaxFilled){ #check if NFilled and NEmpty given.
+    [int]$skipB,[int]$NBANDS=$(Get-SkipSelectBands -XmlObject $XmlObject -MaxFilled $MaxFilled -MaxEmpty $MaxEmpty); #update indices of bands.    
+} #Bands selction of interval's loop ended.
 $filled=$filled-$skipB #Updating filled band with selected interval.
 $timer.Start()  #starts timer again
 #===========Excluding Extra KPOINTS from IBZKPT, No effect on GGA Calculations========
-$ibzkpt= Read-KptsToExclude -XmlObject $XmlObject
+if($SkipK -ne -1){ #check if $SkipK provided from calling function.
+        $ibzkpt=$SkipK
+    }Else{
+        $ibzkpt= Read-KptsToExclude -XmlObject $XmlObject
+}
 #====================================================================
 Write-Host "$ibzkpt IBZKPT file's KPOINTS Excluded!" -ForegroundColor Yellow
 #=============Only DOS if in DOS Folder========================
@@ -64,7 +66,7 @@ if($NBANDS.Equals(0)){Remove-Item .\Bands.txt -Force -ErrorAction Ignore;
 Remove-Item .\Projection.txt -Force -ErrorAction Ignore;} # Remove unnecessary files
 #Write Information of system only in Bands Folder
 if($NBANDS.Equals(0)){
-    Write-Host "In DOS folder, no bands are collected! E-fermi is written in header of tDOS.txt" -ForegroundColor Red
+    Write-Host "If NBANDS =0 or in DOS folder, no bands are collected! E-fermi is written in header of tDOS.txt" -ForegroundColor Red
     }Else{
     $infoFile= New-Item .\SysInfo.py  -Force #Create file
     Write-Host "Writing System information on file [$($infoFile.BaseName)] ..." -ForegroundColor Yellow -NoNewline
@@ -75,11 +77,6 @@ NION, nField_Projection, E_Fermi, ISPIN=[$NION, $($info.nField_Projection), $($i
 ElemIndex=[$ElemIndex]; ElemName=[$ElemName]; E_core=$E_core; E_top=$E_top;
 "@
     $infoString|Set-Content $infoFile #Here-String written on file
-} #Writing of SysInfo Ends.
-Write-Host " Done ✔😎😍✔"
-Write-Host "▼ " -ForegroundColor Blue -NoNewline
-Write-Host " SYSTEM: $sys, NIONS: $NION, NBANDS: $NBANDS, Filled: $filled, NKPTS: $($NKPTS-$ibzkpt)" -ForegroundColor White -BackgroundColor Blue
-
 # Crsytal System Information file.
 $volume=$info.V
 $basis=$info.Basis;$recbasis=$info.RecBasis;
@@ -91,7 +88,13 @@ rec_basis=[[$($recbasis)]];
 volume= $($volume);
 "@
 $LatticeString|Add-Content $infoFile
+} #Writing of SysInfo Ends.
+Write-Host " Done ✔😎😍✔"
+Write-Host "▼ " -ForegroundColor Blue -NoNewline
+Write-Host " SYSTEM: $sys, NIONS: $NION, NBANDS: $NBANDS, Filled: $filled, NKPTS: $($NKPTS-$ibzkpt)" -ForegroundColor White -BackgroundColor Blue
+
+
 Write-Host "Files Generated: " -ForegroundColor Green -NoNewline
-$listFiles=Get-ChildItem -Name *.txt,$infoFile
+$listFiles=Get-ChildItem -Name *.txt
 Write-Host $listFiles -Separator '   ' -ForegroundColor Yellow
 #Done

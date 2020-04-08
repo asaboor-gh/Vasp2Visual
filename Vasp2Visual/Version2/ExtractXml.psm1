@@ -435,7 +435,13 @@ function Get-FillingWeights {
 function Export-VR2 {
     param (
         # Path to vasprun.xml or url.
-        [Parameter()]$InputFile=".\vasprun.xml"
+        [Parameter()]$InputFile=".\vasprun.xml",
+        # Skip initial kpoints
+        [Parameter()][int]$SkipK=-1,
+        # Insert number of required filled bands.
+        [Parameter()][int]$MaxFilled=-1,
+        # Insert number of required empty bands.
+        [Parameter()][int]$MaxEmpty=-1
     )
     if(-not (Test-Path $InputFile)){
         Write-Host "File $InputFile not found"
@@ -443,6 +449,44 @@ function Export-VR2 {
         . $PSScriptRoot\MainVR2.ps1
     }
 
+}
+function Get-SkipSelectBands {
+    <#
+        .SYNOPSIS
+            It will retrun how many bands to skip and how many to select based on given system.
+            Powershell is good at selecting objects as -Skip -First scheme basis. 
+            You have to provide how many Filled and Empty Bands you want to collect.
+        .EXAMPLE
+             $xml=Read-AsXml -VasprunFile Path\To\vasprun.xml
+            Get-SkipSelectBands -XmlObject $xml -MaxFilled 2 -MaxEmpty 2
+            Returns (skipbands,NBANDS)=(268,4)
+    #>
+    param (
+        # Put XmlObject from Read-AsXml function.
+        [Parameter()]$XmlObject = $(Read-AsXml),
+        # Insert how many filled bands you want to collect. Default 30.
+        [Parameter()][int]$MaxFilled=10,
+        # Insert how many empty bands you want to collect. Default 30.
+        [Parameter()][int]$MaxEmpty=10
+        
+    )
+    $FillEmpty=Get-FillingWeights -XmlObject $XmlObject
+    $Filled=$FillEmpty.Filled
+    $Empty=$FillEmpty.UnFilled
+    $SkipB=$Filled-$MaxFilled #For Big systems.
+    $NBANDS=$MaxFilled+$MaxEmpty #For Big systems.
+    if ($Filled -le $MaxFilled) {
+        $SkipB=0;$NBANDS=$Filled+$MaxEmpty    
+    }
+    if($Empty -le $MaxEmpty){
+        $SkipB=$Filled-$MaxFilled; $NBANDS=$MaxFilled+$Empty
+    }
+    if($Empty -le $MaxEmpty -and $Filled -le $MaxFilled){
+        $SkipB=0;$NBANDS=$Filled+$Empty
+    }
+
+    return @($SkipB,$NBANDS)
+    
 }
 
 
@@ -460,3 +504,4 @@ Export-ModuleMember -Function 'Get-PartialDOS'
 Export-ModuleMember -Function 'Get-BandsProSet'
 Export-ModuleMember -Function 'Get-FillingWeights'
 Export-ModuleMember -Function 'Get-Summary'
+Export-ModuleMember -Function 'Get-SkipSelectBands'
