@@ -465,9 +465,9 @@ function Get-SkipSelectBands {
         # Put XmlObject from Read-AsXml function.
         [Parameter()]$XmlObject = $(Read-AsXml),
         # Insert how many filled bands you want to collect. Default 30.
-        [Parameter()][int]$MaxFilled=10,
+        [Parameter()][int]$MaxFilled=30,
         # Insert how many empty bands you want to collect. Default 30.
-        [Parameter()][int]$MaxEmpty=10
+        [Parameter()][int]$MaxEmpty=30
         
     )
     $FillEmpty=Get-FillingWeights -XmlObject $XmlObject
