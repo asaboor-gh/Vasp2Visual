@@ -34,22 +34,6 @@ Function        Show-LayersInfo                                    1.0.0.0    Va
 - Version2 provides extra 16 commands like **Export-VR2** which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). A separate full version in pure python is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
 ```powershell
 PS> Export-VR2 -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
-0.026 seconds elapsed while loading vasprun.xml(1.06 MB)
-▲  SYSTEM: GaAs, NIONS: 2, NBANDS: 24, Filled: 9, NKPTS: 136 
-10 IBZKPT file's KPOINTS Excluded!
-Writing file [Bands.txt] ...
-        DataShape: (NKPTS,NBANDS)
-Writing Total DOS on [tDOS.txt] ...
-        DataShape: (GridSize,Fields)
-Writing Partial DOS on [pDOS.txt] ...
-        DataShape: (NION*[GridSize],Fields)
-Writing ALL-IONS Projections on [Projection.txt] in sequence ...
-        DataShape: (NION*[NKPTS],NBANDS*[Fields])
- Done ✔: 0.608 seconds elapsed.
-The process completed in 0.635 seconds.
-Writing System information on file [SysInfo] ... Done ✔😎😍✔
-▼  SYSTEM: GaAs, NIONS: 2, NBANDS: 10, Filled: 5, NKPTS: 126
-Files Generated: Bands.txt   new.txt   pDOS.txt   Projection.txt   stream.txt   tDOS.txt
 ```
 ![Export-VR2](./Vasp2Visual/Version2/ExportVR2.jpg)
 ```powershell
