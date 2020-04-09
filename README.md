@@ -50,7 +50,8 @@ The process completed in 0.635 seconds.
 Writing System information on file [SysInfo] ... Done ✔😎😍✔
 ▼  SYSTEM: GaAs, NIONS: 2, NBANDS: 10, Filled: 5, NKPTS: 126
 Files Generated: Bands.txt   new.txt   pDOS.txt   Projection.txt   stream.txt   tDOS.txt
-
+```
+```powershell
 PS> $x=Read-BigFile -AbsPath E:\Research\Current\pDOS.txt -StopIndex 5
 PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -AsOneLine
 #Note: Both Read-BigFile and Write-BigStream requires full file path to work properly.
