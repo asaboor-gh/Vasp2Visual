@@ -51,6 +51,7 @@ Writing System information on file [SysInfo] ... Done ✔😎😍✔
 ▼  SYSTEM: GaAs, NIONS: 2, NBANDS: 10, Filled: 5, NKPTS: 126
 Files Generated: Bands.txt   new.txt   pDOS.txt   Projection.txt   stream.txt   tDOS.txt
 ```
+![Export-VR2](./Vasp2Visual/Version2/ExportVR2.jpg)
 ```powershell
 PS> $x=Read-BigFile -AbsPath E:\Research\Current\pDOS.txt -StopIndex 5
 PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -AsOneLine
