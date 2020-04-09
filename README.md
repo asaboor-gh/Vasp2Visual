@@ -33,8 +33,8 @@ Function        Show-LayersInfo                                    1.0.0.0    Va
 ## Version2 is Here!
 - Version2 provides extra 16 commands like **Export-VR2** which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). A separate full version in pure python is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
 ```powershell
-PS> Export-VR2 -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 10 -MaxEmpty 10
-<!0.069 seconds elapsed while loading vasprun.xml(1.06 MB)
+PS> Export-VR2 -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
+0.026 seconds elapsed while loading vasprun.xml(1.06 MB)
 ▲  SYSTEM: GaAs, NIONS: 2, NBANDS: 24, Filled: 9, NKPTS: 136 
 10 IBZKPT file's KPOINTS Excluded!
 Writing file [Bands.txt] ...
@@ -45,11 +45,16 @@ Writing Partial DOS on [pDOS.txt] ...
         DataShape: (NION*[GridSize],Fields)
 Writing ALL-IONS Projections on [Projection.txt] in sequence ...
         DataShape: (NION*[NKPTS],NBANDS*[Fields])
- Done ✔: 1.621 seconds elapsed.
-The process completed in 1.691 seconds.
+ Done ✔: 0.608 seconds elapsed.
+The process completed in 0.635 seconds.
 Writing System information on file [SysInfo] ... Done ✔😎😍✔
-▼  SYSTEM: GaAs, NIONS: 2, NBANDS: 19, Filled: 9, NKPTS: 126
-Files Generated: Bands.txt   new.txt   pDOS.txt   Projection.txt   stream.txt   tDOS.txt>
+▼  SYSTEM: GaAs, NIONS: 2, NBANDS: 10, Filled: 5, NKPTS: 126
+Files Generated: Bands.txt   new.txt   pDOS.txt   Projection.txt   stream.txt   tDOS.txt
+
+PS> $x=Read-BigFile -AbsPath E:\Research\Current\pDOS.txt -StopIndex 5
+PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -AsOneLine
+#Note: Both Read-BigFile and Write-BigStream requires full file path to work properly.
+#These functions are useful to parse big files like LOCPOT which otherwise are timely expensive.
 ```
 ----------
 ## Get-IntoYourWorkStation
