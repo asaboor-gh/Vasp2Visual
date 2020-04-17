@@ -45,6 +45,13 @@ PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -As
 ----------
 ## Get-IntoYourWorkStation
 - Launch your Powershell console and run **Set-ExecutionPolicy Unrestricted**. This will allow you to run scripts.
+### Direct Install
+- For direct install from Powerhell Gallery, follow link [Vasp2Visual@PSGallery](https://www.powershellgallery.com/packages/Vasp2Visual/1.0.0.0) and follow guidlines or run the command below in the console
+```powershell
+Install-Module Vasp2Visual
+#Click Y for what prompts in console.
+```
+### Download from Github
 - Find the path to Powershell Module by running **$env:PSModulePath** command and then download the directory [Vasp2Visual](Vasp2Visual) in that path. There are usually three paths.
 ```powershell
 PS> $env:PSModulePath
@@ -52,6 +59,7 @@ PS> $env:PSModulePath
 #C:\Program Files\WindowsPowerShell\Modules;
 #C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 ```
+### After Installation Steps
 - Running **Import-Module Vasp2Visual** in Powershell console will make all commands in this module available to use. If you want to make it permanent, include this import command in your powershell profile by typying **your_editor $PROFILE**.
 - Now run **Get-Module** command. This will show you that Vasp2Visual is ready and you can see list of commands.
 - You need vasprun.xml file to collect data. It is recommended that if you have **vasprun.xml** file from DOS calculations,put that file in a folder named **dos** or **DOS** in the root folder where vasprun.xml is present from a bandstructure calculation and *run plotting commands only in root folder* but run *Export-VaspRun* in each folder in case of BandDOS composite plots.
