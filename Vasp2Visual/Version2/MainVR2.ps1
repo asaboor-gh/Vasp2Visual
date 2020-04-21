@@ -72,20 +72,30 @@ if($NBANDS.Equals(0)){
     Write-Host "Writing System information on file [$($infoFile.BaseName)] ..." -ForegroundColor Yellow -NoNewline
     $ElemIndex=$info.ElemIndex -Join ', '; $ElemName=$info.ElemName -Join ', '; #Elements Names and Indices Intervals
     $infoString= @" 
-SYSTEM, NKPTS, NBANDS, NFILLED, TypeION=[`'$sys`', $($NKPTS-$ibzkpt), $NBANDS, $filled, $($info.TypeION)]; 
-NION, nField_Projection, E_Fermi, ISPIN=[$NION, $($info.nField_Projection), $($info.E_Fermi), $($info.ISPIN)]; 
-ElemIndex=[$ElemIndex]; ElemName=[$ElemName]; E_core=$E_core; E_top=$E_top;
+SYSTEM            = `'$sys`' 
+NKPTS             = $($NKPTS-$ibzkpt)
+NBANDS            = $NBANDS
+NFILLED           = $filled
+TypeION           = $($info.TypeION)
+NION              = $NION
+nField_Projection = $($info.nField_Projection)
+E_Fermi           = $($info.E_Fermi)
+ISPIN             = $($info.ISPIN) 
+ElemIndex         = [$ElemIndex]
+ElemName          = [$ElemName]
+E_core            = $E_core
+E_top             = $E_top
 "@
     $infoString|Set-Content $infoFile #Here-String written on file
 # Crsytal System Information file.
 $volume=$info.V
 $basis=$info.Basis;$recbasis=$info.RecBasis;
-$basis=$basis -join '],['
-$recbasis=$recbasis -join '],['
+$basis=$basis -join "],`n                     ["
+$recbasis=$recbasis -join "],`n                     ["
 $LatticeString=@"
-basis=[[$($basis)]];
-rec_basis=[[$($recbasis)]];
-volume= $($volume);
+volume            = $($volume)
+basis             = [[$($basis)]]
+rec_basis         = [[$($recbasis)]]
 "@
 $LatticeString|Add-Content $infoFile
 } #Writing of SysInfo Ends.

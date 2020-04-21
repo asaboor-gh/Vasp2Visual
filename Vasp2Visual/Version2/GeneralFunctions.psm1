@@ -1,5 +1,7 @@
+#Version 2 of Vasp2Visual with general functions.
 function Read-BigFile{
     <#
+    .DESCRIPTION
     Returns a range of lines from a big file. Use Get-Content for small files.
     StremReader requires Absolute path.
     .EXAMPLE
@@ -32,6 +34,7 @@ function Read-BigFile{
 
 function Write-BigStream{
     <#
+    .DESCRIPTION
     Writes a given array to a file either on one line or as given object.
     StremWriter requires Absolute path.
     .EXAMPLE
@@ -66,5 +69,3 @@ function Write-BigStream{
 
 Export-ModuleMember -Function 'Read-BigFile'
 Export-ModuleMember -Function 'Write-BigStream'
-
-

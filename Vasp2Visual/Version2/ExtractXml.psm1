@@ -14,21 +14,21 @@ function Get-EigenVals {
     Write-Progress "Collecting Bands ..."
     $skip=[int]$SkipNKPTS;$range=@($SkipSelectNBANDS);
     $XmlEig=$XmlObject.modeling.calculation.eigenvalues.array.set
-    $head=$(For($i=$range[0]+1;$i -le $range[1]+$range[0];$i++){"B$i"}) -join "`t"
+    $head=$(For($i=$range[0]+1;$i -le $range[1]+$range[0];$i++){"{0,6}{1,-6}" -f "","B$i"}) -join " "
     if($XmlEig.ChildNodes.Count -eq 2){
         $eig1=($XmlEig.set[0].set|Select-Object -Property r)
         $eig2=($XmlEig.set[1].set|Select-Object -Property r)
         $eval=($eig1,$eig2)|ForEach-Object{$head;$_|Select-Object -Skip $skip|
             ForEach-Object{($_.r|Select-Object -Skip $range[0] -First $range[1]|
-                Foreach-Object{($_.Split()|
-                    where-Object{$_})[0]}) -join "`t"} }
+                Foreach-Object{
+                   "{0,12:N4}" -f $(($_.Split()|where-Object{$_})[0])}) -join " "} }
     }Else{
         
         $eig=($XmlEig.set.set|Select-Object -Property r)
         $eval=$eig|Select-Object -Skip $skip|
         ForEach-Object{($_.r|Select-Object -Skip $range[0] -First $range[1]|
-            Foreach-Object{($_.Split()|
-                where-Object{$_})[0]}) -join "`t"}
+            Foreach-Object{
+                "{0,12:N4}" -f (($_.Split()|where-Object{$_})[0])}) -join " "}
         $eval=$head,$eval|ForEach-Object{$_} #expanding next object.
         }
     return $eval
@@ -54,8 +54,8 @@ function Get-KPTS {
         if($skpt.IndexOf($_) -eq 0){$ref=$val}
         $old=$com; 
         $sum+=$val;
-        $value= "{0:n4}" -f $([Math]::Round($($sum-$ref),4))
-        $k_array=($_,$value) -join "`t"
+        $value= "{0,9:n4}" -f $([Math]::Round($($sum-$ref),4))
+        $k_array=($("{0,45}" -f $_.Trim()),$value) -join ""
         return $k_array
     }
     
@@ -77,18 +77,18 @@ function Write-KptsBands {
     $loc=Get-Location #location is manadatory for streamwriter.
     $bandswriter = New-Object System.IO.StreamWriter "$loc\Bands.txt"
     if($KptsObject.Count*2 -eq $BandsObject.Count-2){ #check Spin-polarized
-    $new_kp=[System.Collections.ArrayList]@("#$sys#SpinUp#kx`tky`tkz`tk")
+    $new_kp=[System.Collections.ArrayList]@($("{0,-17}{1,7}{2,17}{3,11}{4,2}" -f "#$sys#su#kx","ky","kz","k",""))
     $KptsObject|ForEach-Object{[void]$new_kp.Add($_)}
-    [void]$new_kp.Add("#$sys#SpinDown#kx`tky`tkz`t`tk`t")
+    [void]$new_kp.Add($("{0,-17}{1,7}{2,17}{3,11}{4,2}" -f "#$sys#sd#kx","ky","kz","k",""))
     $KptsObject|ForEach-Object{[void]$new_kp.Add($_)}
     Write-Host "        DataShape: (ISPIN*[NKPTS],NBANDS)"
     }Else{
-        $new_kp=[System.Collections.ArrayList]@("#$sys#kx`tky`tkz`tk")
+        $new_kp=[System.Collections.ArrayList]@($("{0,-17}{1,7}{2,17}{3,11}{4,2}" -f "#$sys#kx","ky","kz","k",""))
         $KptsObject|ForEach-Object{[void]$new_kp.Add($_)}  
         Write-Host "        DataShape: (NKPTS,NBANDS)"
     }
     For($i=0;$i -lt $BandsObject.Count;$i++){
-        $line=($new_kp[$i],$BandsObject[$i]) -join "`t"
+        $line=($new_kp[$i],$BandsObject[$i]) -join ""
         $bandswriter.WriteLine($line)
     }  
     $bandswriter.Flush();
