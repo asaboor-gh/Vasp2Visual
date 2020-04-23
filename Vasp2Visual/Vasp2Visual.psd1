@@ -7,6 +7,7 @@
     ModuleVersion = '1.0.2.0'   
     # Author of this module
     Author = 'Abdul Saboor'
+    GUID = 'e6228475-2920-41ae-be19-934548eb19ce'
     CompanyName = 'Self Created during PhD in University of Delaware USA.'
     Copyright = '(c) 2019 Abdul Saboor. All rights reserved.'
     # Description of the functionality provided by this module
