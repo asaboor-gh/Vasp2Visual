@@ -69,9 +69,9 @@ Param(
 if($X_Dir.IsPresent){[string]$InputFile='xDir_Pot.txt'}
 if($Y_Dir.IsPresent){[string]$InputFile='yDir_Pot.txt'}
 if($Z_Dir.IsPresent){[string]$InputFile='zDir_Pot.txt'}
-if($V_av.IsPresent){$col=1;$ylabel='$V_{av}$'}
-if($V_min.IsPresent){$col=2;$ylabel='$V_{min}$'}
-if($V_max.IsPresent){$col=3;$ylabel='$V_{max}$'}
+if($V_av.IsPresent){$col=1;$ylabel='$V_{av}$(eV)'}
+if($V_min.IsPresent){$col=2;$ylabel='$V_{min}$(eV)'}
+if($V_max.IsPresent){$col=3;$ylabel='$V_{max}$(eV)'}
 $LeftRightPositions=@($LeftRightPositions)
 $LeftRightNames=@($LeftRightNames)
 if(-not $(Test-Path $InputFile)){

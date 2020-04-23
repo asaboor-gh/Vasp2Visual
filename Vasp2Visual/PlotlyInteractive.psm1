@@ -94,10 +94,9 @@ Function Get-InteractivePlot{ #Plots of different types
 [CmdletBinding()]
 Param([hashtable]$PlotlyHashTable)  #Get Hashtable from function Get-PlotArguments
 #making a plot file in order
-$variablesList=@();
-$(Foreach($key in $PlotlyHashTable.Keys){
-$xxx="$($key) =$($PlotlyHashTable.$key);" 
-$variablesList+=$xxx}); $variablesList=$($variablesList|Sort-Object) -join "`n"
+$variablesList=$PlotArguments.GetEnumerator()| 
+    Sort-Object -Descending|
+    ForEach-Object{"{0,-12} = {1};" -f $_.key,$_.value}|Out-String
 $consoleInput=@"
 $variablesList
 "@

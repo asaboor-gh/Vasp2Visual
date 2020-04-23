@@ -35,9 +35,9 @@ Foreach($stwr in $Writers){$stwr.Close()}
 Write-Host "All opened StreamWriters are now closed." -ForegroundColor Green
 }
 Function Get-PlotArguments{ #Creates an ordered hashtable to use in plot arguments
-[ordered]@{JoinPathAt="[]";tickIndices="[0,25,50,75,100,-1]"; ticklabels="['L',r'$\Gamma$','X','W','K',r'$\Gamma$']";
-E_Limit="[10,-15]"; DOS_Limit="[0.0,1.2]"; textLocation="[0.05,0.9]";FigureHeight=3;
-ProLabels="['Ga','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
+[ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="['L',r'$\Gamma$']";
+E_Limit="[10,-10]"; DOS_Limit="[0.0,1.2]"; textLocation="[0.05,0.9]";FigureHeight=3;
+ProLabels="['Element0','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
 }
 Function Get-Plot{ #Plots of different types
 [CmdletBinding()]
@@ -52,10 +52,9 @@ if(-not (Test-Path .\Bands.txt)){Write-Host "Required files not found. Generatin
     if($(Test-Path .\Bands.txt)){ #checks if file generated.
     Write-Host "Files now exist. Plotting ..." -ForegroundColor Yellow;
 #making a plot file in order
-$variablesList=@();
-$(Foreach($key in $PlotArguments.Keys){
-$xxx="$($key) =$($PlotArguments.$key);" 
-$variablesList+=$xxx}); $variablesList=$($variablesList|Sort-Object) -join "`n"
+$variablesList=$PlotArguments.GetEnumerator()| 
+    Sort-Object -Descending|
+    ForEach-Object{"{0,-12} = {1};" -f $_.key,$_.value}|Out-String
 $consoleInput=@"
 $variablesList
 "@

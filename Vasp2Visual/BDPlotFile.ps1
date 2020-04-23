@@ -110,7 +110,7 @@ for i in range(np.shape(E)[1]):
     line_segments = LineCollection(E_List[i],colors=rgb_List[i], linestyle='solid',linewidths=lw_List[i])
     ax1.add_collection(line_segments)
 ax1.autoscale_view()
-ax1.set_ylabel(r'$E-E_F$(eV)')
+ax1.set_ylabel('Energy(eV)')
 ax1.set_xlabel('High Symmetry Path');
 ticks=[K[ii] for ii in tickIndices];ticklabels[-1]=str(ticklabels[-1]) +"/"+ str(np.round(DOS_Limit[0],1))
 ax_settings(ax1,ticks,ticklabels,text_x,text_y,ProLabels[0])
@@ -203,7 +203,7 @@ if(JoinPathAt):
         ax1.plot([K[pt],K[pt]],[yl,yh],'k',linewidth=1)
         ax1.plot([K[pt],K[pt]],[yl,yh],'w',linewidth=0.3)
 ax1.autoscale_view()
-ax1.set_ylabel(r'$E-E_F$(eV)')
+ax1.set_ylabel('Energy(eV)')
 ax1.set_xlabel('High Symmetry Path');
 ticks=[K[ii] for ii in tickIndices];ticklabels[-1]=str(ticklabels[-1]) +"/"+ str(np.round(DOS_Limit[0],1))
 ax_settings(ax1,ticks,ticklabels,text_x,text_y,ProLabels[0])
@@ -290,7 +290,7 @@ for i in range(np.shape(E)[1]):
     line_segments = LineCollection(E_List[i],colors=rgb_List[i], linestyle='solid',linewidths=lw_List[i])
     ax1.add_collection(line_segments)
 ax1.autoscale_view()
-ax1.set_ylabel(r'$E-E_F$(eV)')
+ax1.set_ylabel('Energy(eV)')
 ticks=[K[ii] for ii in tickIndices];
 ax_settings(ax1,ticks,ticklabels,text_x,text_y,ProLabels[0])
 #Draw lines at breakpoints
@@ -369,7 +369,7 @@ if(JoinPathAt):
         ax1.plot([K[pt],K[pt]],[yl,yh],'k',linewidth=1)
         ax1.plot([K[pt],K[pt]],[yl,yh],'w',linewidth=0.3)
 ax1.autoscale_view()
-ax1.set_ylabel(r'$E-E_F$(eV)')
+ax1.set_ylabel('Energy(eV)')
 ticks=[K[ii] for ii in tickIndices];
 ax_settings(ax1,ticks,ticklabels,text_x,text_y,ProLabels[0])
 gs.update(left=left,bottom=bottom,top=top,wspace=0.0, hspace=0.0) # set the spacing between axes.

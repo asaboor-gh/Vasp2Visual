@@ -1,6 +1,7 @@
 ﻿Function Get-DensityHashTable{ #Creates an ordered hashtable to use in plot arguments
 [ordered]@{textLocation ="[0.05,0.9]"; DOS_Limit ="[0.0,0.6]"; FigureHeight =2.5;
-E_Limit="[5,-5]"; ProLabels="['Ga','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
+E_Limit="[5,-5]"; ProLabels="['Ga','s','p','d']";ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]"; 
+}
 }
 
 $startFile=@'
@@ -46,8 +47,8 @@ def ax_settings(ax, x_coord,y_coord,Element):
         ax.set_ylim([DOS_Limit[0],DOS_Limit[1]])
         ax.set_xlim(yl,yh)
         ax.set_ylabel('Density of States'); 
-        ax.set_xlabel(r'$E-E_F$'); 
-        ax.text(x_coord,y_coord,r"$\mathrm{%s}^{\mathrm{%s}}$" % (SYSTEM, Element),bbox=dict(edgecolor='white',facecolor='white', alpha=0.6),transform=ax.transAxes,color='red') 
+        ax.set_xlabel('Energy(eV)'); 
+        ax.text(x_coord,y_coord,r"$\mathrm{%s}^{\mathrm{%s}}$" % (SYSTEM, Element),bbox=dict(edgecolor='white',facecolor='white', alpha=0.6),transform=ax.transAxes,color='blue') 
         return None
 '@
 $stack=@'
@@ -97,10 +98,9 @@ if(-not (Test-Path .\tDOS.txt)){Write-Host "Required files not found. Generating
     if($(Test-Path .\tDOS.txt)){ #checks if file generated.
     Write-Host "Files now exist. Plotting ..." -ForegroundColor Yellow;
 #making a plot file in order
-$variablesList=@();
-$(Foreach($key in $PlotArguments.Keys){
-$xxx="$($key) =$($PlotArguments.$key);" 
-$variablesList+=$xxx}); $variablesList=$($variablesList|Sort-Object) -join "`n"
+$variablesList=$PlotArguments.GetEnumerator()| 
+    Sort-Object -Descending|
+    ForEach-Object{"{0,-12} = {1};" -f $_.key,$_.value}|Out-String
 $consoleInput=@"
 $variablesList
 "@
@@ -113,7 +113,7 @@ $head=(Get-Content .\tDOS.txt)[0].Split('#')
 $pythonFileContent=@"
 #=================Input Variables=====================
 $($consoleInput)
-FigureWidth=$($Width); SYSTEM='$($head[-3])'; $($head[-1]);
+FigureWidth = $($Width); SYSTEM='$($head[-3])'; $($head[-1]);
 $($startFile)
 $($PlotInput)
 $($endFile)
