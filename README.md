@@ -65,7 +65,6 @@ PS> $env:PSModulePath
 - You need vasprun.xml file to collect data. It is recommended that if you have **vasprun.xml** file from DOS calculations,put that file in a folder named **dos** or **DOS** in the root folder where vasprun.xml is present from a bandstructure calculation and *run plotting commands only in root folder* but run *Export-VaspRun* in each folder in case of BandDOS composite plots.
 ----------
 ## Get-FunctionsWork
-- Watch [Vasp2Visual.mp4](Vasp2Visual.mp4) to know how to run the commands.
 
 To import Vasp2Visual and see if it is available in current session, run
 ```powershell
