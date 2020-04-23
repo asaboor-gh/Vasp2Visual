@@ -108,7 +108,7 @@ if($(Test-Path ./Bands.txt)){
 $pythonFileContent=@"
 #=================Input Variables=====================
 $($consoleInput)
-$(Get-Content .\SysInfo.py)
+$(Get-Content .\SysInfo.py -Raw)
 $($FileInput)
 "@
 $pythonFileContent|Set-Content .\Interactive.py
