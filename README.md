@@ -1,5 +1,5 @@
 # Vasp2Visual
-> A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command `Export-VaspRun` in a folder containing **vasprun.xml**. The plot file is generated after running `Get-Plot` is editable per your choice,although the plot you get is publication ready. 
+> A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command `Export-VaspRun` in a folder containing `vasprun.xml`. The plot file is generated after running `Get-Plot` is editable per your choice,although the plot you get is publication ready. 
 - You are strongly recommended to download [STIX Fonts](https://www.stixfonts.org/) to make your plot fonts similar to article's fonts. 
 - You need to install various python module including numpy, matplotlib and for interactive plots, you need to install [Plotly](https://plot.ly/python/getting-started/). 
 - The few of available commands include the following.
@@ -38,7 +38,7 @@ PS> $x=Read-BigFile -AbsPath E:\Research\Current\pDOS.txt -StopIndex 5
 PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -AsOneLine
 ```
 
-- **Note:** Both `Read-BigFile` and `Write-BigStream` requires full file path to work properly. These functions are useful to parse big files like LOCPOT which otherwise are timely expensive.
+- Note: Both `Read-BigFile` and `Write-BigStream` requires full file path to work properly. These functions are useful to parse big files like LOCPOT which otherwise are timely expensive.
 ----------
 ## Get-IntoYourWorkStation
 - Launch your Powershell console and run `Set-ExecutionPolicy Unrestricted`. This will allow you to run scripts.
@@ -61,7 +61,7 @@ C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 ### After Installation Steps
 - Running `Import-Module Vasp2Visual` in Powershell console will make all commands in this module available to use. If you want to make it permanent, include this import command in your powershell profile by typying `your_editor $PROFILE`.
 - Now run `Get-Module` command. This will show you that Vasp2Visual is ready and you can see list of commands.
-- You need vasprun.xml file to collect data. It is recommended that if you have **vasprun.xml** file from DOS calculations,put that file in a folder named **dos** or **DOS** in the root folder where vasprun.xml is present from a bandstructure calculation and *run plotting commands only in root folder* but run *Export-VaspRun* in each folder in case of BandDOS composite plots.
+- You need vasprun.xml file to collect data. It is recommended that if you have `vasprun.xml` file from DOS calculations,put that file in a folder named `dos` or `DOS` in the root folder where vasprun.xml is present from a bandstructure calculation and `run plotting commands only in root folder` but run `Export-VaspRun` in each folder in case of BandDOS composite plots.
 ----------
 ## Get-FunctionsWork
 
@@ -96,7 +96,7 @@ PS> Get-KPath -KptsArray_nCross3 (0,0,0),(0.5,0.5,0.5),(0.25,0.25,0),(0.5,0,0) -
 ```
 File [KPath.txt] created. Output copied to clipboard.
 ```
-In case you want to join two disconnected path patches, just create an array of two arrays(of those two patches) and pipe it to a foreach loop to create a new file because *Get-KPath* creates new file each time and delete any older file, so we get content of the file in first run before the loop goes to second run and so on.
+In case you want to join two disconnected path patches, just create an array of two arrays(of those two patches) and pipe it to a foreach loop to create a new file because `Get-KPath` creates new file each time and delete any older file, so we get content of the file in first run before the loop goes to second run and so on.
 ```powershell
 PS> ((0,0,0),(0.5,0.5,0.5)),((0.5,0,0),(0,0.5,0))|Foreach{Get-KPath $_ 3; (Get-Content .\KPath.txt)|Add-Content .\NewFile.txt}
 PS> gc NewFile.txt
@@ -123,7 +123,7 @@ PS> (Format-DataInFile .\Bands.txt).B1[0]
 
 --------------
 ## Collect-VaspData
-In order to collect data from **vasprun.xml**, run the command
+In order to collect data from `vasprun.xml`, run the command
 ```powershell
 PS> Export-VaspRun
 #For a system with NBANDS > 40, it will prompt to select a range of bands
@@ -136,7 +136,7 @@ PS> Export-VaspRun
 ```
 > This will make 4 files, `Bands.txt, tDOS.txt, pDOS.txt, Projection.txt` and a `SysInfo.py` file that can be imported in python directly. Projections are written ion-wise in same file. 
 
-If running the above cmdlet throws an error and stops running, then you **must run** the following command
+If running the above cmdlet throws an error and stops running, then you `must run` the following command
 ```powershell
 PS> Close-Writers #This will close all opened stream writers. 
 ```
@@ -159,7 +159,7 @@ PS> Get-AlignedPotential -Z_Dir -V_min -LeftRightPositions 0.25,0.75 -Periodicit
 
 --------------------------
 ### Get-PublicationsReadyPlots
-- Seperate and composite plots can be made using switches like *-Bands*, *-BandDOS*, *-ProjectedBands*, *-ProjectedBandDOS*. Plot size could be decreased to half of an article column width by using *-HalfColumnWide* switch. You can make your own plots from data.
+- Seperate and composite plots can be made using switches like `-Bands`, `-BandDOS`, `-ProjectedBands`, `-ProjectedBandDOS`. Plot size could be decreased to half of an article column width by using `-HalfColumnWide` switch. You can make your own plots from data.
 ## Get-More
 > The most useful cmdlet is `Get-InteractivePlot` based on [Plotly](https://plot.ly/python/getting-started/). You can interact with html graph, can switch between simple and projected plots and can get coordinates visually. 
 
@@ -276,7 +276,7 @@ PS> Find-GapOfBands 1 9
 BandWidth (1 → 9): 17.4247 eV is copied to clipboard.
 ```
  > ![IndexedPlot](IndexedPlot.svg)
-- This is extremely useful to get **Spin-Orbit split-off**. Just input a single argument consisting 2 points (k1_index,BandNumber1),(k2_index,BandNumber2) with no space.
+- This is extremely useful to get `Spin-Orbit split-off`. Just input a single argument consisting 2 points `(k1_index,BandNumber1),(k2_index,BandNumber2)` with no space.
 ```powershell
 PS> Measure-Distance -K1B1_K2B2 (25,8),(25,7) #return distance between any two points on k-E plane. Below is return of Above command.
 ```
@@ -294,7 +294,7 @@ The [Beamer-Timer](https://github.com/massgh/Beamer-Timer) is available as stand
 ```powershell
 PS> New-Presentation -Blank #or use -Template switch
 ```
-This will generate a *main.tex* file. You can create a loop in powershell to make slides automatically for your all pictures in subdirectories. 
+This will generate a `main.tex` file. You can create a loop in powershell to make slides automatically for your all pictures in subdirectories. 
 
 ---------
 > You will get a bonus Reveal-Markdown directory containing a `reveal.md` file and a theme `myserif.css`. If you have [vscode-reveal](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal) extension installed on [VSCode](https://code.visualstudio.com/), you can create interactive HTML presentation just using markdown and can also convert it to PDF and static HTML website like [revealjs](https://revealjs.com/).
