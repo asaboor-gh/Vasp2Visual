@@ -27,8 +27,8 @@ Function        New-Presentation                                   1.0.0.0    Va
 ## Version2 is Here!
 > Version2 provides extra 16 commands like `Export-VR2 -switches` which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). 
 - A separate python module [pivotpy](https://massgh.github.io/pivotpy/) is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
-- Powershell wrapper commands for `pivotpy` will be available soon! Have an early look at this 
-![Dummy Plot](./DummyPlot.jpg).
+- Powershell wrapper commands for `pivotpy` will be available soon! Have an early look at this.
+![Dummy Plot](./DummyPlot.jpg)
 ```powershell
 PS> Export-VR2 -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
 ```
@@ -122,7 +122,6 @@ PS> (Format-DataInFile .\Bands.txt).B1[0]
     -14.0141
 ```
 ![DataView](ExcelView1.jpg)
-
 
 ## Collect-VaspData
 In order to collect data from `vasprun.xml`, run the command
@@ -231,7 +230,6 @@ PS> Disable-SelectiveDynamics -InputPOSCAR .\POSCAR_eSD.vasp
 File [POSCAR_dSD.vasp] is created.
 ```
 - This cmdlet gets sites number for a layer with given z coordinate value upto 2 decimal place. These sites could be input to `Enable-SelectiveDynamics`.
-
 ```powershell
 PS> Select-SitesInLayers -InputPOSCAR .\POSCAR.vasp -Array_2Decimal 0.00,0.25
 ```
@@ -243,7 +241,6 @@ XY_PlaneSites YZ_PlaneSites ZX_PlaneSites
 
 - This is good only for slabs with number of layers less than 100 as two decimal places are slected. For more than 100 layers in z-direction, either use `Enable-SelectiveDynamics` with explicit sites number provided or contact me to make the script flexible. The number of layers less than 100  is kept on purpose, when we dope a single element in a slab, coordinates are displaced a little and it seems like a new layer. But no issue here, because you will not miss your selected layer as long as you use first two decimals (without rounding).
 - You can get X,Y,Z coordinates of layers in a POSCAR for input argument in `Select-SitesInLayers` cmdlet by using the command. 
-
 ```powershell
 PS> Show-LayersInfo .\Conventional.vasp
 ```
