@@ -1,9 +1,4 @@
-﻿Function Get-DensityHashTable{ #Creates an ordered hashtable to use in plot arguments
-[ordered]@{textLocation ="[0.05,0.9]"; DOS_Limit ="[0.0,0.6]"; FigureHeight =2.5;
-E_Limit="[5,-5]"; ProLabels="['Ga','s','p','d']";ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]"; 
-}
-}
-
+﻿#Density of States File
 $startFile=@'
 #====No Edit Below Except Last Few Lines of Legend and File Paths in np.loadtxt('Path/To/File')=====
 #====================Loading Packages==============================

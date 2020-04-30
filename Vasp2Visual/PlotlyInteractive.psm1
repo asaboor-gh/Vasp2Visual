@@ -1,8 +1,4 @@
-﻿Function Get-PlotlyHashTable{ #Creates an ordered hashtable to use in plot arguments
-[ordered]@{JoinPathAt="[]";tickIndices="[0,30,60,90,-1]"; ticklabels="[u'\u0393','M','K',u'\u0393','A'] ";
-E_Limit="[5,-5]"; ProLabels="['Ga','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
-}
-#Plot file content.
+﻿#Plot file content.
 $FileInput=@"
 #====No Edit Below Except Last Few Lines of Legend and File Paths in np.loadtxt('Path/To/File')=====
 #====================Loading Packages==============================
@@ -94,7 +90,7 @@ Function Get-InteractivePlot{ #Plots of different types
 [CmdletBinding()]
 Param([hashtable]$PlotlyHashTable)  #Get Hashtable from function Get-PlotArguments
 #making a plot file in order
-$variablesList=$PlotArguments.GetEnumerator()| 
+$variablesList=$PlotlyHashTable.GetEnumerator()| 
     Sort-Object -Descending|
     ForEach-Object{"{0,-12} = {1};" -f $_.key,$_.value}|Out-String
 $consoleInput=@"
