@@ -48,13 +48,13 @@ Function Get-PlotArguments{
     $args=[ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="['L',r'$\Gamma$']";
       E_Limit="[10,-10]"; DOS_Limit="[0.0,1.2]"; textLocation="[0.05,0.9]";FigureHeight=3;
       ProLabels="['Element0','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
-  if($Plotly.IsPresent){
-    $args=[ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="[u'\u0393','M'] ";
-      E_Limit="[5,-5]"; ProLabels="['Element0','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
-  }
   if($DOS.IsPresent){
     $args=[ordered]@{textLocation ="[0.05,0.9]"; DOS_Limit ="[0.0,0.6]"; FigureHeight =2.5;
       E_Limit="[5,-5]"; ProLabels="['Element0','s','p','d']";ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
+  }
+  if($Plotly.IsPresent){
+    $args=[ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="[u'\u0393','M'] ";
+      E_Limit="[5,-5]"; ProLabels="['Element0','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
   }
   return $args
 }
