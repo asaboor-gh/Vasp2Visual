@@ -24,16 +24,15 @@ Function        Merge-ToSlab                                       1.0.0.0    Va
 Function        New-Presentation                                   1.0.0.0    Vasp2Visual
 ```
 
-----------
 ## Version2 is Here!
 > Version2 provides extra 16 commands like `Export-VR2 -switches` which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). 
 - A separate python module [pivotpy](https://massgh.github.io/pivotpy/) is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
 - Powershell wrapper commands for `pivotpy` will be available soon! Have an early look at this 
-> ![Dummy Plot](./DummyPlot.jpg).
+![Dummy Plot](./DummyPlot.jpg).
 ```powershell
 PS> Export-VR2 -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
 ```
-> ![Export-VR2](./Vasp2Visual/Version2/ExportVR2.jpg)
+![Export-VR2](./Vasp2Visual/Version2/ExportVR2.jpg)
 ```powershell
 PS> $x=Read-BigFile -AbsPath E:\Research\Current\pDOS.txt -StopIndex 5
 PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -AsOneLine
@@ -43,12 +42,14 @@ PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -As
 
 ## Get-IntoYourWorkStation
 - Launch your Powershell console and run `Set-ExecutionPolicy Unrestricted`. This will allow you to run scripts.
+
 ### Direct Install (Not recommended, its behind github)
 - For direct install from Powerhell Gallery, follow link [Vasp2Visual@PSGallery](https://www.powershellgallery.com/packages/Vasp2Visual/1.0.3.0) and follow guidlines or run the command below in the console
 ```powershell
 Install-Module Vasp2Visual
 #Click Y for what prompts in console.
 ```
+
 ### Download from Github (Recommended for latest updates)
 - Find the path to Powershell Module by running `$env:PSModulePath` command and then download the directory [Vasp2Visual](Vasp2Visual) in that path. There are usually three paths.
 ```powershell
@@ -59,14 +60,13 @@ C:\Users\mass_\Documents\WindowsPowerShell\Modules;
 C:\Program Files\WindowsPowerShell\Modules;
 C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 ```
+
 ### After Installation Steps
 - Running `Import-Module Vasp2Visual` in Powershell console will make all commands in this module available to use. If you want to make it permanent, include this import command in your powershell profile by typying `your_editor $PROFILE`.
 - Now run `Get-Module` command. This will show you that Vasp2Visual is ready and you can see list of commands.
 - You need vasprun.xml file to collect data. It is recommended that if you have `vasprun.xml` file from DOS calculations,put that file in a folder named `dos` or `DOS` in the root folder where vasprun.xml is present from a bandstructure calculation and `run plotting commands only in root folder` but run `Export-VaspRun` in each folder in case of BandDOS composite plots.
 
-
 ## Get-FunctionsWork
-
 To import Vasp2Visual and see if it is available in current session, run
 ```powershell
 PS> Import-Module Vasp2Visual
@@ -121,9 +121,9 @@ In case you want to access a data entry in column_5, you can view it as an index
 PS> (Format-DataInFile .\Bands.txt).B1[0]                                         
     -14.0141
 ```
-> ![DataView](ExcelView1.jpg)
+![DataView](ExcelView1.jpg)
 
---------------
+
 ## Collect-VaspData
 In order to collect data from `vasprun.xml`, run the command
 ```powershell
@@ -157,11 +157,11 @@ PS> Get-ConvolvedPotential -X_Dir -V_max -Interval 1,20 #gives interactive plotl
 PS> Get-AlignedPotential -Z_Dir -V_min -LeftRightPositions 0.25,0.75 -Periodicity 28 -LeftRightNames 'left','right'
 ```
 - Periodicity can be obtained by `Get-ConvolvedPotential` with plotting over a guessed range of interval. Aligned potential looks like the below one.
-> ![AlignPlot](alignedPot.jpg)
+![AlignPlot](alignedPot.jpg)
 
---------------------------
 ## Get-PublicationsReadyPlots
 - Seperate and composite plots can be made using switches like `-Bands`, `-BandDOS`, `-ProjectedBands`, `-ProjectedBandDOS`. Plot size could be decreased to half of an article column width by using `-HalfColumnWide` switch. You can make your own plots from data.
+
 ## Get-More
 > The most useful cmdlet is `Get-InteractivePlot` based on [Plotly](https://plot.ly/python/getting-started/). You can interact with html graph, can switch between simple and projected plots and can get coordinates visually. 
 
@@ -206,7 +206,7 @@ PS> Get-DensityPlot -LinePlot $x -HalfColumnWide
 Required files not found. Generating using 'Export-VaspRun' ...
 Files now exist. Plotting ...
 ```
------------------
+
 ## Get-Automated
 - Script for converting LOCPOT into plane and plottable data formats is here now! Use `Export-LOCPOT` function.
 - Make Slab in z-direction (make sure none of `POSCAR` have zx,zy,xz,yz non-zero i.e angle c should be 90, otherwise result will be wrong. Rotate POSCAR in pure z-direction using Vesta before inputting here and after making slab, rotate it back. Also planes should have complete site, e.g. out of 8 sites in plane, if 4 are at z=0 and 4 at z=0.97, this will results in wrong merge.
@@ -277,7 +277,7 @@ PS> Find-GapOfBands 1 9
 17.4247
 BandWidth (1 → 9): 17.4247 eV is copied to clipboard.
 ```
- > ![IndexedPlot](IndexedPlot.svg)
+![IndexedPlot](IndexedPlot.svg)
 - This is extremely useful to get `Spin-Orbit split-off`. Just input a single argument consisting 2 points `(k1_index,BandNumber1),(k2_index,BandNumber2)` with no space.
 ```powershell
 PS> Measure-Distance -K1B1_K2B2 (25,8),(25,7) #return distance between any two points on k-E plane. Below is return of Above command.
@@ -290,7 +290,7 @@ Point_2                        {0.8660, 3.3817}
 Distance                       0                                               
 Distance: 0 [dimensionless] is copied to clipboard.
 ```
------------------------
+
 ## Present-It
 The [Beamer-Timer](https://github.com/massgh/Beamer-Timer) is available as standslone repository but it is included in this package as well. You can get a beamer presenatation file immediately in your working folder by running
 ```powershell
@@ -299,9 +299,10 @@ PS> New-Presentation -Blank #or use -Template switch
 This will generate a `main.tex` file. You can create a loop in powershell to make slides automatically for your all pictures in subdirectories. 
 
 ---------
+
 > You will get a bonus Reveal-Markdown directory containing a `reveal.md` file and a theme `myserif.css`. If you have [vscode-reveal](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal) extension installed on [VSCode](https://code.visualstudio.com/), you can create interactive HTML presentation just using markdown and can also convert it to PDF and static HTML website like [revealjs](https://revealjs.com/).
 
 ---------
 
-> ![Time Beam](TimeBeam.jpg)
+![Time Beam](TimeBeam.jpg)
 
