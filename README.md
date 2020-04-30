@@ -41,7 +41,6 @@ PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -As
 
 - Note: Both `Read-BigFile` and `Write-BigStream` requires full file path to work properly. These functions are useful to parse big files like LOCPOT which otherwise are timely expensive.
 
-----------
 ## Get-IntoYourWorkStation
 - Launch your Powershell console and run `Set-ExecutionPolicy Unrestricted`. This will allow you to run scripts.
 ### Direct Install (Not recommended, its behind github)
@@ -65,7 +64,7 @@ C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 - Now run `Get-Module` command. This will show you that Vasp2Visual is ready and you can see list of commands.
 - You need vasprun.xml file to collect data. It is recommended that if you have `vasprun.xml` file from DOS calculations,put that file in a folder named `dos` or `DOS` in the root folder where vasprun.xml is present from a bandstructure calculation and `run plotting commands only in root folder` but run `Export-VaspRun` in each folder in case of BandDOS composite plots.
 
-----------
+
 ## Get-FunctionsWork
 
 To import Vasp2Visual and see if it is available in current session, run
@@ -161,7 +160,7 @@ PS> Get-AlignedPotential -Z_Dir -V_min -LeftRightPositions 0.25,0.75 -Periodicit
 > ![AlignPlot](alignedPot.jpg)
 
 --------------------------
-### Get-PublicationsReadyPlots
+## Get-PublicationsReadyPlots
 - Seperate and composite plots can be made using switches like `-Bands`, `-BandDOS`, `-ProjectedBands`, `-ProjectedBandDOS`. Plot size could be decreased to half of an article column width by using `-HalfColumnWide` switch. You can make your own plots from data.
 ## Get-More
 > The most useful cmdlet is `Get-InteractivePlot` based on [Plotly](https://plot.ly/python/getting-started/). You can interact with html graph, can switch between simple and projected plots and can get coordinates visually. 
@@ -292,7 +291,7 @@ Distance                       0
 Distance: 0 [dimensionless] is copied to clipboard.
 ```
 -----------------------
-### Present-It
+## Present-It
 The [Beamer-Timer](https://github.com/massgh/Beamer-Timer) is available as standslone repository but it is included in this package as well. You can get a beamer presenatation file immediately in your working folder by running
 ```powershell
 PS> New-Presentation -Blank #or use -Template switch
