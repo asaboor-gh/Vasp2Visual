@@ -115,8 +115,8 @@ PS> Format-DataInFile .\Bands.txt -ViewAsExcel -DispalyFewColumns -SelectColumns
 which gives output in an Excel-like window as shown below. You can apply sorting operation in this window and much more. Theoretically you can see any file this way without opening any editor or a big program like Excel.
 In case you want to access a data entry in column_5, you can view it as an indexed dataframe. 
 ```powershell
-PS> (Format-DataInFile .\Bands.txt).B0[7]                                         
-    -14.005
+PS> (Format-DataInFile .\Bands.txt).B1[0]                                         
+    -14.0141
 ```
 ![DataView](ExcelView1.jpg)
 
