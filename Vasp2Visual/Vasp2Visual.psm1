@@ -45,18 +45,18 @@ Function Get-PlotArguments{
     [Parameter()][switch]$Plotly
   )
   if($Plotly.IsPresent){
-    [ordered]@{JoinPathAt="[]";tickIndices="[0,30,60,90,-1]"; ticklabels="[u'\u0393','M','K',u'\u0393','A'] ";
+    $args=[ordered]@{JoinPathAt="[]";tickIndices="[0,30,60,90,-1]"; ticklabels="[u'\u0393','M','K',u'\u0393','A'] ";
     E_Limit="[5,-5]"; ProLabels="['Ga','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
   }
   if($DOS.IsPresent){
-    [ordered]@{textLocation ="[0.05,0.9]"; DOS_Limit ="[0.0,0.6]"; FigureHeight =2.5;
-    E_Limit="[5,-5]"; ProLabels="['Ga','s','p','d']";ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]"; 
-    }
+    $args=[ordered]@{textLocation ="[0.05,0.9]"; DOS_Limit ="[0.0,0.6]"; FigureHeight =2.5;
+    E_Limit="[5,-5]"; ProLabels="['Ga','s','p','d']";ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
   }Else{
-  [ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="['L',r'$\Gamma$']";
-  E_Limit="[10,-10]"; DOS_Limit="[0.0,1.2]"; textLocation="[0.05,0.9]";FigureHeight=3;
-  ProLabels="['Element0','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
+    $args=[ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="['L',r'$\Gamma$']";
+    E_Limit="[10,-10]"; DOS_Limit="[0.0,1.2]"; textLocation="[0.05,0.9]";FigureHeight=3;
+    ProLabels="['Element0','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
   }
+  return $args
 }
 Function Get-Plot{ #Plots of different types
 [CmdletBinding()]
