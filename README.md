@@ -424,10 +424,9 @@ This will generate a `main.tex` file. You can create a loop in powershell to mak
 
 ---
 
-[`Vasp2Visual 🟢 `](https://massgh.github.io/Vasp2Visual/) 
-[`pivotpy 🔴 `](https://massgh.github.io/pivotpy/) 
-[`vscode-reveal 🟡 `](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal)
-
+[`Vasp2Visual 🟢`](https://massgh.github.io/Vasp2Visual/) &nbsp;
+[`pivotpy 🔴`](https://massgh.github.io/pivotpy/) &nbsp;
+[`vscode-reveal 🟡`](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal)
 
 
 
