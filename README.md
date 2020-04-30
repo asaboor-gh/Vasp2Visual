@@ -23,6 +23,7 @@ Function        Get-Args                                           1.0.0.0    Va
 Function        Merge-ToSlab                                       1.0.0.0    Vasp2Visual
 Function        New-Presentation                                   1.0.0.0    Vasp2Visual
 ```
+
 ----------
 ## Version2 is Here!
 > Version2 provides extra 16 commands like `Export-VR2 -switches` which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). 
@@ -39,6 +40,7 @@ PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -As
 ```
 
 - Note: Both `Read-BigFile` and `Write-BigStream` requires full file path to work properly. These functions are useful to parse big files like LOCPOT which otherwise are timely expensive.
+
 ----------
 ## Get-IntoYourWorkStation
 - Launch your Powershell console and run `Set-ExecutionPolicy Unrestricted`. This will allow you to run scripts.
@@ -62,6 +64,7 @@ C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
 - Running `Import-Module Vasp2Visual` in Powershell console will make all commands in this module available to use. If you want to make it permanent, include this import command in your powershell profile by typying `your_editor $PROFILE`.
 - Now run `Get-Module` command. This will show you that Vasp2Visual is ready and you can see list of commands.
 - You need vasprun.xml file to collect data. It is recommended that if you have `vasprun.xml` file from DOS calculations,put that file in a folder named `dos` or `DOS` in the root folder where vasprun.xml is present from a bandstructure calculation and `run plotting commands only in root folder` but run `Export-VaspRun` in each folder in case of BandDOS composite plots.
+
 ----------
 ## Get-FunctionsWork
 
@@ -300,5 +303,6 @@ This will generate a `main.tex` file. You can create a loop in powershell to mak
 > You will get a bonus Reveal-Markdown directory containing a `reveal.md` file and a theme `myserif.css`. If you have [vscode-reveal](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal) extension installed on [VSCode](https://code.visualstudio.com/), you can create interactive HTML presentation just using markdown and can also convert it to PDF and static HTML website like [revealjs](https://revealjs.com/).
 
 ---------
+
 > ![Time Beam](TimeBeam.jpg)
 
