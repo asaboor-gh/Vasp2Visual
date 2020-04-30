@@ -1,5 +1,8 @@
 # Vasp2Visual
-A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command **Export-VaspRun** in a folder containing **vasprun.xml**. The plot file is generated after running **Get-Plot** is editable per your choice,although the plot you get is publication ready. You are strongly recommended to download [STIX Fonts](https://www.stixfonts.org/) to make your plot fonts similar to article's fonts. You need to install various python module including numpy, matplotlib and for interactive plots, you need to install [Plotly](https://plot.ly/python/getting-started/). The basic commands include the following.
+- A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command **Export-VaspRun** in a folder containing **vasprun.xml**. The plot file is generated after running **Get-Plot** is editable per your choice,although the plot you get is publication ready. 
+- You are strongly recommended to download [STIX Fonts](https://www.stixfonts.org/) to make your plot fonts similar to article's fonts. 
+- You need to install various python module including numpy, matplotlib and for interactive plots, you need to install [Plotly](https://plot.ly/python/getting-started/). 
+- The basic commands include the following.
 ```powershell
 PS> Get-Command -Module Vasp2Visual
 CommandType     Name                                               Version    Source
@@ -13,14 +16,12 @@ Function        Find-GapOfBands                                    1.0.0.0    Va
 Function        Format-DataInFile                                  1.0.0.0    Vasp2Visual
 Function        Get-AlignedPotential                               1.0.0.0    Vasp2Visual
 Function        Get-ConvolvedPotential                             1.0.0.0    Vasp2Visual
-Function        Get-DensityHashTable                               1.0.0.0    Vasp2Visual
 Function        Get-DensityPlot                                    1.0.0.0    Vasp2Visual
 Function        Get-IndexedPlot                                    1.0.0.0    Vasp2Visual
 Function        Get-InteractivePlot                                1.0.0.0    Vasp2Visual
 Function        Get-KPath                                          1.0.0.0    Vasp2Visual
 Function        Get-Plot                                           1.0.0.0    Vasp2Visual
-Function        Get-PlotArguments                                  1.0.0.0    Vasp2Visual
-Function        Get-PlotlyHashTable                                1.0.0.0    Vasp2Visual
+Function        Get-Args                                           1.0.0.0    Vasp2Visual
 Function        Measure-Distance                                   1.0.0.0    Vasp2Visual
 Function        Merge-ToSlab                                       1.0.0.0    Vasp2Visual
 Function        New-Presentation                                   1.0.0.0    Vasp2Visual
@@ -31,7 +32,9 @@ Function        Show-LayersInfo                                    1.0.0.0    Va
 ```
 ----------
 ## Version2 is Here!
-- Version2 provides extra 16 commands like **Export-VR2** which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). A separate full version in pure python is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
+- Version2 provides extra 16 commands like **Export-VR2** which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). 
+- A separate python module [pivotpy](https://massgh.github.io/pivotpy/) is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
+- Powershell wrapper commands for `pivotpy` will be available soon!
 ```powershell
 PS> Export-VR2 -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
 ```
@@ -45,13 +48,13 @@ PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -As
 ----------
 ## Get-IntoYourWorkStation
 - Launch your Powershell console and run **Set-ExecutionPolicy Unrestricted**. This will allow you to run scripts.
-### Direct Install
-- For direct install from Powerhell Gallery, follow link [Vasp2Visual@PSGallery](https://www.powershellgallery.com/packages/Vasp2Visual/1.0.0.0) and follow guidlines or run the command below in the console
+### Direct Install (Not recommended, its behind github)
+- For direct install from Powerhell Gallery, follow link [Vasp2Visual@PSGallery](https://www.powershellgallery.com/packages/Vasp2Visual/1.0.3.0) and follow guidlines or run the command below in the console
 ```powershell
 Install-Module Vasp2Visual
 #Click Y for what prompts in console.
 ```
-### Download from Github
+### Download from Github (Recommended for latest updates)
 - Find the path to Powershell Module by running **$env:PSModulePath** command and then download the directory [Vasp2Visual](Vasp2Visual) in that path. There are usually three paths.
 ```powershell
 PS> $env:PSModulePath
@@ -136,10 +139,9 @@ PS> Close-Writers #This will close all opened stream writers.
 ```
 Now you are able to use your own plotting method to get output, but you can instead use *Get-Plot* function to let it work automatically for you. Before going forward, lets get to know how many arguments are available and then you can just edit arguments.
 ```powershell
-PS> $x=Get-PlotArguments
+PS> $x=Get-Args  # Use switches -DOS,-Plotly, Default retrurn is for basic plots.
 PS> $x.E_Limit="[-10,15]" #sets your defined energy limit in plot
 PS> $x.ticklabels  #will show up ticklabels and you can edit
-PS> $x.WidthToColumnRatio #detemines plot width in units of column width of article.
 #After editing all keys in $x.Key for your system, you can run the following cmdlet to get plot
 PS> Get-Plot -ProjectedBandDOS -PlotArguments $x #will output a plot. You can add -HalfColumnWide switch to make small size plots.
 ```
@@ -158,7 +160,7 @@ PS> Get-AlignedPotential -Z_Dir -V_min -LeftRightPositions 0.25,0.75 -Periodicit
 ## Get-More
 - The most useful cmdlet is *Get-InteractivePlot* based on [Plotly](https://plot.ly/python/getting-started/). You can interact with html graph, can switch between simple and projected plots and can get coordinates visually. Here is how it works.
 ```powershell
-PS> $x=Get-PlotlyHashTable; $x
+PS> $x=Get-Args -Plotly; $x
 Name                           Value
 ----                           -----
 tickIndices                    [0,30,60,90,-1]
@@ -173,7 +175,7 @@ PS> Get-InteractivePlot -PlotlyHashTable $x
 - You can plot DOS with three differnt switches *-LinePlot*, *-AreaPlot* and *StackPlot*. In addition you can use *-HalfColumnWide* switch to make less wide plot. 
 Usage:
 ```powershell
-PS> $x=Get-DensityHashTable; $x
+PS> $x=Get-Args -DOS; $x
 Name                           Value                                           
 ----                           -----                                           
 textLocation                   [0.05,0.9]                                      

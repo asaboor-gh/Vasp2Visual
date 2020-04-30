@@ -34,7 +34,7 @@ Function Close-Writers { #closes opened writers
 Foreach($stwr in $Writers){$stwr.Close()}
 Write-Host "All opened StreamWriters are now closed." -ForegroundColor Green
 }
-Function Get-PlotArguments{ 
+Function Get-Args{ 
   <#
   Creates an ordered hashtable to use in plot arguments
   in plot, interactive plot and density plot.
