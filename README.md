@@ -1,5 +1,5 @@
 # Vasp2Visual
-- A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command `Export-VaspRun` in a folder containing **vasprun.xml**. The plot file is generated after running `Get-Plot` is editable per your choice,although the plot you get is publication ready. 
+> A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command `Export-VaspRun` in a folder containing **vasprun.xml**. The plot file is generated after running `Get-Plot` is editable per your choice,although the plot you get is publication ready. 
 - You are strongly recommended to download [STIX Fonts](https://www.stixfonts.org/) to make your plot fonts similar to article's fonts. 
 - You need to install various python module including numpy, matplotlib and for interactive plots, you need to install [Plotly](https://plot.ly/python/getting-started/). 
 - The few of available commands include the following.
@@ -25,13 +25,14 @@ Function        New-Presentation                                   1.0.0.0    Va
 ```
 ----------
 ## Version2 is Here!
-- Version2 provides extra 16 commands like `Export-VR2 -switches` which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). 
+> Version2 provides extra 16 commands like `Export-VR2 -switches` which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). 
 - A separate python module [pivotpy](https://massgh.github.io/pivotpy/) is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
-- Powershell wrapper commands for `pivotpy` will be available soon! Have an early look at this ![Dummy Plot](./DummyPlot.jpg).
+- Powershell wrapper commands for `pivotpy` will be available soon! Have an early look at this 
+> ![Dummy Plot](./DummyPlot.jpg).
 ```powershell
 PS> Export-VR2 -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
 ```
-![Export-VR2](./Vasp2Visual/Version2/ExportVR2.jpg)
+> ![Export-VR2](./Vasp2Visual/Version2/ExportVR2.jpg)
 ```powershell
 PS> $x=Read-BigFile -AbsPath E:\Research\Current\pDOS.txt -StopIndex 5
 PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -AsOneLine
@@ -118,7 +119,7 @@ In case you want to access a data entry in column_5, you can view it as an index
 PS> (Format-DataInFile .\Bands.txt).B1[0]                                         
     -14.0141
 ```
-![DataView](ExcelView1.jpg)
+> ![DataView](ExcelView1.jpg)
 
 --------------
 ## Collect-VaspData
@@ -133,13 +134,13 @@ PS> Export-VaspRun
  Seperate entries by a comma: e.g. 530, 250                         
  NBANDS_FILLED, NBANDS_EMPTY: 15,10 
 ```
-This will make 4 files, `Bands.txt, tDOS.txt, pDOS.txt, Projection.txt` and a `SysInfo.py` file that can be imported in python directly. Projections are written ion-wise in same file. 
+> This will make 4 files, `Bands.txt, tDOS.txt, pDOS.txt, Projection.txt` and a `SysInfo.py` file that can be imported in python directly. Projections are written ion-wise in same file. 
 
 If running the above cmdlet throws an error and stops running, then you **must run** the following command
 ```powershell
 PS> Close-Writers #This will close all opened stream writers. 
 ```
-Now you are able to use your own plotting method to get output, but you can instead use *Get-Plot* function to let it work automatically for you. Before going forward, lets get to know how many arguments are available and then you can just edit arguments.
+Now you are able to use your own plotting method to get output, but you can instead use `Get-Plot` function to let it work automatically for you. Before going forward, lets get to know how many arguments are available and then you can just edit arguments.
 ```powershell
 PS> $x=Get-Args  # Use switches -DOS,-Plotly, Default retrurn is for basic plots.
 PS> $x.E_Limit="[-10,15]" #sets your defined energy limit in plot
@@ -154,13 +155,15 @@ PS> Get-ConvolvedPotential -X_Dir -V_max -Interval 1,20 #gives interactive plotl
 PS> Get-AlignedPotential -Z_Dir -V_min -LeftRightPositions 0.25,0.75 -Periodicity 28 -LeftRightNames 'left','right'
 ```
 - Periodicity can be obtained by `Get-ConvolvedPotential` with plotting over a guessed range of interval. Aligned potential looks like the below one.
-![AlignPlot](alignedPot.jpg)
+> ![AlignPlot](alignedPot.jpg)
 
 --------------------------
 ### Get-PublicationsReadyPlots
 - Seperate and composite plots can be made using switches like *-Bands*, *-BandDOS*, *-ProjectedBands*, *-ProjectedBandDOS*. Plot size could be decreased to half of an article column width by using *-HalfColumnWide* switch. You can make your own plots from data.
 ## Get-More
-- The most useful cmdlet is `Get-InteractivePlot` based on [Plotly](https://plot.ly/python/getting-started/). You can interact with html graph, can switch between simple and projected plots and can get coordinates visually. Here is how it works.
+> The most useful cmdlet is `Get-InteractivePlot` based on [Plotly](https://plot.ly/python/getting-started/). You can interact with html graph, can switch between simple and projected plots and can get coordinates visually. 
+
+Here is how it works.
 ```powershell
 PS> $x=Get-Args -Plotly; $x
 ```
@@ -177,7 +180,7 @@ You can edit any key, and get plot using the cmdlet
 ```powershell
 PS> Get-InteractivePlot -PlotlyHashTable $x
 ```
-- If you have disconnected K-path, you can join it in figure automatically be using `$x.JoinPathAt="[break points indices array]"` in plot arguments `$x=Get-Args -switches`. Say we have `'L'` and `'M'` points at index `19,20` and do not have kpoints between them, we can just set `$x.JoinPathAt="[20]"` and plotting function will do the job automatically.
+> If you have disconnected K-path, you can join it in figure automatically be using `$x.JoinPathAt="[break points indices array]"` in plot arguments `$x=Get-Args -switches`. Say we have `'L'` and `'M'` points at index `19,20` and do not have kpoints between them, we can just set `$x.JoinPathAt="[20]"` and plotting function will do the job automatically.
 - You can plot DOS with three differnt switches `-LinePlot`, `-AreaPlot` and `StackPlot`. In addition you can use `-HalfColumnWide` switch to make less wide plot. 
 Usage:
 ```powershell
@@ -272,7 +275,7 @@ PS> Find-GapOfBands 1 9
 17.4247
 BandWidth (1 → 9): 17.4247 eV is copied to clipboard.
 ```
-![IndexedPlot](IndexedPlot.svg)
+ > ![IndexedPlot](IndexedPlot.svg)
 - This is extremely useful to get **Spin-Orbit split-off**. Just input a single argument consisting 2 points (k1_index,BandNumber1),(k2_index,BandNumber2) with no space.
 ```powershell
 PS> Measure-Distance -K1B1_K2B2 (25,8),(25,7) #return distance between any two points on k-E plane. Below is return of Above command.
@@ -294,8 +297,8 @@ PS> New-Presentation -Blank #or use -Template switch
 This will generate a *main.tex* file. You can create a loop in powershell to make slides automatically for your all pictures in subdirectories. 
 
 ---------
-You will get a bonus Reveal-Markdown directory containing a *reveal.md* file and a theme *myserif.css*. If you have [vscode-reveal](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal) extension installed on [VSCode](https://code.visualstudio.com/), you can create interactive HTML presentation just using markdown and can also convert it to PDF and static HTML website like [revealjs](https://revealjs.com/).
+> You will get a bonus Reveal-Markdown directory containing a `reveal.md` file and a theme `myserif.css`. If you have [vscode-reveal](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal) extension installed on [VSCode](https://code.visualstudio.com/), you can create interactive HTML presentation just using markdown and can also convert it to PDF and static HTML website like [revealjs](https://revealjs.com/).
 
 ---------
-![Time Beam](TimeBeam.jpg)
+> ![Time Beam](TimeBeam.jpg)
 
