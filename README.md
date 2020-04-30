@@ -1,3 +1,5 @@
+[`Vasp2Visual 🟢`](https://massgh.github.io/Vasp2Visual/) &nbsp;
+[`pivotpy 🔴`](https://massgh.github.io/pivotpy/)
 # Vasp2Visual
 > A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command `Export-VaspRun` in a folder containing `vasprun.xml`. 
 
@@ -425,8 +427,7 @@ This will generate a `main.tex` file. You can create a loop in powershell to mak
 ---
 
 [`Vasp2Visual 🟢`](https://massgh.github.io/Vasp2Visual/) &nbsp;
-[`pivotpy 🔴`](https://massgh.github.io/pivotpy/) &nbsp;
-[`vscode-reveal 🟡`](https://marketplace.visualstudio.com/items?itemName=evilz.vscode-reveal)
+[`pivotpy 🔴`](https://massgh.github.io/pivotpy/) 
 
 
 
