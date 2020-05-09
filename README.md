@@ -43,12 +43,13 @@ Function        New-Presentation                                   1.0.0.0    Va
 
 --
 
+
 - A separate python module [pivotpy](https://massgh.github.io/pivotpy/) is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
 
 --
 
-- Powershell wrapper commands for `pivotpy` will be available soon! Have an early look at this.
-![Dummy Plot](./DummyPlot.jpg)
+- Powershell wrapper commands for `pivotpy` will be available soon! Look at this.
+<div><iframe width="900" height="600" frameborder="0" scrolling="no" src="//plotly.com/dashboard/massgh:46/embed"></iframe></div>
 
 --
 
@@ -428,6 +429,3 @@ This will generate a `main.tex` file. You can create a loop in powershell to mak
 
 [`Vasp2Visual 🟢`](https://massgh.github.io/Vasp2Visual/) &nbsp;
 [`pivotpy 🔴`](https://massgh.github.io/pivotpy/) 
-
-
-
