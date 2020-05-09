@@ -48,8 +48,9 @@ Function        New-Presentation                                   1.0.0.0    Va
 
 --
 
-- Powershell wrapper commands for `pivotpy` will be available soon! Look at this.
-<div><iframe width="900" height="600" frameborder="0" scrolling="no" src="//plotly.com/dashboard/massgh:46/embed"></iframe></div>
+- Powershell wrapper commands for `pivotpy` will be available soon! Interact with this plot!
+
+<div><iframe width="900" height="600" frameborder="0" scrolling="no" src="//plotly.com/~massgh/36.embed"></iframe></div>
 
 --
 
