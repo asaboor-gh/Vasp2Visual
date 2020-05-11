@@ -48,10 +48,11 @@ Function        New-Presentation                                   1.0.0.0    Va
 
 --
 
-- Powershell wrapper commands for `pivotpy` will be available soon! Interact with plot in below links!
+- Powershell wrapper commands for `pivotpy` will be available soon! Interact with plots in below links!
 
 [`Interactive Plot`](https://plotly.com/~massgh/36/) &nbsp;
-[`Jupyter Notebook`](https://plotly.com/~massgh/64/pivotpy-python-processing-tool-for-va/)
+[`Jupyter Notebook`](https://plotly.com/~massgh/64/pivotpy-python-processing-tool-for-va/) &nbsp;
+[`Grid Plot`](https://massgh.github.io/InteractiveHTMLs/gridplot.html)
 
 --
 
