@@ -10,7 +10,7 @@ function Read-BigFile{
     #>
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory="True")][String]$AbsPath,
+        [Parameter(Mandatory="True",ValueFromPipeline=$true)][String]$AbsPath,
         [Parameter()][int]$StartIndex =0,
         [Parameter()][int]$StopIndex=0
     )
@@ -47,7 +47,7 @@ function Write-BigStream{
     #>
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory="True")][array]$StreamArray,
+        [Parameter(Mandatory="True",ValueFromPipeline=$true)][array]$StreamArray,
         [Parameter(Mandatory="True")]$AbsFilePath,
         [Parameter()][switch]$AsOneLine
     )

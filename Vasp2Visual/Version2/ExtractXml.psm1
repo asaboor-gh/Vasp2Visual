@@ -2,14 +2,15 @@
 #Version 2 of Vasp2Visual that allows automatic collection of Spin Ploarized calculations as well as 
 #getting individual spin sets by dedicated functions.
 function Get-EigenVals {
+    [cmdletbinding()]
     param (
         # Insert a powershell xml object after it is read as [xml] using Read-AsXml command.
-        [Parameter()][xml]$XmlObject=(Read-AsXml),
+        [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=(Read-AsXml),
         # Insert Number of useless KPOINTS to skip
         [Parameter()][Int]$SkipNKPTS=0,
         # Insert How many Bands to skip and then how many to select seperated by comma. By Default,
         # it collects all bands using function Get-Summary
-        [Parameter()][array]$SkipSelectNBANDS=(0,$((Get-Summary -XmlObject $XmlObject).NBANDS))
+        [Parameter(ValueFromPipeline=$true)][array]$SkipSelectNBANDS=(0,$((Get-Summary -XmlObject $XmlObject).NBANDS))
     )
     Write-Progress "Collecting Bands ..."
     $skip=[int]$SkipNKPTS;$range=@($SkipSelectNBANDS);
@@ -36,9 +37,10 @@ function Get-EigenVals {
 
 
 function Get-KPTS {
+    [cmdletbinding()]
     param (
         # Insert a powershell xml object after it is read as [xml] using  Read-AsXml command.
-        [Parameter()][xml]$XmlObject=(Read-AsXml),
+        [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=(Read-AsXml),
         # Insert Number of useless KPOINTS to skip
         [Parameter()][Int]$SkipNKPTS=0
     )
@@ -62,14 +64,15 @@ function Get-KPTS {
 }
 
 function Write-KptsBands {
+    [cmdletbinding()]
     param (
         # Insert a powershell xml object after it is read as [xml] using  Read-AsXml command.
-        [Parameter()][xml]$XmlObject=(Read-AsXml),
+        [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=(Read-AsXml),
         # Insert Kpts Object
-        [Parameter()][array]
+        [Parameter(ValueFromPipeline=$true)][array]
         $KptsObject=$(Get-KPTS -XmlObject $XmlObject -SkipNKPTS $(Read-KptsToExclude -XmlObject $XmlObject)),
         # Insert Bands Object excluding first band
-        [Parameter()][array]
+        [Parameter(ValueFromPipeline=$true)][array]
         $BandsObject=$(Get-EigenVals -XmlObject $XmlObject -SkipNKPTS $(Read-KptsToExclude -XmlObject $XmlObject) -SkipSelectNBANDS 0,$((Get-Summary -XmlObject $XmlObject).NBANDS))
     )
     Write-Progress "Writing bands and kpoints on [Bands.txt] ..."
@@ -99,9 +102,10 @@ function Write-KptsBands {
 
 
 function Get-Summary {
+    [cmdletbinding()]
     param (
         # Insert powershell xml object. Get it using Read-AsXml command.
-        [Parameter()][xml]$XmlObject=(Read-AsXml)
+        [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=(Read-AsXml)
     )
     Write-Progress "Extracting System Information ..."
     $EigSets=$XmlObject.modeling.calculation.eigenvalues.array.set.ChildNodes.Count
@@ -144,10 +148,11 @@ function Get-Summary {
 }
 
 function Read-AsXml {
+    [cmdletbinding()]
     param (
         # Insert path or url to vasprun.xml file. By default it is current folder.
         # This is kept seperate to load xml once and use in other commands.
-        [Parameter()]$VasprunFile=".\vasprun.xml"
+        [Parameter(ValueFromPipeline=$true)]$VasprunFile=".\vasprun.xml"
     )
     Write-Progress "Reading $VasprunFile ..."
     if($VasprunFile.Contains('vasprun.xml')){
@@ -161,9 +166,10 @@ function Read-AsXml {
 }
 
 function Read-KptsToExclude {
+    [cmdletbinding()]
     param (
         # Insert powershell xml object. Get it using Read-AsXml command.
-        [Parameter()][xml]$XmlObject=(Read-AsXml)
+        [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=(Read-AsXml)
     )
     $weights=$XmlObject.modeling.kpoints.varray[1].v; $count=0
     $match=$XmlObject.modeling.kpoints.varray[1].v[-1] #Last point as match
@@ -176,9 +182,10 @@ function Read-KptsToExclude {
 
 ##Total Density of states.
 function Get-TotalDOS {
+    [cmdletbinding()]
     param (
         # Insert powershell xml object. Get it using Read-AsXml command.
-        [Parameter()][xml]$XmlObject=(Read-AsXml),
+        [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=(Read-AsXml),
         # Insert Index of the set of spin blocks. Default is 0.
         [Parameter()][int]$SpinSet=1
     )
@@ -209,9 +216,10 @@ if($SpinSets -eq 1){
 }
 
 function Write-TotalDOS {
+    [cmdletbinding()]
     param (
       # Insert TotalDOS object from Get-TotalDOS command
-      [Parameter()][array]$TotalDOS=$(Get-TotalDOS -XmlObject $(Read-AsXml) -SpinSet 1) 
+      [Parameter(ValueFromPipeline=$true)][array]$TotalDOS=$(Get-TotalDOS -XmlObject $(Read-AsXml) -SpinSet 1) 
     )
     Write-Progress "Writing Total DOS on [tDOS.txt] ..."
     $loc=(Get-Location) #for streamwriter.
@@ -221,16 +229,17 @@ function Write-TotalDOS {
 }
 
 function Get-BandsProSet {
+    [cmdletbinding()]
     param (
         # Inset Set Number of Spin Block you want.
         [Parameter()][int]$SpinSet=1,
         # Insert a powershell xml object after it is read as [xml] using Read-AsXml command.
-        [Parameter()][xml]$XmlObject=(Read-AsXml),
+        [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=(Read-AsXml),
         # Insert Number of useless KPOINTS to skip
         [Parameter()][Int]$SkipNKPTS=0,
         # Insert How many Bands to skip and then how many to select seperated by comma. By Default,
         # it collects all bands using function Get-Summary
-        [Parameter()][array]$SkipSelectNBANDS=(0,$((Get-Summary -XmlObject $XmlObject).NBANDS))
+        [Parameter(ValueFromPipeline=$true)][array]$SkipSelectNBANDS=(0,$((Get-Summary -XmlObject $XmlObject).NBANDS))
     )
     $skip=[int]$SkipNKPTS;$range=@($SkipSelectNBANDS);
     $Values=Get-Summary -XmlObject $XmlObject
@@ -279,11 +288,12 @@ function Get-BandsProSet {
     }
 
 function  Get-PartialDOS {
+    [cmdletbinding()]
     param (
         # Inset Set Number of Spin Block you want.
         [Parameter()][int]$SpinSet=1,
         # Insert a powershell xml object after it is read as [xml] using Read-AsXml command.
-        [Parameter()][xml]$XmlObject=(Read-AsXml)
+        [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=(Read-AsXml)
     )
     Write-Progress "Collecting Partial DOS of Spin Set $SpinSet ..."
     $ions=$XmlObject.GetElementsByTagName('partial').array.set.ChildNodes
@@ -318,11 +328,12 @@ function  Get-PartialDOS {
         GridSize=$ngrid;SpinSet=$set;Data=$Data; ShapeOfData=$shape;}
 }
 function Write-PartialDOS {
+    [cmdletbinding()]
     param (
       # Inset Set Number of Spin Block you want.
       [Parameter()][int]$SpinSet=1,
       # Insert PartialDOS object from Get-PartialDOS command
-      [Parameter()][xml]$XmlObject=$(Read-AsXml)
+      [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=$(Read-AsXml)
     )
     $loc=(Get-Location) #for streamwriter.
     $info=Get-Summary -XmlObject $XmlObject
@@ -362,15 +373,16 @@ function Write-PartialDOS {
 }
 
 function Write-Projection {
+    [cmdletbinding()]
     param (
         #Insert Spin Set you want to compute.
         [Parameter()][int]$SpinSet=1,
         # Insert a powershell xml object after it is read as [xml] using  Read-AsXml command.
-        [Parameter()][xml]$XmlObject=(Read-AsXml),
+        [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=(Read-AsXml),
         [Parameter()][Int]$SkipNKPTS=0,
         # Insert How many Bands to skip and then how many to select seperated by comma. By Default,
         # it collects all bands using function Get-Summary
-        [Parameter()][array]$SkipSelectNBANDS=(0,$((Get-Summary -XmlObject $XmlObject).NBANDS))
+        [Parameter(ValueFromPipeline=$true)][array]$SkipSelectNBANDS=(0,$((Get-Summary -XmlObject $XmlObject).NBANDS))
     )
     $skip=[int]$SkipNKPTS;$range=@($SkipSelectNBANDS);
     $info=(Get-Summary -XmlObject $XmlObject)
@@ -411,9 +423,10 @@ function Write-Projection {
 }
 
 function Get-FillingWeights {
+    [cmdletbinding()]
     param (
         # Insert a powershell xml object after it is read as [xml] using Read-AsXml command.
-        [Parameter()][xml]$XmlObject=(Read-AsXml)
+        [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=(Read-AsXml)
     )
     $XmlEig=$XmlObject.modeling.calculation.eigenvalues.array.set
     if($XmlEig.ChildNodes.Count -eq 2){
@@ -433,9 +446,10 @@ function Get-FillingWeights {
 }
 
 function Export-VR2 {
+    [cmdletbinding()]
     param (
         # Path to vasprun.xml or url.
-        [Parameter()]$InputFile=".\vasprun.xml",
+        [Parameter(ValueFromPipeline=$true)]$InputFile=".\vasprun.xml",
         # Skip initial kpoints
         [Parameter()][int]$SkipK=-1,
         # Insert number of required filled bands.
@@ -461,9 +475,10 @@ function Get-SkipSelectBands {
             Get-SkipSelectBands -XmlObject $xml -MaxFilled 2 -MaxEmpty 2
             Returns (skipbands,NBANDS)=(268,4)
     #>
+    [cmdletbinding()]
     param (
         # Put XmlObject from Read-AsXml function.
-        [Parameter()]$XmlObject = $(Read-AsXml),
+        [Parameter(ValueFromPipeline=$true)]$XmlObject = $(Read-AsXml),
         # Insert how many filled bands you want to collect. Default 30.
         [Parameter()][int]$MaxFilled=30,
         # Insert how many empty bands you want to collect. Default 30.
