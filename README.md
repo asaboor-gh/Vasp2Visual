@@ -1,6 +1,6 @@
 [`Vasp2Visual 🟢`](https://massgh.github.io/Vasp2Visual/) &nbsp;
 [`pivotpy 🔴`](https://massgh.github.io/pivotpy/) &nbsp;
-[`Run in Azure 🟢`](https://testazurenotebooks-massaz.notebooks.azure.com/j/notebooks/index.ipynb)
+[![Run in Azure](https://notebooks.azure.com/launch.png)](https://testazurenotebooks-massaz.notebooks.azure.com/j/notebooks/index.ipynb)
 # Vasp2Visual
 > A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command `Export-VaspRun` in a folder containing `vasprun.xml`. 
 
@@ -434,4 +434,5 @@ This will generate a `main.tex` file. You can create a loop in powershell to mak
 
 [`Vasp2Visual 🟢`](https://massgh.github.io/Vasp2Visual/) &nbsp;
 [`pivotpy 🔴`](https://massgh.github.io/pivotpy/) &nbsp;
-[`Run in Azure 🟢`](https://testazurenotebooks-massaz.notebooks.azure.com/j/notebooks/index.ipynb)
+
+[![Run in Azure](https://notebooks.azure.com/launch.png)](https://testazurenotebooks-massaz.notebooks.azure.com/j/notebooks/index.ipynb)
