@@ -6,8 +6,6 @@ $loadtime=$timer.Elapsed.TotalSeconds
 Write-Host "$([Math]::Round($($loadtime),3)) seconds elapsed while loading vasprun.xml($([Math]::Round(((Get-Item $InputFile).length/1MB),3)) MB)" -ForegroundColor Cyan
 $timer.Stop();
 
-$loc=Get-Location #Required
-
 $weights= Get-FillingWeights -XmlObject $XmlObject
 $info= Get-Summary -XmlObject $XmlObject 
 $sys=$info.SYSTEM; $NION=$info.NION; $NBANDS=$info.NBANDS; $NKPTS= $info.NKPTS; $filled=$weights.Filled;
@@ -32,8 +30,8 @@ if($SkipK -ne -1){ #check if $SkipK provided from calling function.
 }
 #====================================================================
 Write-Host "$ibzkpt IBZKPT file's KPOINTS Excluded!" -ForegroundColor Yellow
-#=============Only DOS if in DOS Folder========================
-if(($loc|Split-Path -Leaf).Contains('DOS') -or ($loc|Split-Path -Leaf).Contains('dos')){#Skipe Collection of Bands in DOS folder
+#=============OnlyDOS Switch========================
+if($OnlyDOS.IsPresent){#Skipe Collection of Bands
 $ibzkpt=$ibzkpt;$NKPTS=+1;$skipB=0;$NBANDS=0;$filled=0;} #Updated minimal working values
 #==============================================================
 #GetBands and KPTS
@@ -62,16 +60,14 @@ Write-Host @"
 $timer.Stop() #close stopwatch
 $tTotal= [Math]::Round($($timer.Elapsed.TotalSeconds+$loadtime),3); 
 Write-Host "The process completed in $tTotal seconds." -ForegroundColor Cyan
-if($NBANDS.Equals(0)){Remove-Item .\Bands.txt -Force -ErrorAction Ignore; 
-Remove-Item .\Projection.txt -Force -ErrorAction Ignore;} # Remove unnecessary files
 #Write Information of system only in Bands Folder
 if($NBANDS.Equals(0)){
-    Write-Host "If NBANDS =0 or in DOS folder, no bands are collected! E-fermi is written in header of tDOS.txt" -ForegroundColor Red
-    }Else{
-    $infoFile= New-Item .\SysInfo.py  -Force #Create file
-    Write-Host "Writing System information on file [$($infoFile.BaseName)] ..." -ForegroundColor Yellow -NoNewline
-    $ElemIndex=$info.ElemIndex -Join ', '; $ElemName=$info.ElemName -Join ', '; #Elements Names and Indices Intervals
-    $infoString= @" 
+    Write-Host "No bands are collected for -OnlyDOS switch!" -ForegroundColor Red
+    }
+$infoFile= New-Item .\SysInfo.py  -Force #Create file
+Write-Host "Writing System information on file [$($infoFile.BaseName)] ..." -ForegroundColor Yellow -NoNewline
+$ElemIndex=$info.ElemIndex -Join ', '; $ElemName=$info.ElemName -Join ', '; #Elements Names and Indices Intervals
+$infoString= @" 
 SYSTEM            = `'$sys`' 
 NKPTS             = $($NKPTS-$ibzkpt)
 NBANDS            = $NBANDS
@@ -98,7 +94,7 @@ basis             = [[$($basis)]]
 rec_basis         = [[$($recbasis)]]
 "@
 $LatticeString|Add-Content $infoFile
-} #Writing of SysInfo Ends.
+ #Writing of SysInfo Ends.
 Write-Host " Done ✔😎😍✔"
 Write-Host "▼ " -ForegroundColor Blue -NoNewline
 Write-Host " SYSTEM: $sys, NIONS: $NION, NBANDS: $NBANDS, Filled: $filled, NKPTS: $($NKPTS-$ibzkpt)" -ForegroundColor White -BackgroundColor Blue
