@@ -32,7 +32,7 @@ if($SkipK -ne -1){ #check if $SkipK provided from calling function.
 Write-Host "$ibzkpt IBZKPT file's KPOINTS Excluded!" -ForegroundColor Yellow
 #=============OnlyDOS Switch========================
 if($getonlydos -eq $True){#Skipe Collection of Bands
-$ibzkpt=$ibzkpt;$NKPTS=+1;$skipB=0;$NBANDS=0;$filled=0;} #Updated minimal working values
+$ibzkpt = $NKPTS; $skipB=0;$NBANDS=0;$filled=0;} #Updated minimal working values
 #==============================================================
 #GetBands and KPTS
 $KptsObject= Get-KPTS -XmlObject $XmlObject -SkipNKPTS $ibzkpt
