@@ -462,6 +462,7 @@ function Export-VR2 {
     if(-not (Test-Path $InputFile)){
         Write-Host "File $InputFile not found"
     }Else{
+        If($OnlyDOS.IsPresent){$getonlydos=$True}Else{$getonlydos=$False}
         . $PSScriptRoot\MainVR2.ps1
     }
 
