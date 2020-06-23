@@ -445,7 +445,7 @@ function Get-FillingWeights {
     return [ordered]@{Filled=$eval.Count-$counter;UnFilled=$counter; Weights=$eval;}
 }
 
-function Export-VR2 {
+function Export-VR {
     [cmdletbinding()]
     param (
         # Path to vasprun.xml or url.
@@ -508,7 +508,7 @@ function Get-SkipSelectBands {
 }
 
 
-Export-ModuleMember -Function 'Export-VR2'
+Export-ModuleMember -Function 'Export-VR'
 Export-ModuleMember -Function 'Get-EigenVals'
 Export-ModuleMember -Function 'Get-KPTS'
 Export-ModuleMember -Function 'Read-KptsToExclude'

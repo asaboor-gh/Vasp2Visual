@@ -59,9 +59,10 @@ Function        New-Presentation                                   1.0.0.0    Va
 --
 
 ```powershell
-PS> Export-VR2 -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
+PS> Export-VR -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
+# You can add switch -OnlyDOS to this function.
 ```
-![Export-VR2](./Vasp2Visual/Version2/ExportVR2.jpg)
+![Export-VR](./Vasp2Visual/Version2/ExportVR2.jpg)
 
 ---
 
