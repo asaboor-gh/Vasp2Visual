@@ -457,7 +457,6 @@ function Export-VR2 {
         # Insert number of required empty bands.
         [Parameter()][int]$MaxEmpty=-1,
         # Calculate DOS Only
-        # Parameter help description
         [Parameter()][switch]$OnlyDOS
     )
     if(-not (Test-Path $InputFile)){
