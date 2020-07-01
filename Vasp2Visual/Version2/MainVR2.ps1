@@ -39,13 +39,6 @@ $KptsObject= Get-KPTS -XmlObject $XmlObject -SkipNKPTS $ibzkpt
 $BandsObject= Get-EigenVals -XmlObject $XmlObject -SkipNKPTS $ibzkpt -SkipSelectNBANDS $skipB,$NBANDS
 Write-Host "Writing file [Bands.txt] ..." -ForegroundColor Red
 Write-KptsBands -XmlObject $XmlObject -KptsObject $KptsObject -BandsObject $BandsObject
-#=========================Getting Min Max Energies=========
-$E_array=($BandsObject|Where-Object{$_ -notmatch 'B'})|ForEach-Object{
-    $_.Split()|Where-Object{$_ -and $_.Trim()}}
-$E_top=($E_array|Measure-Object -Maximum).Maximum
-$Band_1=(Get-EigenVals -XmlObject $XmlObject -SkipNKPTS $ibzkpt -SkipSelectNBANDS 0,1|
-        Where-Object{$_ -notmatch 'B'})
-$E_core=($Band_1|Measure-Object -Minimum).Minimum
 #=====================Main Part================================
     Write-Host "Writing Total DOS on [tDOS.txt] ..." -ForegroundColor Red
     $tdos= Get-TotalDOS -XmlObject $XmlObject -SpinSet 1  #Automatically will write Spin polarized.
@@ -79,8 +72,6 @@ E_Fermi           = $($info.E_Fermi)
 ISPIN             = $($info.ISPIN) 
 ElemIndex         = [$ElemIndex]
 ElemName          = [$ElemName]
-E_core            = $E_core
-E_top             = $E_top
 "@
     $infoString|Set-Content $infoFile #Here-String written on file
 # Crsytal System Information file.
