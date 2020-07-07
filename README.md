@@ -89,9 +89,9 @@ ctxt                           'black'
 xt_labels                      []
 ```
 ```powershell
-❯ New-Figure -VasprunFile 'E:\Research\graphene_example\ISPIN_2\bands\vasprun.xml' -sBands -SavePDF 'fig.pdf' -SavePyFile 'fig.py'
+❯ New-Figure -VasprunFile 'E:\Research\graphene_example\ISPIN_2\bands\vasprun.xml' -sBands -FigArgs $x -SavePDF 'fig.pdf' -SavePyFile 'fig.py'
 ```
-You can edit the saved python file for further tweaking.
+You can edit the saved python file for further tweaking. 
 
 --
 
