@@ -49,12 +49,49 @@ Function        New-Presentation                                   1.0.0.0    Va
 
 --
 
-- Powershell wrapper commands for `pivotpy` will be available soon! Interact with plots in below links!
+- Powershell wrapper commands for `pivotpy` are available now! Interact with plots in below links!
 
 [`Interactive Plot`](https://plotly.com/~massgh/36/) &nbsp;
 [`Jupyter Notebook`](https://plotly.com/~massgh/64/pivotpy-python-processing-tool-for-va/) &nbsp;
 [`Run in Azure 🟢`](https://testazurenotebooks-massaz.notebooks.azure.com/j/notebooks/index.ipynb) &nbsp;
 [`Grid Plot`](https://massgh.github.io/InteractiveHTMLs/gridplot.html)
+
+--
+
+## Plot using `New-Figure` command
+There are multiple switches for interactive and static plots including `sRGB`, `iRGB` etc. You can access all switches and parameters using `Tab`.
+```powershell
+❯ Get-Help New-Figure
+
+NAME
+    New-Figure
+
+SYNTAX
+    New-Figure [[-sRGB]] [-VasprunFile <Object>] [-FigArgs <hashtable>] [-SavePDF <Object>] [-SavePNG <Object>][-SavePyFile <Object>] [<CommonParameters>]
+
+    New-Figure [[-iDOS]] [-VasprunFile <Object>] [-FigArgs <hashtable>] [-SaveHTML <Object>] [-SaveMinHTML <Object>][-SavePyFile <Object>] [<CommonParameters>]
+```
+```powershell
+❯ $x = Get-FigArgs -sBands
+```
+```
+Name                           Value
+----                           -----
+joinPathAt                     []
+figsize                        (3.4, 2.6)
+xytxt                          [0.05, 0.9]
+txt                            None
+xt_indices                     []
+E_Fermi                        None
+elim                           []
+skipk                          None
+ctxt                           'black'
+xt_labels                      []
+```
+```powershell
+❯ New-Figure -VasprunFile 'E:\Research\graphene_example\ISPIN_2\bands\vasprun.xml' -sBands -SavePDF 'fig.pdf' -SavePyFile 'fig.py'
+```
+You can edit the saved python file for further tweaking.
 
 --
 

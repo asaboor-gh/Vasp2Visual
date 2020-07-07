@@ -11,30 +11,38 @@ function Get-FigArgs {
         )
     $out = $null
     if($sBands.IsPresent){
-        [hashtable]$out=[ordered]@{command='quick_bplot'; skipk='None'; joinPathAt='[]'; elim='[]'; xt_indices='[]'; xt_labels='[]'; E_Fermi='None'; figsize='(3.4, 2.6)'; txt='None'; xytxt='[0.05,0.9]'; ctxt='black';}
+        [hashtable]$out=[ordered]@{skipk = "None";joinPathAt = "[]";elim = "[]";xt_indices = "[]";xt_labels = "[]";E_Fermi = "None";figsize = "(3.4, 2.6)";txt = "None";xytxt = "[0.05, 0.9]";ctxt = "'black'";}
     }
     if($sDOS.IsPresent){
-        [hashtable]$out=[ordered]@{command='quick_dos_lines';elim="[]"; include_dos='both'; elements="[[0]]"; orbs="[[0]]"; orblabels="['s']"; 
-        colors="['red']"; tdos_color="(0.8, 0.95, 0.8)"; linewidth=0.5; fill_area='True'; vertical='False'; E_Fermi='None'; figsize='(3.4, 2.6)';
-        txt='None'; xytxt="[0.05, 0.85]"; ctxt='black'; spin='both'; interpolate='False'; n=5; k=3; showlegend='True'; 
-        legend_kwargs="{'ncol': 4, 'anchor': (0, 1), 'handletextpad': 0.5, 'handlelength': 1, 'fontsize': 'small', 'frameon': True}"}
+        [hashtable]$out=[ordered]@{elim = "[]";include_dos = "'both'";elements = "[[0]]";orbs = "[[0]]";orblabels = "['s']";colors = "['red']";tdos_color = "(0.8, 0.95, 0.8)";linewidth = "0.5";fill_area = "True";vertical = "False";E_Fermi = "None";
+        figsize = "(3.4, 2.6)";txt = "None";xytxt = "[0.05, 0.85]";ctxt = "'black'";spin = "'both'";interpolate = "False";n = "5";k = "3";showlegend = "True";
+        legend_kwargs = "{'ncol': 4, 'anchor': (0, 1), 'handletextpad': 0.5, 'handlelength': 1, 'fontsize': 'small', 'frameon':True}";}
     }
     if($iRGB.IsPresent){
-
+        [hashtable]$out=[ordered]@{ions = "[0,]";orbs = "[[0,], [], []]"; orblabels = "['s', '', '']";mode = "'markers'"; elim = "[]";E_Fermi = "None";skipk = "None";joinPathAt = "[]";max_width = "5";
+        title = "None";xt_indices = "[0, -1]";xt_labels = "['Γ', 'M']";figsize = "None";interpolate = "False";n = "5";k = "3"}
     }
     if($iDOS.IsPresent){
-
+        [hashtable]$out=[ordered]@{elim = "[]";ions = "[0]";orbs = "[[0]]";orblabels = "['s']";colors = "['red']";tdos_color = "(0.5, 0.95, 0)";linewidth = "2";fill_area = "True";
+        vertical = "False";E_Fermi = "None";figsize = "None";spin = "'both'";interpolate = "False";n = "5";k = "3";title = "None"}
     }
     if($sColor.IsPresent){
-
+        [hashtable]$out=[ordered]@{skipk = "None";  joinPathAt = "[]";  elim = "[]";        elements = "[[0]]"; orbs = "[[0]]";     orblabels = "['s']";colors = "['red']"; max_width = "2.5";  
+        xt_indices = "[0, -1]"; xt_labels = "['$\\Gamma$', 'M']"; E_Fermi = "None"; showlegend = "True"; figsize = "(3.4, 2.6)"; txt = "None"; xytxt = "[0.05, 0.85]"; 
+        ctxt = "'black'"; spin = "'both'"; interpolate = "False"; n = "5"; k = "3";
+        legend_kwargs = "{'ncol': 4, 'anchor': (0, 0.85), 'handletextpad': 0.5, 'handlelength': 1, 'fontsize': 'small', 'frameon': True}";
+        }
     }
     if($sRGB.IsPresent){
-
+        [hashtable]$out=[ordered]@{skipk = "None"; joinPathAt = "[]"; elim = "[]"; elements = "[[0], [], []]";   orbs = "[[0], [], []]"; orblabels = "['Elem0-s', '', '']"; max_width = "2.5"; xt_indices = "[0, -1]"; xt_labels = "['$\\Gamma$', 'M']";
+        E_Fermi = "None";figsize = "(3.4, 2.6)";txt = "None";xytxt = "[0.05, 0.9]";ctxt = "'black'";uni_width = "False";interpolate = "False";spin = "'both'";n = "5";k = "3";scale_color = "True";    
+        }
     }
     $out
 }
 
 function New-Figure {
+    [CmdletBinding(DefaultParameterSetName='MPL')]
     param (
        # Input Vasprun.xml
        [Parameter()]$VasprunFile = './vasprun.xml',
@@ -60,7 +68,12 @@ function New-Figure {
 
     )
     $VasprunFile = $VasprunFile.replace('\','/').replace('\\','/')
-    
+    $parentDir = Split-Path -Path $VasprunFile
+
+    if($PSBoundParameters.ContainsKey('FigArgs')){
+    $kwargs = $FigArgs.GetEnumerator()|ForEach-Object{"{0} = {1}" -f $_.key,$_.Value}
+    $kwargs = "dict(`n" + "{0}" -f $($kwargs -join ",`n") + "`n)"
+    }else{$kwargs='dict()'}
 
     # Process
     if($sBands.IsPresent){$command = 'quick_bplot'}
@@ -78,11 +91,16 @@ function New-Figure {
     $save_options = @('SaveHTML','SaveMinHTML','SavePDF','SavePNG')
     $save_options | ForEach-Object {if($PSBoundParameters.ContainsKey($_)){$show = '#' + $show}}
     
-    $init = "import pivotpy as pp`nfig = pp.{0}()`n{1}`n{2}" -f $command,$save,$show
+    $check_file = Join-Path -Path $parentDir -ChildPath 'SysInfo.py'
+    if(Test-Path -Path $check_file){
+    $load = "pp.load_export(path = '{0}')" -f $VasprunFile
+    }else{$load = " '{0}' " -f $VasprunFile}  
 
+    $init = "import pivotpy as pp`nfig = pp.{0}(path_evr = {1}, **kwargs)`n{2}`n{3}" -f $command,$load,$save,$show
+    $init = "kwargs = {0}`n{1}" -f $kwargs,$init
     if($PSBoundParameters.ContainsKey('SavePyFile')){$init | Set-Content $SavePyFile}
     # Run it finally
-    $init|python
+    $init | python
 }
 Export-ModuleMember -Function 'Get-FigArgs'
 Export-ModuleMember -Function 'New-Figure'

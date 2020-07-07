@@ -7,3 +7,4 @@ Import-Module $PSScriptRoot\Beamer.psm1
 Import-Module $PSScriptRoot\DOS.psm1
 Import-Module $PSScriptRoot\Version2\ExtractXml.psm1
 Import-Module $PSScriptRoot\Version2\GeneralFunctions.psm1
+Import-Module $PSScriptRoot\Version2\PlotXml.psm1
