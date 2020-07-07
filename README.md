@@ -22,19 +22,21 @@ PS> Get-Command -Module Vasp2Visual
 ```
 CommandType     Name                                               Version    Source
 -----------     ----                                               -------    ------
-Function        Enable-SelectiveDynamics                           1.0.0.0    Vasp2Visual
-Function        Export-LOCPOT                                      1.0.0.0    Vasp2Visual
-Function        Export-VaspRun                                     1.0.0.0    Vasp2Visual
-Function        Export-VR2                                         1.0.0.0    Vasp2Visual
-Function        Find-GapOfBands                                    1.0.0.0    Vasp2Visual
-Function        Get-AlignedPotential                               1.0.0.0    Vasp2Visual
-Function        Get-DensityPlot                                    1.0.0.0    Vasp2Visual
-Function        Get-InteractivePlot                                1.0.0.0    Vasp2Visual
-Function        Get-KPath                                          1.0.0.0    Vasp2Visual
-Function        Get-Plot                                           1.0.0.0    Vasp2Visual
-Function        Get-Args                                           1.0.0.0    Vasp2Visual
-Function        Merge-ToSlab                                       1.0.0.0    Vasp2Visual
-Function        New-Presentation                                   1.0.0.0    Vasp2Visual
+Function        Enable-SelectiveDynamics                           1.0.3.0    Vasp2Visual
+Function        Export-LOCPOT                                      1.0.3.0    Vasp2Visual
+Function        Export-VaspRun                                     1.0.3.0    Vasp2Visual
+Function        Export-VR                                          1.0.3.0    Vasp2Visual
+Function        Get-FillingWeights                                 1.0.3.0    Vasp2Visual
+Function        Get-Summary                                        1.0.3.0    Vasp2Visual
+Function        Get-EigenVals                                      1.0.3.0    Vasp2Visual
+Function        Get-KPath                                          1.0.3.0    Vasp2Visual
+Function        Merge-ToSlab                                       1.0.3.0    Vasp2Visual
+Function        Get-FigArgs                                        1.0.3.0    Vasp2Visual
+Function        New-Figure                                         1.0.3.0    Vasp2Visual
+Function        New-Presentation                                   1.0.3.0    Vasp2Visual
+Function        Out-Path                                           1.0.3.0    Vasp2Visual
+Function        Read-BigFile                                       1.0.3.0    Vasp2Visual
+Function        Write-BigStream                                    1.0.3.0    Vasp2Visual
 ```
 
 ---
