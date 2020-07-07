@@ -76,6 +76,7 @@ function New-Figure {
     }else{$kwargs='dict()'}
 
     # Process
+    $command = 'quick_bplot' # Default Command if No switch given.
     if($sBands.IsPresent){$command = 'quick_bplot'}
     if($sDOS.IsPresent){$command = 'quick_dos_lines'}
     if($iRGB.IsPresent){$command = 'plotly_rgb_lines'}
