@@ -93,7 +93,7 @@ xt_labels                      []
 ```powershell
 ❯ New-Figure -VasprunFile 'E:\Research\graphene_example\ISPIN_2\bands\vasprun.xml' -sBands -FigArgs $x -SavePDF 'fig.pdf' -SavePyFile 'fig.py'
 ```
-You can edit the saved python file for further tweaking. 
+You can edit the saved python file for further tweaking. Also note that if you want a string placed in python, like `ctxt = 'red'` in `Get-FigArgs`, you have to modify it as `$x.ctxt = " 'red' "`, double qoutes for powershell and single qoutes will be written in python file.
 
 --
 
@@ -253,7 +253,7 @@ PS> Close-Writers #This will close all opened stream writers.
 
 Now you are able to use your own plotting method to get output, but you can instead use `Get-Plot` function to let it work automatically for you. Before going forward, lets get to know how many arguments are available and then you can just edit arguments.
 ```powershell
-PS> $x=Get-Args  # Use switches -DOS,-Plotly, Default retrurn is for basic plots.
+PS> $x=Get-PlotArgs  # Use switches -DOS,-Plotly, Default retrurn is for basic plots.
 PS> $x.E_Limit="[-10,15]" #sets your defined energy limit in plot
 PS> $x.ticklabels  #will show up ticklabels and you can edit
 #After editing all keys in $x.Key for your system, you can run the following cmdlet to get plot
