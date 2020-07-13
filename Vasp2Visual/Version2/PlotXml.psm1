@@ -101,13 +101,13 @@ function New-Figure {
     $init = "kwargs = {0}`n{1}" -f $kwargs,$init
     if($PSBoundParameters.ContainsKey('SavePyFile')){$init | Set-Content $SavePyFile}
     # Run it finally Using Default python on System preferably.
-    if(Get-Command python){
+    if($null -ne (Get-Command python -ErrorAction SilentlyContinue)){
         Write-Host ("Running using {0}" -f (python -V)) -ForegroundColor Green
         $init | python
-    }elseif(Get-Command python3*){
+    }elseif($null -ne (Get-Command python3* -ErrorAction SilentlyContinue)){
         Write-Host ("Running using {0}" -f (python3 -V)) -ForegroundColor Green
         $init | python3
-    }elseif(Get-Command python2*){
+    }elseif($null -ne (Get-Command pytnon2* -ErrorAction SilentlyContinue)){
         Write-Host ("Running using {0}" -f (python2 -V)) -ForegroundColor Green
         $init | python2
     }else{
