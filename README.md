@@ -1,5 +1,8 @@
 [`Vasp2Visual 🟢`](https://massgh.github.io/Vasp2Visual/) &nbsp;
 [`pivotpy 🔴`](https://massgh.github.io/pivotpy/) &nbsp;
+[`Interactive Plot`](https://plotly.com/~massgh/36/) &nbsp;
+[`Jupyter Notebook`](https://plotly.com/~massgh/64/pivotpy-python-processing-tool-for-va/) &nbsp;
+[`Grid Plot`](https://massgh.github.io/InteractiveHTMLs/gridplot.html) &nbsp;
 [![Run in Azure](https://notebooks.azure.com/launch.png)](https://testazurenotebooks-massaz.notebooks.azure.com/j/notebooks/index.ipynb)
 # Vasp2Visual
 > A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command `Export-VaspRun` in a folder containing `vasprun.xml`. 
@@ -42,7 +45,7 @@ Function        Write-BigStream                                    1.0.3.0    Va
 ---
 
 ## Version2 is Here!
-> Version2 provides extra 16 commands like `Export-VR2 -switches` which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own). 
+> Version2 provides extra commands like `Export-VR2 -switches` which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own).
 
 --
 
@@ -61,7 +64,8 @@ Function        Write-BigStream                                    1.0.3.0    Va
 --
 
 ## Plot using `New-Figure` command
-There are multiple switches for interactive and static plots including `sRGB`, `iRGB` etc. You can access all switches and parameters using `Tab`.
+There are multiple switches for interactive and static plots including `sRGB`, `iRGB` etc. You can access all switches and parameters using `Tab`. 
+> Note: You need python >= 3.6 to use this command and [pivotpy](https://massgh.github.io/pivotpy/) module.
 ```powershell
 ❯ Get-Help New-Figure
 
