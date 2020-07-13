@@ -1,9 +1,9 @@
 ﻿#ISPIN=1 and LORBIT=10,11 work only
 $timer = [Diagnostics.Stopwatch]::StartNew() #Stopwatch
 $xml= New-Object Xml  #To load files bigger than 0.5GB.
-$xml.Load((Convert-Path .\vasprun.xml))
-#$xml = [xml](get-content .\vasprun.xml) #for simple files.
-Write-Host "$([Math]::Round($($timer.Elapsed.TotalSeconds),3)) seconds elapsed while loading vasprun.xml($([Math]::Round(((Get-Item .\vasprun.xml).length/1MB),3)) MB)" -ForegroundColor Cyan
+$xml.Load((Convert-Path ./vasprun.xml))
+#$xml = [xml](get-content ./vasprun.xml) #for simple files.
+Write-Host "$([Math]::Round($($timer.Elapsed.TotalSeconds),3)) seconds elapsed while loading vasprun.xml($([Math]::Round(((Get-Item ./vasprun.xml).length/1MB),3)) MB)" -ForegroundColor Cyan
 $timer.Stop();
 $NKPT=$xml.modeling.calculation.eigenvalues.array.set.set.set.Length
 $NBANDS=$xml.modeling.calculation.eigenvalues.array.set.set.set[0].r.Length
@@ -12,20 +12,21 @@ $TypeION=[int]$xml.modeling.atominfo.types.Trim()
 $eFermi=[Math]::Round($($xml.modeling.calculation.dos.i.'#text'.Trim()),4)
 $loc=Get-Location
 $sys=$xml.modeling.incar.i[0].'#text'.Trim() #Returns system name.
-$ISPIN=((Select-String 'ISPIN' .\vasprun.xml|Out-String).Split("<")[-2]).Split(" ")[-1].Trim()
+$ISPIN=((Select-String 'ISPIN' ./vasprun.xml|Out-String).Split("<")[-2]).Split(" ")[-1].Trim()
 $Global:Writers=@(); #collect all streamwriters into a global array
 #+++++++++++++++++++Function to use in vasprunOrbitals.ps1+++++++++++++++++++
 function Get-VaspBands($ibzkpt){  #Bands Calculations.
-. $PSScriptRoot\vasprunKpts.ps1 #calling script from same level
-. $PSScriptRoot\vasprunEigens.ps1
-$writ = New-Object System.IO.StreamWriter "$($loc)\Bands.txt"; $Writers+=$writ
+. $PSScriptRoot/vasprunKpts.ps1 #calling script from same level
+. $PSScriptRoot/vasprunEigens.ps1
+$fileB = Join-Path -Path $loc -ChildPath "Bands.txt"
+$writ = New-Object System.IO.StreamWriter $fileB; $Writers+=$writ
 For ($j=0; $j -le ($NKPT-$ibzkpt); $j++) { 
 $kxyz=$xml.modeling.kpoints.varray.v[$j+$ibzkpt-1]
 if($j.Equals(0)){$kxyz="#$sys#k_x      k_y      k_z"}
-$x=(Get-Content .\Kpts.txt)[$j]
-$y=(Get-Content .\Eigenvals.txt)[$j]
+$x=(Get-Content ./Kpts.txt)[$j]
+$y=(Get-Content ./Eigenvals.txt)[$j]
 $writ.WriteLine("$kxyz     $x     $y")  #space fixed.
-#Add-Content -Path  .\Bands.txt -Value "   $x    $y"
+#Add-Content -Path  ./Bands.txt -Value "   $x    $y"
 }
 $writ.Flush(); $writ.Close();  #wtiter for Bands.txt
 }
@@ -63,14 +64,16 @@ $ibzkpt=0;$NKPT=+1;$from=0;$NBANDS=0;$bandInterval=@();$nTot=0;$filled=0;} #Upda
 #GetBands
 Get-VaspBands -ibzkpt $ibzkpt   #++++++++++++++++++++++++++++++
 #=========================Getting Min Max Energies=========
-$E_array=(Get-Content .\Eigenvals.txt|Where-Object{$_ -notmatch 'B'})|ForEach-Object{
+$E_array=(Get-Content ./Eigenvals.txt|Where-Object{$_ -notmatch 'B'})|ForEach-Object{
     $_.Split()|Where-Object{$_ -and $_.Trim()}}
 $E_core=($E_array|Measure-Object -Minimum).Minimum
 $E_top=($E_array|Measure-Object -Maximum).Maximum
-Remove-Item .\Kpts.txt; Remove-Item .\Eigenvals.txt; # Remove unnecessary files
+Remove-Item ./Kpts.txt; Remove-Item ./Eigenvals.txt; # Remove unnecessary files
 #=====================================================
-$sw = New-Object System.IO.StreamWriter "$loc\Projection.txt" #writer for Projections.
-$dsw = New-Object System.IO.StreamWriter "$loc\pDOS.txt" #writer for DOS
+$fileP = Join-Path -Path $loc -ChildPath "Projection.txt"
+$filepD = Join-Path -Path $loc -ChildPath "pDOS.txt"
+$sw = New-Object System.IO.StreamWriter $fileP #writer for Projections.
+$dsw = New-Object System.IO.StreamWriter $filepD #writer for DOS
 $Writers+=$sw; $Writers+=$dsw; #Add to global writers
 Write-Host "Writing ALL-IONS Projections on ONE-FILE in sequence ..." -ForegroundColor Red
 $share=0; #for progress bar in vasprunOrbitals
@@ -87,7 +90,7 @@ $name=$xml.modeling.atominfo.array[1].set.rc[$n].c[1].Trim()
 if($n.Equals(0)){$ionstart=0} #Make sure first element starts form Zero
 #Execute projection Script.+++++++++++++++++++
 $ElemIndex+=$($ElemIndex[-1]+$ionTotal); $ElemName+="`'$name`'"
-. $PSScriptRoot\vasprunOrbitalsPerION.ps1
+. $PSScriptRoot/vasprunOrbitalsPerION.ps1
  #+++++++++++++++++++++++++++++++++++++++
 [int]$ionstart=$($ionstart-(-$ionTotal)) ; #Update index/ for next element.
 Write-Host " Done ✔: $([Math]::Round($($timer.Elapsed.TotalMinutes),3)) minutes elapsed." -ForegroundColor Cyan
@@ -97,13 +100,13 @@ $dsw.Close(); #writer for DOS.
 $timer.Stop() #close stopwatch
 $tTotal= [Math]::Round($($timer.Elapsed.TotalMinutes),3); 
 Write-Host "The process completed in $tTotal minutes." -ForegroundColor Cyan
-if($NBANDS.Equals(0)){Remove-Item .\Bands.txt -Force -ErrorAction Ignore; 
-Remove-Item .\Projection.txt -Force -ErrorAction Ignore;} # Remove unnecessary files
+if($NBANDS.Equals(0)){Remove-Item ./Bands.txt -Force -ErrorAction Ignore; 
+Remove-Item ./Projection.txt -Force -ErrorAction Ignore;} # Remove unnecessary files
 #Write Information of system only in Bands Folder
 if($NBANDS.Equals(0)){
 Write-Host "In DOS folder, no bands are collected! E-fermi is written in header of tDOS.txt" -ForegroundColor Red
 }Else{
-$infoFile= New-Item .\SysInfo.py  -Force #Create file
+$infoFile= New-Item ./SysInfo.py  -Force #Create file
 Write-Host "Writing System information on file [$($infoFile.BaseName)] ..." -ForegroundColor Yellow -NoNewline
 $ElemIndex=$ElemIndex -Join ', '; $ElemName=$ElemName -Join ', '; #Elements Names and Indices Intervals
 $infoString=@" 
@@ -119,7 +122,7 @@ Write-Host " SYSTEM: $sys, NIONS: $NION, NBANDS: $nTot, Filled: $filled, NKPTS: 
 Foreach($stwr in $Writers){$stwr.Close()} #Closes all Stream-Writers.
 # Crsytal System Information file.
 $volume=$xml.modeling.structure[2].crystal.i.'#text'.Trim()
-$basis=$xml.modeling.structure[2].crystal.varray.v[0..2]|ForEach-Object{$_.trim() -replace '\s+',','}
+$basis=$xml.modeling.structure[2].crystal.varray.v[0..2]|ForEach-Object{$_.trim() -replace '/s+',','}
 $basis=$basis -join '],['
 $LatticeString=@"
 basis=[[$($basis)]];

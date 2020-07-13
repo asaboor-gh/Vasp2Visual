@@ -14,10 +14,11 @@
   Change: Initial script development
   #>
 Function Export-VaspRun {
-if(-not $(Test-Path -Path .\vasprun.xml)){
+if(-not $(Test-Path -Path ./vasprun.xml)){
 Write-Host "The file 'vasprun.xml' not found" -ForegroundColor Red; 
 }Else{
-. $PSScriptRoot\vasprunProjectedBands.ps1
+  Write-Host "Try new command 'Export-VR' with multiple options." -ForegroundColor Green
+. $PSScriptRoot/vasprunProjectedBands.ps1
 }
 }
 
@@ -66,9 +67,10 @@ Param([Parameter()][switch]$HalfColumnWide,
 [Parameter()][switch]$BandsDOS,#[Parameter()][switch]$DOS, 
 [Parameter()][switch]$Bands,
 [hashtable]$PlotArguments)  #Get Hashtable from function Get-PlotArguments
-if(-not (Test-Path .\Bands.txt)){Write-Host "Required files not found. Generating using 'Export-VaspRun' ..." -ForegroundColor Green;
+Write-Host "Try 'New-Figure [-sRGB] -*'" -ForegroundColor Green
+if(-not (Test-Path ./Bands.txt)){Write-Host "Required files not found. Generating using 'Export-VaspRun' ..." -ForegroundColor Green;
     Export-VaspRun;}
-    if($(Test-Path .\Bands.txt)){ #checks if file generated.
+    if($(Test-Path ./Bands.txt)){ #checks if file generated.
     Write-Host "Files now exist. Plotting ..." -ForegroundColor Yellow;
 #making a plot file in order
 $variablesList=$PlotArguments.GetEnumerator()| 
@@ -77,7 +79,7 @@ $variablesList=$PlotArguments.GetEnumerator()|
 $consoleInput=@"
 $variablesList
 "@
-. $PSScriptRoot\BDPlotFile.ps1
+. $PSScriptRoot/BDPlotFile.ps1
 if($HalfColumnWide.IsPresent){$WidthToColumnRatio=0.5}Else{$WidthToColumnRatio=1.0}
 if($ProjectedBandsDOS.IsPresent){$FileInput=$FileString}
 if($BandsDOS.IsPresent){$FileInput=$SimpleFileString}
@@ -89,15 +91,15 @@ $($consoleInput)
 WidthToColumnRatio=$($WidthToColumnRatio); 
 $($FileInput)
 "@
-$pythonFileContent|Set-Content .\Plot.py
-python .\Plot.py #strat plotting
+$pythonFileContent|Set-Content ./Plot.py
+python ./Plot.py #strat plotting
 } #if block ends
 }
 Function Export-LOCPOT{
-  if(-not $(Test-Path -Path .\LOCPOT)){
+  if(-not $(Test-Path -Path ./LOCPOT)){
     Write-Host "'LOCPOT' not found" -ForegroundColor Red; 
     }Else{
-. $PSScriptRoot\LOCPOT.ps1}
+. $PSScriptRoot/LOCPOT.ps1}
 }
 Export-ModuleMember -Function 'Export-VaspRun'
 Export-ModuleMember -Function 'Out-Path'
@@ -105,3 +107,4 @@ Export-ModuleMember -Function 'Close-Writers'
 Export-ModuleMember -Function 'Get-PlotArguments'
 Export-ModuleMember -Function 'Get-Plot'
 Export-ModuleMember -Function 'Export-LOCPOT'
+Export-ModuleMember -Function 'Get-Args'

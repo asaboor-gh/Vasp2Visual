@@ -78,7 +78,8 @@ function Write-KptsBands {
     Write-Progress "Writing bands and kpoints on [Bands.txt] ..."
     $sys=$((Get-Summary -XmlObject $XmlObject).SYSTEM) #Get System automatically
     $loc=Get-Location #location is manadatory for streamwriter.
-    $bandswriter = New-Object System.IO.StreamWriter "$loc\Bands.txt"
+    $filew = Join-Path -Path $loc -ChildPath "Bands.txt"
+    $bandswriter = New-Object System.IO.StreamWriter $filew
     if($KptsObject.Count*2 -eq $BandsObject.Count-2){ #check Spin-polarized
     $new_kp=[System.Collections.ArrayList]@($("{0,-17}{1,7}{2,17}{3,11}{4,2}" -f "#$sys#su#kx","ky","kz","k",""))
     $KptsObject|ForEach-Object{[void]$new_kp.Add($_)}
@@ -152,7 +153,7 @@ function Read-AsXml {
     param (
         # Insert path or url to vasprun.xml file. By default it is current folder.
         # This is kept seperate to load xml once and use in other commands.
-        [Parameter(ValueFromPipeline=$true)]$VasprunFile=".\vasprun.xml"
+        [Parameter(ValueFromPipeline=$true)]$VasprunFile="./vasprun.xml"
     )
     Write-Progress "Reading $VasprunFile ..."
     if($VasprunFile.Contains('vasprun.xml')){
@@ -223,7 +224,8 @@ function Write-TotalDOS {
     )
     Write-Progress "Writing Total DOS on [tDOS.txt] ..."
     $loc=(Get-Location) #for streamwriter.
-    $tsw = New-Object System.IO.StreamWriter "$loc\tDOS.txt" #writer for DOS
+    $filew = Join-Path -Path $loc -ChildPath "tDOS.txt"
+    $tsw = New-Object System.IO.StreamWriter $filew #writer for DOS
     $TotalDOS|ForEach-Object{$_}|ForEach-Object{$tsw.WriteLine($_)} #expand and write.
     $tsw.Flush();$tsw.Close();
 }
@@ -336,10 +338,11 @@ function Write-PartialDOS {
       [Parameter(ValueFromPipeline=$true)][xml]$XmlObject=$(Read-AsXml)
     )
     $loc=(Get-Location) #for streamwriter.
+    $filew = Join-Path -Path $loc -ChildPath "pDOS.txt"
     $info=Get-Summary -XmlObject $XmlObject
     if($info.ISPIN -eq 1 -and $SpinSet -eq 1){ #Avoid writing else.
         Write-Progress "Writing Partial DOS on [pDOS.txt] ..."
-        $psw = New-Object System.IO.StreamWriter "$loc\pDOS.txt" #writer for Partial DOS
+        $psw = New-Object System.IO.StreamWriter $filew #writer for Partial DOS
         $dosUp=(Get-PartialDOS -XmlObject $XmlObject -SpinSet 1)
         $head="#$($dosUp.SYSTEM),Fields: [$($dosUp.Fields)], Shape: (NION*[GridSize],Fields) = ($($dosUp.NION)*[$($dosUp.GridSize)],$($dosUp.Fields.Count))"
         $psw.WriteLine($head)
@@ -349,7 +352,7 @@ function Write-PartialDOS {
     }
     if($info.ISPIN -eq 2 -and $SpinSet -eq 1){ #Avoid writing else.
         Write-Progress "Writing Partial DOS Up/Down on [pDOS.txt] ..."
-        $psw = New-Object System.IO.StreamWriter "$loc\pDOS.txt" #writer for Partial DOS
+        $psw = New-Object System.IO.StreamWriter $filew #writer for Partial DOS
         $dosUp=(Get-PartialDOS -XmlObject $XmlObject -SpinSet 1)
         $dosDown=(Get-PartialDOS -XmlObject $XmlObject -SpinSet 2)
         $head="#$($dosUp.SYSTEM),Fields: [$($dosUp.Fields)], Shape: (ISPIN*[NION*[GridSize]],Fields) = (2*$($dosUp.NION)*[$($dosUp.GridSize)],$($dosUp.Fields.Count))"
@@ -362,9 +365,10 @@ function Write-PartialDOS {
     if($SpinSet -ne 1){ #Avoid writing else.
         $dos=(Get-PartialDOS -XmlObject $XmlObject -SpinSet $SpinSet)
         $head="#$($dos.SYSTEM),Fields: [$($dos.Fields)], SpinSet: $($dos.SpinSet), Shape: (NION*[GridSize],Fields) = ($($dos.NION)*[$($dos.GridSize)],$($dos.Fields.Count))"
-        $file="$loc"+"\Spin"+$dos.SpinSet+"Dos.txt"
-        Write-Progress "Writing Partial DOS on [$file] ..."
-        $ssw = New-Object System.IO.StreamWriter $file #writer for Partial DOS
+        $endName="Spin"+$dos.SpinSet + "Dos.txt"
+        $filew = Join-Path -Path $loc -ChildPath $endName
+        Write-Progress "Writing Partial DOS on [$filew] ..."
+        $ssw = New-Object System.IO.StreamWriter $filew #writer for Partial DOS
         $ssw.WriteLine($head)
         $dos.Data| ForEach-Object{$ssw.WriteLine($_)}
         $ssw.Flush();$ssw.Close();
@@ -387,9 +391,10 @@ function Write-Projection {
     $skip=[int]$SkipNKPTS;$range=@($SkipSelectNBANDS);
     $info=(Get-Summary -XmlObject $XmlObject)
     $loc=Get-Location #location is manadatory for streamwriter.
+    $filew = Join-Path -Path $loc -ChildPath "Projection.txt"
     if($info.ISPIN -eq 1 -and $SpinSet -eq 1){ #Avoid writing else.
         Write-Progress "Writing Bands Projection on [Projection.txt] ..."
-        $psw = New-Object System.IO.StreamWriter "$loc\Projection.txt" #writer for Projection
+        $psw = New-Object System.IO.StreamWriter $filew #writer for Projection
         $proUp=$(Get-BandsProSet -XmlObject $XmlObject -SkipNKPTS $skip -SkipSelectNBANDS $range[0],$range[1] -SpinSet 1)
         $head="#$($proUp.SYSTEM),Fields: [$($proUp.Fields)], Shape: (NION*[NKPTS],NBANDS*[Fields]) = ($($proUp.NION)*[$($proUp.NKPTS)],$($proUp.NBANDS)*[$($proUp.Fields.Count)])"
         $psw.WriteLine($head)
@@ -399,7 +404,7 @@ function Write-Projection {
     }
     if($info.ISPIN -eq 2 -and $SpinSet -eq 1){ #Avoid writing else.
         Write-Progress "Writing Bands Projection on [Projection.txt] ..."
-        $psw = New-Object System.IO.StreamWriter "$loc\Projection.txt" #writer for Projection
+        $psw = New-Object System.IO.StreamWriter $filew #writer for Projection
         $proUp=$(Get-BandsProSet -XmlObject $XmlObject -SkipNKPTS $skip -SkipSelectNBANDS $range[0],$range[1] -SpinSet 1)
         $proDown=$(Get-BandsProSet -XmlObject $XmlObject -SkipNKPTS $skip -SkipSelectNBANDS $range[0],$range[1] -SpinSet 2)
         $head="#$($proUp.SYSTEM),Fields: [$($proUp.Fields)], Shape: (ISPIN*[NION*[NKPTS]],NBANDS*[Fields]) = ($($proUp.ISPIN)[$($proUp.NION)*[$($proUp.NKPTS)]],$($proUp.NBANDS)*[$($proUp.Fields.Count)])"
@@ -412,9 +417,10 @@ function Write-Projection {
     if($SpinSet -ne 1){ #Avoid writing else.
         $pro=$(Get-BandsProSet -XmlObject $XmlObject -SkipNKPTS $skip -SkipSelectNBANDS $range[0],$range[1] -SpinSet $SpinSet)
         $head="#$($pro.SYSTEM),Fields: [$($pro.Fields)], SpinSet: $($pro.SpinSet), Shape: (NION*[NKPTS],NBANDS*[Fields]) = ($($pro.NION)*[$($pro.NKPTS)],$($pro.NBANDS)*[$($pro.Fields.Count)])"
-        $file="$loc"+"\Spin"+$pro.SpinSet+"Projection.txt"
-        Write-Progress "Writing Bands Projection on [$file] ..."
-        $ssw = New-Object System.IO.StreamWriter $file #writer for Bands Projection
+        $endName="Spin"+$pro.SpinSet+"Projection.txt"
+        $filew = Join-Path -Path $loc -ChildPath $endName
+        Write-Progress "Writing Bands Projection on [$filew] ..."
+        $ssw = New-Object System.IO.StreamWriter $filew #writer for Bands Projection
         $ssw.WriteLine($head)
         $pro.Data| ForEach-Object{$ssw.WriteLine($_)}
         $ssw.Flush();$ssw.Close();
@@ -449,7 +455,7 @@ function Export-VR {
     [cmdletbinding()]
     param (
         # Path to vasprun.xml or url.
-        [Parameter(ValueFromPipeline=$true)]$InputFile=".\vasprun.xml",
+        [Parameter(ValueFromPipeline=$true)]$InputFile="./vasprun.xml",
         # Skip initial kpoints
         [Parameter()][int]$SkipK=-1,
         # Insert number of required filled bands.
@@ -463,7 +469,7 @@ function Export-VR {
         Write-Host "File $InputFile not found"
     }Else{
         If($OnlyDOS.IsPresent){$getonlydos=$True}Else{$getonlydos=$False}
-        . $PSScriptRoot\MainVR2.ps1
+        . $PSScriptRoot/MainVR2.ps1
     }
 
 }
@@ -474,7 +480,7 @@ function Get-SkipSelectBands {
             Powershell is good at selecting objects as -Skip -First scheme basis. 
             You have to provide how many Filled and Empty Bands you want to collect.
         .EXAMPLE
-             $xml=Read-AsXml -VasprunFile Path\To\vasprun.xml
+             $xml=Read-AsXml -VasprunFile Path/To/vasprun.xml
             Get-SkipSelectBands -XmlObject $xml -MaxFilled 2 -MaxEmpty 2
             Returns (skipbands,NBANDS)=(268,4)
     #>

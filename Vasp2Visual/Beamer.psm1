@@ -173,9 +173,11 @@ $end
 "@}else{
 	Write-Host "Use [-Blank] or [-Template] switch with command [New-Presentation]" -ForegroundColor Yellow
 break;}
-Copy-Item $PSScriptRoot\Presentation -Recurse -Destination .
-Set-Location "$(Get-Location)\Presentation"
-$FileContent|Set-Content .\main.tex -Force
+Copy-Item $PSScriptRoot/Presentation -Recurse -Destination .
+$loc = Get-Location
+$destdir = Join-Path -Path $loc -ChildPath "Presentation"
+Set-Location $destdir
+$FileContent|Set-Content ./main.tex -Force
 Write-Host "Open [main.tex] or [Reveal-Markdown/reveal.md] to get LATEX or HTML presntations respectively.
 [reveal.md] will only work if you have installed an extension https://github.com/evilz/vscode-reveal on VSCode." -ForegroundColor Green
 }

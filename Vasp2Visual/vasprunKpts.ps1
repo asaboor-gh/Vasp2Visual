@@ -1,11 +1,12 @@
 ﻿#$xml= New-Object Xml  #To load files bigger than 0.5GB.
-#$xml.Load((Convert-Path .\vasprun.xml))
-#$xml = [xml](get-content .\vasprun.xml)
+#$xml.Load((Convert-Path ./vasprun.xml))
+#$xml = [xml](get-content ./vasprun.xml)
 #$NKPT=$xml.modeling.calculation.eigenvalues.array.set.set.set.Length
 [float]$sum=0.00001;# To make Round
 $loc=Get-Location
-#Add-Content -Path  .\Kpts.txt -Value "$sum"
-$swk = New-Object System.IO.StreamWriter "$($loc)\Kpts.txt"
+$filew = Join-Path -Path $loc -ChildPath "Kpts.txt"
+#Add-Content -Path  ./Kpts.txt -Value "$sum"
+$swk = New-Object System.IO.StreamWriter $filew
 $Writers+=$swk;
 $swk.WriteLine("Reference")
 #Write-Host "Type 0 to Include all KPOINTS, otherwise 
@@ -20,10 +21,10 @@ if($a -eq $ibzkpt){$ref=$val} #set reference to zero
 $old=$com; 
 $sum+=$val;
 $value= "{0:n4}" -f $([Math]::Round($($sum-$ref),4)) #formatting decimal places
-#Add-Content -Path  .\Kpts.txt -Value "$sum"
+#Add-Content -Path  ./Kpts.txt -Value "$sum"
 $swk.WriteLine("$value")
 }
 $swk.Close()
-$content = Get-Content -Path .\Kpts.txt   #Replacing fist line by a comment.
+$content = Get-Content -Path ./Kpts.txt   #Replacing fist line by a comment.
 $content[0]="        [k_i-k_0]"
-$content | Set-Content -Path .\Kpts.txt
+$content | Set-Content -Path ./Kpts.txt

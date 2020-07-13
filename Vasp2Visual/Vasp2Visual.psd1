@@ -4,7 +4,7 @@
 @{
     RootModule='RootModule.psm1'
     # Version number of this module.
-    ModuleVersion = '1.0.4.0'   
+    ModuleVersion = '1.0.5.0'   
     # Author of this module
     Author = 'Abdul Saboor'
     GUID = 'e6228475-2920-41ae-be19-934548eb19ce'

@@ -1,5 +1,5 @@
 $timer = [Diagnostics.Stopwatch]::StartNew() #Stopwatch
-#$InputFile=".\vasprun.xml" #This variable is supplied via function.
+#$InputFile="./vasprun.xml" #This variable is supplied via function.
 #$SkipK,$MaxFilled, $MaxEmpty are provided from calling function Export-VR2
 $XmlObject=(Read-AsXml -VasprunFile $InputFile)
 $loadtime=$timer.Elapsed.TotalSeconds
@@ -57,7 +57,7 @@ Write-Host "The process completed in $tTotal seconds." -ForegroundColor Cyan
 if($NBANDS.Equals(0)){
     Write-Host "No bands are collected for -OnlyDOS switch!" -ForegroundColor Red
     }
-$infoFile= New-Item .\SysInfo.py  -Force #Create file
+$infoFile= New-Item ./SysInfo.py  -Force #Create file
 Write-Host "Writing System information on file [$($infoFile.BaseName)] ..." -ForegroundColor Yellow -NoNewline
 $ElemIndex=$info.ElemIndex -Join ', '; $ElemName=$info.ElemName -Join ', '; #Elements Names and Indices Intervals
 $infoString= @" 

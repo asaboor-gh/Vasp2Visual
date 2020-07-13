@@ -2,12 +2,12 @@
 [CmdletBinding()]
 Param(
 [Parameter(Mandatory="True")][int]$BandNumber)
-if(-not (Test-Path .\Bands.txt)){Write-Host "'Bands.txt' not found. Generating it using 'Export-VaspRun' ..." -ForegroundColor Green;
+if(-not (Test-Path ./Bands.txt)){Write-Host "'Bands.txt' not found. Generating it using 'Export-VaspRun' ..." -ForegroundColor Green;
     Export-VaspRun;}
-    if($(Test-Path .\Bands.txt)){ #checks if file generated.
+    if($(Test-Path ./Bands.txt)){ #checks if file generated.
     Write-Host "'Bands.txt' exists. Fetching Info ..." -ForegroundColor Yellow;
 
-$data= (Get-Content .\Bands.txt|Select-Object -Skip 1);
+$data= (Get-Content ./Bands.txt|Select-Object -Skip 1);
 $actualIndex=[int]$($BandNumber+3)
 $arr =New-Object 'object[]' $data.Count
 if($BandNumber -gt 0){
@@ -40,11 +40,11 @@ Function Measure-Distance{
 [CmdletBinding()]
 Param(
 [Parameter(Mandatory="True")][array]$K1B1_K2B2)
-if(-not (Test-Path .\Bands.txt)){Write-Host "'Bands.txt' not found. Generating it using 'Export-VaspRun' ..." -ForegroundColor Green;
+if(-not (Test-Path ./Bands.txt)){Write-Host "'Bands.txt' not found. Generating it using 'Export-VaspRun' ..." -ForegroundColor Green;
     Export-VaspRun;}
-    if($(Test-Path .\Bands.txt)){ #checks if file generated.
+    if($(Test-Path ./Bands.txt)){ #checks if file generated.
     Write-Host "'Bands.txt' exists. Calculating ..." -ForegroundColor Yellow;
-$data= (Get-Content .\Bands.txt|Select-Object -Skip 1);
+$data= (Get-Content ./Bands.txt|Select-Object -Skip 1);
 $First=($data[[int]$K1B1_K2B2[0][0]].split()|Where-Object {$_});
 $Second=($data[[int]$K1B1_K2B2[1][0]].split()|Where-Object {$_});
 $K1=$First[3];$E1=$First[[int]($K1B1_K2B2[0][1]+3)];
@@ -59,11 +59,11 @@ Function Get-IndexedPlot{
 [CmdletBinding()] Param(
 [Parameter(Mandatory="True")][array]$E_Limit,[Parameter()]$xTickDistance=10)  #Get Hashtable from function Get-PlotArguments
 $variablesList="E_Limit=[$($E_Limit -join ',')]; distance=$xTickDistance;"
-if(-not (Test-Path .\Bands.txt)){Write-Host "'Bands.txt' not found. Generating it using 'Export-VaspRun' ..." -ForegroundColor Green;
+if(-not (Test-Path ./Bands.txt)){Write-Host "'Bands.txt' not found. Generating it using 'Export-VaspRun' ..." -ForegroundColor Green;
     Export-VaspRun;}
-    if($(Test-Path .\Bands.txt)){ #checks if file generated.
+    if($(Test-Path ./Bands.txt)){ #checks if file generated.
     Write-Host "'Bands.txt' exists. Plotting ..." -ForegroundColor Yellow;
-$systemInfo=(Get-Content .\SysInfo.txt)[0,1]
+$systemInfo=(Get-Content ./SysInfo.txt)[0,1]
 $plotlines=@'
 #====No Edit Below Except Last Few Lines of Legend and File Paths in np.loadtxt('Path/To/File')=====
 #====================Loading Packages==============================
@@ -104,9 +104,9 @@ $($variablesList)
 $($systemInfo)
 $($plotlines)
 "@
-$pythonFileContent|Set-Content .\IndexedPlot.py
-python .\IndexedPlot.py #strat plotting
-.\IndexedPlot.pdf
+$pythonFileContent|Set-Content ./IndexedPlot.py
+python ./IndexedPlot.py #strat plotting
+./IndexedPlot.pdf
 } #test-path block ends
 }
 
@@ -114,7 +114,7 @@ Function Get-KPath{
     [CmdletBinding()]
     Param([Parameter(Mandatory="True",Position=0)][array]$KptsArray_nCross3,
     [Parameter(Mandatory="True",Position=1)][int]$nPerInterval=25)
-    Remove-Item .\KPath.txt -Force -ErrorAction Ignore
+    Remove-Item ./KPath.txt -Force -ErrorAction Ignore
     $KPTS=@($KptsArray_nCross3)
     [int]$N=$KPTS.Count; [int]$steps=$nPerInterval
     $steps=$($steps-1); #
@@ -126,20 +126,20 @@ Function Get-KPath{
     $dy=($values[1][1]-$values[0][1])/$steps
     $dz=($values[1][2]-$values[0][2])/$steps
     $point= "$("{0,8:n4}" -f $values[0][0])    $("{0,8:n4}" -f $values[0][1])     $("{0,8:n4}" -f $values[0][2])       0"
-    $point|Add-Content .\KPath.txt
+    $point|Add-Content ./KPath.txt
     $sum=$values[0][0],$values[0][1],$values[0][2]
     for($x=1; $x -le ($steps-1); $x++){
     $sum[0]=[Math]::Round($dx+$sum[0],5); $sum[0]="{0,8:n4}" -f  $($sum[0])
     $sum[1]=[Math]::Round($dy+$sum[1],5);  $sum[1]="{0,8:n4}" -f  $($sum[1])
     $sum[2]=[Math]::Round($dz+$sum[2],5); $sum[2]="{0,8:n4}" -f $($sum[2])
     $point= "$($sum[0])    $($sum[1])     $($sum[2])     $("{0,8:n4}" -f 0)"
-    $point|Add-Content .\KPath.txt
+    $point|Add-Content ./KPath.txt
     } $kpt1=$kpt2 #switch
     $point= "$("{0,8:n4}" -f $values[1][0])    $("{0,8:n4}" -f $values[1][1])     $("{0,8:n4}" -f $values[1][2])       0"
-    $point|Add-Content .\KPath.txt
+    $point|Add-Content ./KPath.txt
     }
     Write-Host "File [KPath.txt] created. Output copied to clipboard." -ForegroundColor DarkCyan
-    Set-Clipboard (Get-Content .\KPath.txt)
+    Set-Clipboard (Get-Content ./KPath.txt)
     }
 
 Function Format-DataInFile{

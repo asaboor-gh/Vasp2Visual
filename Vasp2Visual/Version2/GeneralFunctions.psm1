@@ -5,7 +5,7 @@ function Read-BigFile{
     Returns a range of lines from a big file. Use Get-Content for small files.
     StremReader requires Absolute path.
     .EXAMPLE
-        Read-BigFile -AbsPath E:\Research\Current\pDOS.txt -StopIndex 5
+        Read-BigFile -AbsPath E:/Research/Current/pDOS.txt -StopIndex 5
         You can use -StartIndex to provide a range to read.
     #>
     [CmdletBinding()]
@@ -38,9 +38,9 @@ function Write-BigStream{
     Writes a given array to a file either on one line or as given object.
     StremWriter requires Absolute path.
     .EXAMPLE
-        $x=Read-BigFile -AbsPath E:\Research\Current\pDOS.txt -StopIndex 5
-        Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt
-        Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -AsOneLine
+        $x=Read-BigFile -AbsPath E:/Research/Current/pDOS.txt -StopIndex 5
+        Write-BigStream -StreamArray $x -AbsFilePath E:/Research/Current/new.txt
+        Write-BigStream -StreamArray $x -AbsFilePath E:/Research/Current/new.txt -AsOneLine
 
         Oneline file is good for using in python numpy.reshape() function, which can not read file
         if there are lines with empty entries.

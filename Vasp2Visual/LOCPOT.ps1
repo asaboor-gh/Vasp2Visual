@@ -1,5 +1,6 @@
 ﻿$loc=Get-Location
-$newstreamreader = New-Object System.IO.StreamReader("$loc\LOCPOT")
+$filew = Join-Path -Path $loc -ChildPath "LOCPOT"
+$newstreamreader = New-Object System.IO.StreamReader($filew)
 $data=While($null -ne ($eachLine=$newstreamreader.ReadLine())){
 $eachLine #Saves Readline into variable $data.
 }
@@ -18,11 +19,12 @@ x_site: $(($x_coord|Select-Object -Unique|Sort-Object) -join ', ')
 y_site: $(($y_coord|Select-Object -Unique|Sort-Object) -join ', ')
 z_site: $(($z_coord|Select-Object -Unique|Sort-Object) -join ', ')
 "@
-$layers|Set-Content .\LayersInfo.txt
+$layers|Set-Content ./LayersInfo.txt
 #Collecting potential data
 $NGx,$NGy,$NGz=$data[$nAtoms+9].Split()|Where-Object {$_}
 $ii=[int]$($nAtoms+10); #start index for potential
-$writer = New-Object System.IO.StreamWriter "$($loc)\newLOCPOT.txt";
+$filew1 = Join-Path -Path $loc -ChildPath "newLOCPOT.txt"
+$writer = New-Object System.IO.StreamWriter $filew1;
 While($null -ne $data[$ii]){$writer.Write(("$($data[$ii].Trim())    "));$ii++}
  $writer.Close();
  $System=$data[0].Trim();
@@ -54,7 +56,7 @@ y=$yDir*np.linspace(0,1,$NGy)
 data_to_store=np.array([y,dataY_av,dataY_min,dataY_max]).T
 np.savetxt('yDir_Pot.txt', data_to_store, header='#$($System+$nAtoms)_Y        V_av        V_min          V_max',delimiter='\t',comments='')
 "@
-$pyFile|Set-Content .\newLOCPOT.py
-python .\newLOCPOT.py
-Remove-Item .\newLOCPOT.txt
-Remove-Item .\newLOCPOT.py
+$pyFile|Set-Content ./newLOCPOT.py
+python ./newLOCPOT.py
+Remove-Item ./newLOCPOT.txt
+Remove-Item ./newLOCPOT.py

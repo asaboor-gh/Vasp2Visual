@@ -36,7 +36,7 @@ $max_elem_index=[int]([Math]::Max($total_1.Count,$total_2.Count)-1)
 $total_slab=Foreach($i in 0..$max_elem_index){[int]$total_1[$i]+[int]$total_2[$i]}  #index_out_of_range doesnt make problem here.
 $diff_elem=(Compare-Object -ReferenceObject $elem_1 -DifferenceObject $elem_2 -PassThru)
 $Elements="$elem_1  $diff_elem" #creates elements in slab
-$outfile=New-Item -Path .\POSCAR_New.vasp -Force
+$outfile=New-Item -Path ./POSCAR_New.vasp -Force
 $POSACR_init=@"
 $($data1[0].Trim()+'/'+$data2[0].Trim())
 $("{0:n16}" -f ($lc1*$x1[0]))
@@ -91,7 +91,7 @@ $data=Get-Content $InputPOSCAR
 if($data[7].StartsWith('S')){$shift=8;$ii=9}Else{$shift=7;$ii=8} #see if slective dynamics there.
 $N=([array]$data[6].Split()|Where-Object {$_}|Measure-Object -Sum).Sum+$shift
 $data_New=$data[$ii..$N];
-$outFile=New-Item .\POSCAR_eSD.vasp -Force
+$outFile=New-Item ./POSCAR_eSD.vasp -Force
 $($data[0..6])|Set-Content $outFile
 $POSCAR_init=@"
 Selective dynamics

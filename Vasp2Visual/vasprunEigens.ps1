@@ -1,10 +1,11 @@
 ﻿#$xml= New-Object Xml  #To load files bigger than 0.5GB.
-#$xml.Load((Convert-Path .\vasprun.xml))
-#$xml = [xml](get-content .\vasprun.xml)
+#$xml.Load((Convert-Path ./vasprun.xml))
+#$xml = [xml](get-content ./vasprun.xml)
 #$NKPT=$xml.modeling.calculation.eigenvalues.array.set.set.set.Length
 #$NBANDS=$xml.modeling.calculation.eigenvalues.array.set.set.set[0].r.Length
 $start=Get-Date; $loc=Get-Location
-$swe = New-Object System.IO.StreamWriter "$($loc)\Eigenvals.txt"
+$filew = Join-Path -Path $loc -ChildPath "Eigenvals.txt"
+$swe = New-Object System.IO.StreamWriter $filew
 $Writers+=$swe; 
 $x=@() #for Header
 Foreach($j in $bandInterval) { #Header loop
@@ -20,7 +21,7 @@ $Eigen= "{0:n8}" -f  $($new[$i]);
 $xx=-Join($old1,"$Eigen       ")
 $old1="$xx"
 }
-#Add-Content -Path  .\Eigenvals.dat -Value "    $xx"
+#Add-Content -Path  ./Eigenvals.dat -Value "    $xx"
 $swe.WriteLine("$xx")
 $old1=""
 }
@@ -30,7 +31,8 @@ Write-Output "$start, $end"
 
 ##Total Density of states.
 Write-Progress "Collecting Total DOS ..."
-$tsw = New-Object System.IO.StreamWriter "$loc\tDOS.txt" #writer for DOS
+$filew1 = Join-Path -Path $loc -ChildPath "tDOS.txt"
+$tsw = New-Object System.IO.StreamWriter $filew1 #writer for DOS
 $Writers+=$tsw;
 $extraSpin=$xml.modeling.calculation.dos.total.array.set.set.comment.EndsWith(2) #check spin block 
 $tsw.WriteLine("#$sys#Energy  TotDOS   IntegDOS#E_Fermi=$eFermi")

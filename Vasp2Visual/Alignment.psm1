@@ -47,9 +47,9 @@ fig.update_xaxes(showgrid=True, zeroline=False,showline=True, linewidth=0.1, lin
 fig.update_yaxes(showgrid=False, zeroline=True,showline=True, linewidth=0.1, linecolor='gray', mirror=True)
 fig.write_html(filename.split('.')[0]+".html")
 "@
-$fileString|Set-Content .\ConvolvedPlotly.py
-python .\ConvolvedPlotly.py
-& .\"$($InputFile.Split('.')[0]).html"
+$fileString|Set-Content ./ConvolvedPlotly.py
+python ./ConvolvedPlotly.py
+& ./"$($InputFile.Split('.')[0]).html"
 } #This block executed only if file found.
 }
 
@@ -120,9 +120,9 @@ plt.subplots_adjust(left=0.17,bottom=0.16)
 filename=`'$([string]$InputFile.Trim('Dir')[0])`'+'Pot.pdf'
 plt.savefig(filename,transparent=True)
 "@
-$fileString|Set-Content .\Pot_av.py
-python .\Pot_av.py
-& .\"$($InputFile.Split('Dir')[0])Pot.pdf"
+$fileString|Set-Content ./Pot_av.py
+python ./Pot_av.py
+& ./"$($InputFile.Split('Dir')[0])Pot.pdf"
 } #This block executed only if file found.
 }
 Export-ModuleMember -Function "Get-ConvolvedPotential"

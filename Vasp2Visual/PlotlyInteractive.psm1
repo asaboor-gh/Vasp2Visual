@@ -90,6 +90,7 @@ Function Get-InteractivePlot{ #Plots of different types
 [CmdletBinding()]
 Param([hashtable]$PlotlyHashTable)  #Get Hashtable from function Get-PlotArguments
 #making a plot file in order
+Write-Host "Try 'New-Figure -iRGB -*'" -ForegroundColor Green
 $variablesList=$PlotlyHashTable.GetEnumerator()| 
     Sort-Object -Descending|
     ForEach-Object{"{0,-12} = {1};" -f $_.key,$_.value}|Out-String
@@ -104,12 +105,12 @@ if($(Test-Path ./Bands.txt)){
 $pythonFileContent=@"
 #=================Input Variables=====================
 $($consoleInput)
-$(Get-Content .\SysInfo.py -Raw)
+$(Get-Content ./SysInfo.py -Raw)
 $($FileInput)
 "@
-$pythonFileContent|Set-Content .\Interactive.py
-python .\Interactive.py #strat plotting
-Invoke-Expression .\Interactive.html
+$pythonFileContent|Set-Content ./Interactive.py
+python ./Interactive.py #strat plotting
+Invoke-Expression ./Interactive.html
 }
 }
 

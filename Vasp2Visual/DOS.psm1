@@ -88,9 +88,10 @@ Param([Parameter()][switch]$HalfColumnWide,
 [Parameter()][switch]$LinePlot, #[Parameter()][switch]$ProjectedDOS,
 [Parameter()][switch]$StackPlot,#[Parameter()][switch]$DOS, 
 [hashtable]$PlotArguments)  #Get Hashtable from function Get-PlotArguments
-if(-not (Test-Path .\tDOS.txt)){Write-Host "Required files not found. Generating using 'Export-VaspRun' ..." -ForegroundColor Green;
+Write-Host "Try 'New-Figure -sDOS -*'" -ForegroundColor Green
+if(-not (Test-Path ./tDOS.txt)){Write-Host "Required files not found. Generating using 'Export-VaspRun' ..." -ForegroundColor Green;
     Export-VaspRun;}
-    if($(Test-Path .\tDOS.txt)){ #checks if file generated.
+    if($(Test-Path ./tDOS.txt)){ #checks if file generated.
     Write-Host "Files now exist. Plotting ..." -ForegroundColor Yellow;
 #making a plot file in order
 $variablesList=$PlotArguments.GetEnumerator()| 
@@ -104,7 +105,7 @@ $PlotInput=$line # Default plot if no selection made.
 if($AreaPlot.IsPresent){$PlotInput=$area}
 if($LinePlot.IsPresent){$PlotInput=$line}
 if($StackPlot.IsPresent){$PlotInput=$stack}
-$head=(Get-Content .\tDOS.txt)[0].Split('#')
+$head=(Get-Content ./tDOS.txt)[0].Split('#')
 $pythonFileContent=@"
 #=================Input Variables=====================
 $($consoleInput)
@@ -113,8 +114,8 @@ $($startFile)
 $($PlotInput)
 $($endFile)
 "@
-$pythonFileContent|Set-Content .\DOS.py
-python .\DOS.py #strat plotting
+$pythonFileContent|Set-Content ./DOS.py
+python ./DOS.py #strat plotting
 } #if block ends
 }
 

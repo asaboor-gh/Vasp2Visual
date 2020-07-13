@@ -100,8 +100,20 @@ function New-Figure {
     $init = "import pivotpy as pp`nfig = pp.{0}(path_evr = {1}, **kwargs)`n{2}`n{3}" -f $command,$load,$save,$show
     $init = "kwargs = {0}`n{1}" -f $kwargs,$init
     if($PSBoundParameters.ContainsKey('SavePyFile')){$init | Set-Content $SavePyFile}
-    # Run it finally
-    $init | python
+    # Run it finally Using Default python on System preferably.
+    if(Get-Command python){
+        Write-Host ("Running using {0}" -f (python -V)) -ForegroundColor Green
+        $init | python
+    }elseif(Get-Command python3*){
+        Write-Host ("Running using {0}" -f (python3 -V)) -ForegroundColor Green
+        $init | python3
+    }elseif(Get-Command python2*){
+        Write-Host ("Running using {0}" -f (python2 -V)) -ForegroundColor Green
+        $init | python2
+    }else{
+        Write-Host "Python Installation not found. Copy code below and run yourself or use '-SavePyFile'." -ForegroundColor Red
+        Write-Host $init -ForegroundColor Yellow
+    }
 }
 Export-ModuleMember -Function 'Get-FigArgs'
 Export-ModuleMember -Function 'New-Figure'
