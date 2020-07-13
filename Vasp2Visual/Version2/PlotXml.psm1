@@ -101,15 +101,14 @@ function New-Figure {
     $init = "kwargs = {0}`n{1}" -f $kwargs,$init
     if($PSBoundParameters.ContainsKey('SavePyFile')){$init | Set-Content $SavePyFile}
     # Run it finally Using Default python on System preferably.
-    if($null -ne (Get-Command python -ErrorAction SilentlyContinue)){
-        Write-Host ("Running using {0}" -f (python -V)) -ForegroundColor Green
-        $init | python
-    }elseif($null -ne (Get-Command python3* -ErrorAction SilentlyContinue)){
+    if($null -ne (Get-Command python3* -ErrorAction SilentlyContinue)){
         Write-Host ("Running using {0}" -f (python3 -V)) -ForegroundColor Green
         $init | python3
+    }elseif($null -ne (Get-Command python -ErrorAction SilentlyContinue)){
+        Write-Host ("Running using {0}" -f (python -V)) -ForegroundColor Green
+        $init | python
     }elseif($null -ne (Get-Command pytnon2* -ErrorAction SilentlyContinue)){
-        Write-Host ("Running using {0}" -f (python2 -V)) -ForegroundColor Green
-        $init | python2
+        Write-Host ("Required Python >= 3.6, but {0} found, try upgrading Python." -f (python2 -V)) -ForegroundColor Red
     }else{
         Write-Host "Python Installation not found. Copy code below and run yourself or use '-SavePyFile'." -ForegroundColor Red
         Write-Host $init -ForegroundColor Yellow
