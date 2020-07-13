@@ -35,7 +35,7 @@ Function Close-Writers { #closes opened writers
 Foreach($stwr in $Writers){$stwr.Close()}
 Write-Host "All opened StreamWriters are now closed." -ForegroundColor Green
 }
-Function Get-Args{ 
+Function Get-PlotArgs{ 
   <#
   Creates an ordered hashtable to use in plot arguments
   in plot, interactive plot and density plot.
@@ -46,18 +46,18 @@ Function Get-Args{
     [Parameter()][switch]$Plotly
   )
   # With no switch, default plot arguments
-    $args=[ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="['L',r'$\Gamma$']";
+    $plotargs=[ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="['L',r'$\Gamma$']";
       E_Limit="[10,-10]"; DOS_Limit="[0.0,1.2]"; textLocation="[0.05,0.9]";FigureHeight=3;
       ProLabels="['Element0','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
   if($DOS.IsPresent){
-    $args=[ordered]@{textLocation ="[0.05,0.9]"; DOS_Limit ="[0.0,0.6]"; FigureHeight =2.5;
+    $plotargs=[ordered]@{textLocation ="[0.05,0.9]"; DOS_Limit ="[0.0,0.6]"; FigureHeight =2.5;
       E_Limit="[5,-5]"; ProLabels="['Element0','s','p','d']";ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
   }
   if($Plotly.IsPresent){
-    $args=[ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="[u'\u0393','M'] ";
+    $plotargs=[ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="[u'\u0393','M'] ";
       E_Limit="[5,-5]"; ProLabels="['Element0','s','p','d']"; ProIndices="[(range(0,1,1)),(0,),(1,2,3,),(4,5,6,7,8,)]";}
   }
-  return $args
+  return $plotargs
 }
 Function Get-Plot{ #Plots of different types
 [CmdletBinding()]
@@ -107,4 +107,4 @@ Export-ModuleMember -Function 'Close-Writers'
 Export-ModuleMember -Function 'Get-PlotArguments'
 Export-ModuleMember -Function 'Get-Plot'
 Export-ModuleMember -Function 'Export-LOCPOT'
-Export-ModuleMember -Function 'Get-Args'
+Export-ModuleMember -Function 'Get-PlotArgs'
