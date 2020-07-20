@@ -81,7 +81,7 @@ FunctionsToExport = 'Close-Writers', 'Disable-SelectiveDynamics',
                'Read-BigFile', 'Read-KptsToExclude', 'Select-SitesInLayers', 
                'Show-BandInfo', 'Show-LayersInfo', 'Write-BigStream', 
                'Write-KptsBands', 'Write-PartialDOS', 'Write-Projection', 
-               'Write-TotalDOS','Get-PlotArgs'
+               'Write-TotalDOS','Get-PlotArgs','Get-POSCAR'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = '*'

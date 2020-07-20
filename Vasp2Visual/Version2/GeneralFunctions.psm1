@@ -67,5 +67,42 @@ function Write-BigStream{
     $sw.Close();
 }
 
+function Get-POSCAR {
+    Param(
+        [Parameter()]$Formula = 'GaAs',
+        [Parameter()]$APIKey,
+        [Parameter()]$MP_ID,
+        [Parameter()]$MaxSites
+    )
+    $var_dict = "dict({})"
+    if($PSBoundParameters.ContainsKey('MP_ID')){
+        $var_dict = "dict(mp_id = '{0}')" -f $MP_ID
+    }
+    if($PSBoundParameters.ContainsKey('MaxSites')){
+        $var_dict = "dict(max_sites = {0})" -f $MaxSites
+    }
+    
+    $py_str = "vd = {2}`nfrom pivotpy import sio`ngp = sio.get_poscar('{0}','{1}',**vd)`n" -f $Formula, $APIKey, $var_dict
+    $py_str += "import json`ns=json.dumps(gp)`nprint(s)"
+    # Run it finally Using Default python on System preferably.
+    if($null -ne (Get-Command python3* -ErrorAction SilentlyContinue)){
+        Write-Host ("Running using {0}" -f (python3 -V)) -ForegroundColor Green
+        $json = $py_str | python3
+        ConvertFrom-Json $json
+    }elseif($null -ne (Get-Command python -ErrorAction SilentlyContinue)){
+        Write-Host ("Running using {0}" -f (python -V)) -ForegroundColor Green
+        $json = $py_str | python
+        ConvertFrom-Json $json
+    }elseif($null -ne (Get-Command pytnon2* -ErrorAction SilentlyContinue)){
+        Write-Host ("Required Python >= 3.6, but {0} found, try upgrading Python." -f (python2 -V)) -ForegroundColor Red
+    }else{
+        Write-Host "Python Installation not found. Copy code below and run yourself or use '-SavePyFile'." -ForegroundColor Red
+        Write-Host $py_str -ForegroundColor Yellow
+    }
+    $json = $py_str | python
+    ConvertFrom-Json $json
+}
+
 Export-ModuleMember -Function 'Read-BigFile'
 Export-ModuleMember -Function 'Write-BigStream'
+Export-ModuleMember -Function 'Get-POSCAR'
