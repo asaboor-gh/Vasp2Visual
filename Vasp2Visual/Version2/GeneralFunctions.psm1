@@ -68,10 +68,11 @@ function Write-BigStream{
 }
 
 function Get-POSCAR {
+    [CmdletBinding(DefaultParameterSetName='SITES')]
     Param(
         [Parameter()]$Formula = 'GaAs',
-        [Parameter()]$MP_ID,
-        [Parameter()]$MaxSites,
+        [Parameter(ParameterSetName='MPID')]$MP_ID,
+        [Parameter(ParameterSetName='SITES')]$MaxSites,
         [Parameter()]$APIKey
     )
     $var_dict = "dict({})"
