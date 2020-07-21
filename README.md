@@ -110,7 +110,7 @@ PS> Export-VR -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
 ---
 
 ## Use `Get-POSCAR` to acess POSCAR from [Materials Project](https://materialsproject.org/)
-You need Materials Project API to access their data. Function will return a list of available POSCARs for given structure. Access data using `get_poscar` from `pivotpy` directly on remote server. To save `APIKey` for autolad, open python terminal and use `save_mp_API('your_api_key')`.
+You need Materials Project API to access their data. Function will return a list of available POSCARs for given structure. Access data using `get_poscar` from `pivotpy` directly on remote server. To save `APIKey` for autolad, open python terminal and use `pivotpy.sio.save_mp_API('your_api_key')`.
 ```powershell
 ❯ $x = Get-POSCAR 'GaAs' -APIKey '*****' -MaxSites 8
 ❯ $x[0].poscar
