@@ -103,8 +103,6 @@ function Get-POSCAR {
         Write-Host "Python Installation not found. Copy code below and run yourself or use '-SavePyFile'." -ForegroundColor Red
         Write-Host $py_str -ForegroundColor Yellow
     }
-    $json = $py_str | python
-    ConvertFrom-Json $json
 }
 
 Export-ModuleMember -Function 'Read-BigFile'
