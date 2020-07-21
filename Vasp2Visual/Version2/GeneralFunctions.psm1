@@ -70,9 +70,9 @@ function Write-BigStream{
 function Get-POSCAR {
     Param(
         [Parameter()]$Formula = 'GaAs',
-        [Parameter()]$APIKey,
         [Parameter()]$MP_ID,
-        [Parameter()]$MaxSites
+        [Parameter()]$MaxSites,
+        [Parameter()]$APIKey
     )
     $var_dict = "dict({})"
     if($PSBoundParameters.ContainsKey('MP_ID')){
@@ -81,8 +81,12 @@ function Get-POSCAR {
     if($PSBoundParameters.ContainsKey('MaxSites')){
         $var_dict = "dict(max_sites = {0})" -f $MaxSites
     }
+    if($PSBoundParameters.ContainsKey('APIKey')){
+        $rep = $(",api_key = '{0}')" -f $APIKey)
+        $var_dict = $var_dict.Replace(")", $rep) 
+    }
     
-    $py_str = "vd = {2}`nfrom pivotpy import sio`ngp = sio.get_poscar('{0}','{1}',**vd)`n" -f $Formula, $APIKey, $var_dict
+    $py_str = "vd = {1}`nfrom pivotpy import sio`ngp = sio.get_poscar('{0}',**vd)`n" -f $Formula, $var_dict
     $py_str += "import json`ns=json.dumps(gp)`nprint(s)"
     # Run it finally Using Default python on System preferably.
     if($null -ne (Get-Command python3* -ErrorAction SilentlyContinue)){
