@@ -131,11 +131,11 @@ Direct
 ---
 
 ```powershell
-PS> $x=Read-BigFile -AbsPath E:\Research\Current\pDOS.txt -StopIndex 5
-PS> Write-BigStream -StreamArray $x -AbsFilePath E:\Research\Current\new.txt -AsOneLine
+PS> $x=Read-BigFile -FilePath E:\Research\Current\pDOS.txt -StopIndex 5
+PS> Write-BigStream -StreamArray $x -FilePath E:\Research\Current\new.txt -AsOneLine
 ```
 
-- Note: Both `Read-BigFile` and `Write-BigStream` requires full file path to work properly. These functions are useful to parse big files like LOCPOT which otherwise are timely expensive.
+- Note: Both `Read-BigFile` and `Write-BigStream` requires full file path to work properly but they reslove relative path as well. These functions are useful to parse big files like LOCPOT which otherwise are timely expensive.
 
 ---
 
