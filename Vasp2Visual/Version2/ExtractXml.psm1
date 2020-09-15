@@ -137,7 +137,7 @@ function Get-Summary {
     }
     # INCAR
     $incar = $XmlObject.modeling.incar.i | ForEach-Object{
-        "{0,-12:n} = {1}" -f $_.name,$_.'#text'.Trim()}
+        "{0,-12:n} = '{1}'" -f $_.name,$_.'#text'.Trim()}
     # Fields
     $dos_field = $XmlObject.modeling.calculation.dos.partial.array.field
     $pro_field = $dos_field| Select-Object -Skip 1 | ForEach-Object{"'{0}'" -f $_.Trim()}
@@ -148,11 +148,13 @@ function Get-Summary {
         ($_.Split()| Where-Object {$_}) -join ","}
     $rec_basis=$XmlObject.GetElementsByTagName('structure').crystal.varray[-1].v| ForEach-Object{
         ($_.Split()| Where-Object {$_}) -join ","}
+    $pos = $XmlObject.GetElementsByTagName('structure').varray[-1].v | ForEach-Object{
+        ($_.Split()| Where-Object {$_}) -join ","}
     return [ordered]@{ISPIN=$ISPIN;NBANDS=$NBANDS;SYSTEM=$sys;NKPTS=$NKPT;
         NION=$NION;TypeION=$TypeION;E_Fermi=$eFermi;
         nField_Projection=$nOrbitals;nField_DOS=$nDOS_Fields;
-        ElemIndex=$ElemIndex; ElemName=$ElemName;V=$volume;
-        Basis=$basis;RecBasis=$rec_basis;INCAR=$incar;fields=$fields}
+        ElemIndex=$ElemIndex; ElemName=$ElemName;INCAR=$incar;fields=$fields;
+        V=$volume;Basis=$basis;RecBasis=$rec_basis;Positions=$pos}
 }
 
 function Read-AsXml {

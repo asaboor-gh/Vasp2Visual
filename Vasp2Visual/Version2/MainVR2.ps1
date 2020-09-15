@@ -79,14 +79,18 @@ INCAR             = dict(
 "@
     $infoString|Set-Content $infoFile #Here-String written on file
 # Crsytal System Information file.
-$volume=$info.V
-$basis=$info.Basis;$recbasis=$info.RecBasis;
-$basis=$basis -join "],`n                     ["
-$recbasis=$recbasis -join "],`n                     ["
+$volume  = $info.V
+$basis   = $info.Basis
+$recbasis= $info.RecBasis
+$poses   = $info.Positions
+$basis   = $basis -join "],`n                     ["
+$recbasis= $recbasis -join "],`n                     ["
+$poses   = $poses -join "],`n                     ["
 $LatticeString=@"
 volume            = $($volume)
 basis             = [[$($basis)]]
 rec_basis         = [[$($recbasis)]]
+positions         = [[$($poses)]]
 "@
 $LatticeString|Add-Content $infoFile
  #Writing of SysInfo Ends.
