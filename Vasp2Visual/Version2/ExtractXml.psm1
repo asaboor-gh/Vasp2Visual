@@ -135,6 +135,13 @@ function Get-Summary {
     }
     $ElemIndex+=$($ElemIndex[-1]+$ionTotal); $ElemName+="`'$name`'"
     }
+    # INCAR
+    $incar = $XmlObject.modeling.incar.i | ForEach-Object{
+        "{0,-12:n} = {1}" -f $_.name,$_.'#text'.Trim()}
+    # Fields
+    $dos_field = $XmlObject.modeling.calculation.dos.partial.array.field
+    $pro_field = $dos_field| Select-Object -Skip 1 | ForEach-Object{"'{0}'" -f $_.Trim()}
+    $fields = "[{0}]" -f $($pro_field -join ", ")
     #Structure
     $volume=$XmlObject.GetElementsByTagName('structure').crystal[-1].i.'#text'.Trim()
     $basis=$XmlObject.GetElementsByTagName('structure').crystal.varray[-2].v| ForEach-Object{
@@ -145,7 +152,7 @@ function Get-Summary {
         NION=$NION;TypeION=$TypeION;E_Fermi=$eFermi;
         nField_Projection=$nOrbitals;nField_DOS=$nDOS_Fields;
         ElemIndex=$ElemIndex; ElemName=$ElemName;V=$volume;
-        Basis=$basis;RecBasis=$rec_basis;}
+        Basis=$basis;RecBasis=$rec_basis;INCAR=$incar;fields=$fields}
 }
 
 function Read-AsXml {

@@ -72,6 +72,10 @@ E_Fermi           = $($info.E_Fermi)
 ISPIN             = $($info.ISPIN) 
 ElemIndex         = [$ElemIndex]
 ElemName          = [$ElemName]
+fields            = $($info.fields)
+INCAR             = dict(
+    $($info.INCAR | ForEach-Object {"{0}{1},`n" -f $(' '*25),$_})
+                    )
 "@
     $infoString|Set-Content $infoFile #Here-String written on file
 # Crsytal System Information file.
