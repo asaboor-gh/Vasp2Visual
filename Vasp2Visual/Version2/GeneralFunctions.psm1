@@ -8,11 +8,12 @@ function Read-BigFile{
         Read-BigFile -FilePath E:/Research/Current/pDOS.txt -StopIndex 5
         You can use -StartIndex to provide a range to read.
     #>
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName='interval')]
     param (
         [Parameter(Mandatory="True",ValueFromPipeline=$true)][String]$FilePath,
-        [Parameter()][int]$StartIndex =0,
-        [Parameter()][int]$StopIndex=0
+        [Parameter(ParameterSetName='interval')][int]$StartIndex =0,
+        [Parameter(ParameterSetName='interval')][int]$StopIndex=0,
+        [Parameter(ParameterSetName='full')][switch]$ReadAll
     )
     $AbsPath = (Get-Item $FilePath).FullName
     [System.IO.StreamReader] $reader = New-Object  -TypeName 'System.IO.StreamReader' -ArgumentList ($AbsPath, $false);
@@ -20,12 +21,18 @@ function Read-BigFile{
     [Int32] $currentIndex = 0;
 
     try{
-        while($currentIndex -le $StopIndex){
-            $line = $reader.ReadLine()
-            if ($null -ne $line -and $currentIndex -ge $StartIndex){
-                $line
+        if($PSCmdlet.ParameterSetName -eq 'interval'){
+            while($currentIndex -le $StopIndex){
+                $line = $reader.ReadLine()
+                if ($null -ne $line -and $currentIndex -ge $StartIndex){
+                    $line
+                }
+                $currentIndex++
             }
-            $currentIndex++
+        }elseif ($PSCmdlet.ParameterSetName -eq 'full'){
+            While($null -ne ($eachLine=$reader.ReadLine())){
+                $eachLine 
+                }
         }
     }
     finally{
