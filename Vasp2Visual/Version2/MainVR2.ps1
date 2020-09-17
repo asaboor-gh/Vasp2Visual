@@ -32,7 +32,7 @@ if($SkipK -ne -1){ #check if $SkipK provided from calling function.
 Write-Host "$ibzkpt IBZKPT file's KPOINTS Excluded!" -ForegroundColor Yellow
 #=============OnlyDOS Switch========================
 if($getonlydos -eq $True){#Skipe Collection of Bands
-$ibzkpt = $NKPTS; $skipB=0;$NBANDS=0;$filled=0;} #Updated minimal working values
+$ibzkpt = $NKPTS-1; $skipB=0;$NBANDS=1;$filled=1;} #Updated minimal working values to be able to load files
 #==============================================================
 #GetBands and KPTS
 $KptsObject= Get-KPTS -XmlObject $XmlObject -SkipNKPTS $ibzkpt
@@ -45,7 +45,7 @@ Write-KptsBands -XmlObject $XmlObject -KptsObject $KptsObject -BandsObject $Band
     Write-TotalDOS -TotalDOS $tdos
     Write-Host "Writing Partial DOS on [pDOS.txt] ..." -ForegroundColor Red
     Write-PartialDOS -XmlObject $XmlObject -SpinSet 1  #Automatically will write Spin polarized.
-    Write-Host "Writing ALL-IONS Projections on [Projection.txt] in sequence ..." -ForegroundColor Red
+    Write-Host "Writing IONS Projections on [Projection.txt] in sequence ..." -ForegroundColor Red
     Write-Projection -SpinSet 1 -XmlObject $XmlObject -SkipNKPTS $ibzkpt -SkipSelectNBANDS $skipB,$NBANDS
 Write-Host @"
  Done ✔: $([Math]::Round($($timer.Elapsed.TotalSeconds),3)) seconds elapsed.
@@ -54,8 +54,8 @@ $timer.Stop() #close stopwatch
 $tTotal= [Math]::Round($($timer.Elapsed.TotalSeconds+$loadtime),3); 
 Write-Host "The process completed in $tTotal seconds." -ForegroundColor Cyan
 #Write Information of system only in Bands Folder
-if($NBANDS.Equals(0)){
-    Write-Host "No bands are collected for -OnlyDOS switch!" -ForegroundColor Red
+if($getonlydos -eq $True){
+    Write-Host "Only first band is collected for -OnlyDOS switch!" -ForegroundColor Red
     }
 $infoFile= New-Item ./SysInfo.py  -Force #Create file
 Write-Host "Writing System information on file [$($infoFile.BaseName)] ..." -ForegroundColor Yellow -NoNewline
