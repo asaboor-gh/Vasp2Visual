@@ -240,7 +240,7 @@ Automatically generated using PivotPy with HSK-INDS = [0, 5, 15, -1], LABELS = [
 	25
   ...
 ```
-Another aspect of `Get-KPath` is that you can have custom number of points in an interval, just add a 4th entry in left point as I added 5 in first point. Otherwise parameter `-n` is number of points per unit length and all kpoints are uniformly distributed bases on distance of intervals.
+Another aspect of `Get-KPath` is that you can have custom number of points in an interval, just add a 4th entry in left point as I added 5 in first point. Otherwise parameter `-n` is number of points per unit length and all kpoints are uniformly distributed based on distance of intervals.
 
 --
 
