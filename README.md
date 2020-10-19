@@ -209,6 +209,7 @@ OnClipboard                    /mnt/Full Path Required for WSL./GaAs
 
 --
 
+## Get-KPath
 Vasp2Visual contains a cmdlet for creating a K-Path before you run a calculation on vasp(HSE specifically). You can provide path to `IBZKPT` file to include as well.
 ```powershell
 ❯ Get-Help Get-KPath
@@ -240,6 +241,7 @@ Automatically generated using PivotPy with HSK-INDS = [0, 5, 15, -1], LABELS = [
   ...
 ```
 Another aspect of `Get-KPath` is that you can have custom number of points in an interval, just add a 4th entry in left point as I added 5 in first point. Otherwise parameter `-n` is number of points per unit length and all kpoints are uniformly distributed bases on distance of intervals.
+
 --
 
 For accessing any entry of a tabular data file, you can use the following command
