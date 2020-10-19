@@ -633,6 +633,7 @@ Get-Automated
    :alt: IndexedPlot
 
    IndexedPlot
+   
 --
 
 .. code:: powershell
