@@ -127,7 +127,7 @@ Function Get-KPath{
     $init = "{0}`npp.get_kpath(hsk_list={1}" -f $init,$hsk_list
     $init = "{0},n={1},weight={2},ibzkpt='{3}'" -f $init,$n,$Weight,$ibzkpt
     $init = "{0},labels={1},outfile='{2}')" -f $init,$labels,$OutFile
-    $init
+    
     # Run it finally Using Default python on System preferably.
     if($null -ne (Get-Command python3* -ErrorAction SilentlyContinue)){
         Write-Host ("Running using {0}" -f (python3 -V)) -ForegroundColor Green
@@ -138,7 +138,7 @@ Function Get-KPath{
     }elseif($null -ne (Get-Command pytnon2* -ErrorAction SilentlyContinue)){
         Write-Host ("Required Python >= 3.6, but {0} found, try upgrading Python." -f (python2 -V)) -ForegroundColor Red
     }else{
-        Write-Host "Python Installation not found. Copy code below and run yourself or use '-SavePyFile'." -ForegroundColor Red
+        Write-Host "Python Installation not found. Copy code below and run yourself in python terminal." -ForegroundColor Red
         Write-Host $init -ForegroundColor Yellow
     }
     Write-Host "File [KPOINTS.txt] created" -ForegroundColor DarkCyan
