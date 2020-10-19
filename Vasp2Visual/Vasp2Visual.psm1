@@ -29,7 +29,7 @@ Function Out-Path ($Path=$(Get-Location)){ #cahnges paths
   $linuxPath = (-Join('/mnt/',-Join($drive,(($path -replace "\\","/") -replace ":","")))).TrimEnd("/")
   $latexPath = ($winpath -replace "\\","/").Trim("/")
   Set-Clipboard  "$linuxPath";
-  [ordered]@{LinuxPath=$linuxPath;LatexPath=$latexPath;OnClipboard=$linuxPath}
+  [ordered]@{WslPath=$linuxPath;LatexPath=$latexPath;PythonPath=$latexPath;OnClipboard=$linuxPath}
 }
 Function Close-Writers { #closes opened writers
 Foreach($stwr in $Writers){$stwr.Close()}

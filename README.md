@@ -202,35 +202,42 @@ Name                           Value
 ----                           -----
 LinuxPath                      /mnt/Full Path Required for WSL./GaAs
 LatexPath                      ./GaAs
+PythonPath                      ./GaAs
 OnClipboard                    /mnt/Full Path Required for WSL./GaAs
 #So you need absolute path to enter in WSL from powershell. LaTeX path is fine.
 ```
 
 --
 
-Vasp2Visual contains a cmdlet for creating a K-Path before you run a calculation on vasp(HSE).
+Vasp2Visual contains a cmdlet for creating a K-Path before you run a calculation on vasp(HSE specifically). You can provide path to `IBZKPT` file to include as well.
 ```powershell
-PS> Get-KPath -KptsArray_nCross3 (0,0,0),(0.5,0.5,0.5),(0.25,0.25,0),(0.5,0,0) -nPerInterval 10
+❯ Get-Help Get-KPath
+```
+```    
+SYNTAX
+    Get-KPath [-HSK_Array] <array> [[-n] <int>] [[-Labels_Array] <array>] [[-Weight]        
+    <Object>] [[-OutFile] <Object>] [[-IBZKPT_File] <Object>] [<CommonParameters>]
+```
+```powershell
+❯ Get-KPath -HSK_Array @(((1,3,4,5),(2,3,4)),((1,3,4),(2,3,4))) -Labels_Array "l","g|k","x"
 ```
 ```
-File [KPath.txt] created. Output copied to clipboard.
+Automatically generated using PivotPy with HSK-INDS = [0, 5, -1], LABELS = ['l', 'g|k', 'x'], SEG-INDS = [5]
+	15
+  ...
 ```
-In case you want to join two disconnected path patches, just create an array of two arrays(of those two patches) and pipe it to a foreach loop to create a new file. 
 
 --
 
-Because `Get-KPath` creates new file each time and delete any older file, so we get content of the file in first run before the loop goes to second run and so on.
+If you have disconnected path, you need an array as in above example, each path is just a pair of two points. If you only require single path patch, use 2D array as given below: 
+
 ```powershell
-PS> ((0,0,0),(0.5,0.5,0.5)),((0.5,0,0),(0,0.5,0))|Foreach{Get-KPath $_ 3; (Get-Content .\KPath.txt)|Add-Content .\NewFile.txt}
-PS> gc NewFile.txt
+❯ Get-KPath -HSK_Array @((1,3,4,5),(2,3,4),(1,3,4),(2,3,4)) -Labels_Array "l","g","k","x"
 ```
 ```
-  0.0000      0.0000       0.0000       0
-  0.2500      0.2500       0.2500       0.0000
-  0.5000      0.5000       0.5000       0
-  0.5000      0.0000       0.0000       0
-  0.2500      0.2500       0.0000       0.0000
-  0.0000      0.5000       0.0000       0
+Automatically generated using PivotPy with HSK-INDS = [0, 5, 15, -1], LABELS = ['l', 'g', 'k', 'x'], SEG-INDS = []
+	25
+  ...
 ```
 
 --
