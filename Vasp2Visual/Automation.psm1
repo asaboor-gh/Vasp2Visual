@@ -114,7 +114,7 @@ Function Get-KPath{
     [CmdletBinding()]
     Param([Parameter(Mandatory="True",Position=0)][array]$HSK_Array,
     [Parameter(Position=1)][int]$n=10,
-    [Parameter(Position=2)][array]$Labels_Array="[]",
+    [Parameter(Position=2)][array]$Labels_Array,
     [Parameter(Position=3)]$Weight="None",
     [Parameter(Position=4)]$OutFile="KPOINTS.txt",
     [Parameter(Position=5)]$IBZKPT_File= "None"
@@ -122,7 +122,11 @@ Function Get-KPath{
     $OutFile = $OutFile.Replace("\","/")
     $ibzkpt = $IBZKPT_File.Replace("\","/")
     $hsk_list = $HSK_Array | ConvertTo-Json -Compress
-    $labels = $Labels_Array | ConvertTo-Json -Compress
+    if($PSBoundParameters.ContainsKey('Labels_Array')){
+        $labels = $Labels_Array | ConvertTo-Json -Compress
+    }else {
+        $labels = "[]"
+    }
     $init = "import pivotpy as pp"
     $init = "{0}`npp.get_kpath(hsk_list={1}" -f $init,$hsk_list
     $init = "{0},n={1},weight={2},ibzkpt='{3}'" -f $init,$n,$Weight,$ibzkpt
