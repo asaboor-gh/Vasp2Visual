@@ -522,6 +522,25 @@ function Get-SkipSelectBands {
     
 }
 
+# For Lazy Manipulation of Large files
+function Get-XmlTags {
+    param (
+        # Parameter help description
+        [Parameter()]$VasprunFile,
+        [Parameter()][array]$TagsArray = @('xml','modeling','projected'),
+        [Parameter()]$OutFile = "./sets.txt"
+    )
+    
+    $file = (get-item $VasprunFile).FullName
+    $toMatch = $TagsArray
+    "File: $file" | Set-Content $OutFile
+    "LineIndex  Tag" | Add-Content $OutFile
+    "---------  ---" | Add-Content $OutFile
+    Write-Progress $("Searching Tags '{0}' in file: {1}..." -f $($toMatch -join ","),$VasprunFile)
+    $x = Select-String $toMatch $file
+    Write-Progress $("Writing output on file: {0}" -f $OutFile)
+    $x | ForEach-Object {"{0,9} {1}" -f $($_.LineNumber-1),$_.Line } | Add-Content $OutFile
+}
 
 Export-ModuleMember -Function 'Export-VR'
 Export-ModuleMember -Function 'Get-EigenVals'
@@ -538,3 +557,4 @@ Export-ModuleMember -Function 'Get-BandsProSet'
 Export-ModuleMember -Function 'Get-FillingWeights'
 Export-ModuleMember -Function 'Get-Summary'
 Export-ModuleMember -Function 'Get-SkipSelectBands'
+Export-ModuleMember -Function 'Get-XmlTags'
