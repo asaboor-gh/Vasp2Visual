@@ -88,7 +88,7 @@ function New-Figure {
     if($PSBoundParameters.ContainsKey('SaveMinHTML')){$save= "pp.plotly2html(fig, filename='{0}')" -f $SaveHTML}
     if($PSBoundParameters.ContainsKey('SavePDF')){$save= "pp._savefig('{0}',transparent=True)" -f $SavePDF}
     if($PSBoundParameters.ContainsKey('SavePNG')){$save= "pp._savefig('{0}',transparent=True,dpi =600)" -f $SavePNG}
-    if($PSCmdlet.ParameterSetName -eq 'MPL'){$show = 'pp.show()'}Else{$show = 'fig.show()'} # Keep above save_options to work.
+    if($PSCmdlet.ParameterSetName -eq 'MPL'){$show = 'pp._show()'}Else{$show = 'fig.show()'} # Keep above save_options to work.
     $save_options = @('SaveHTML','SaveMinHTML','SavePDF','SavePNG')
     $save_options | ForEach-Object {if($PSBoundParameters.ContainsKey($_)){$show = '#' + $show}}
     
