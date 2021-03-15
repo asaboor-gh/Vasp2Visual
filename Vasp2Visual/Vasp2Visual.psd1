@@ -12,7 +12,7 @@
 RootModule = 'RootModule.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.6.0.0'
+ModuleVersion = '1.7.0.0'
 
 # Supported PSEditionsls
 
@@ -72,7 +72,7 @@ DotNetFrameworkVersion = '4.8'
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = 'Close-Writers', 'Disable-SelectiveDynamics', 
                'Enable-SelectiveDynamics', 'Export-LOCPOT', 'Export-VaspRun', 
-               'Export-VR', 'Find-GapOfBands', 'Format-DataInFile', 
+               'Find-GapOfBands', 'Format-DataInFile', 
                'Get-AlignedPotential', 'Get-BandsProSet', 'Get-ConvolvedPotential', 
                'Get-DensityPlot', 'Get-EigenVals', 'Get-FigArgs', 'Get-FillingWeights', 
                'Get-IndexedPlot', 'Get-InteractivePlot', 'Get-KPath', 'Get-KPTS', 

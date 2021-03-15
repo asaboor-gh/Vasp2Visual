@@ -28,7 +28,6 @@ CommandType     Name                                               Version    So
 Function        Enable-SelectiveDynamics                           1.0.3.0    Vasp2Visual
 Function        Export-LOCPOT                                      1.0.3.0    Vasp2Visual
 Function        Export-VaspRun                                     1.0.3.0    Vasp2Visual
-Function        Export-VR                                          1.0.3.0    Vasp2Visual
 Function        Get-FillingWeights                                 1.0.3.0    Vasp2Visual
 Function        Get-Summary                                        1.0.3.0    Vasp2Visual
 Function        Get-EigenVals                                      1.0.3.0    Vasp2Visual
@@ -43,11 +42,6 @@ Function        Write-BigStream                                    1.0.3.0    Va
 ```
 
 ---
-
-## Version2 is Here!
-> Version2 provides extra commands like `Export-VR2 -switches` which accepts path to vasprun file and returns the files irrespetive you have ISPIN 1 or 2. It creates data in both cases automatically which you can use for plotting (currently spin-polarized plots not available, but you have data to make your own).
-
---
 
 
 - A separate python module [pivotpy](https://massgh.github.io/pivotpy/) is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
@@ -83,16 +77,16 @@ SYNTAX
 ```
 Name                           Value
 ----                           -----
-joinPathAt                     []
+kseg_inds                      []
 figsize                        (3.4, 2.6)
 xytxt                          [0.05, 0.9]
 txt                            None
-xt_indices                     []
+ktick_inds                     []
 E_Fermi                        None
 elim                           []
 skipk                          None
 ctxt                           'black'
-xt_labels                      []
+ktick_vals                     []
 ```
 ```powershell
 ❯ New-Figure -VasprunFile 'E:\Research\graphene_example\ISPIN_2\bands\vasprun.xml' -sBands -FigArgs $x -SavePDF 'fig.pdf' -SavePyFile 'fig.py'
@@ -102,10 +96,10 @@ You can edit the saved python file for further tweaking. Also note that if you w
 --
 
 ```powershell
-PS> Export-VR -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
+PS> Export-VaspRun -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
 # You can add switch -OnlyDOS to this function.
 ```
-![Export-VR](./Vasp2Visual/Version2/ExportVR2.jpg)
+![Export-VaspRun](./Vasp2Visual/Version2/ExportVR2.jpg)
 
 ---
 

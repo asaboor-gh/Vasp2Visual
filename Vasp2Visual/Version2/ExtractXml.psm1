@@ -150,8 +150,12 @@ function Get-Summary {
         ($_.Split()| Where-Object {$_}) -join ","}
     $pos = $XmlObject.GetElementsByTagName('structure').varray[-1].v | ForEach-Object{
         ($_.Split()| Where-Object {$_}) -join ","}
+    # Nelectrons
+    $NELECT = $XmlObject.modeling.parameters.separator.i| ForEach-Object{
+                if($_.name.contains('NELECT')){
+                    [int]$_.'#text'}}
     return [ordered]@{ISPIN=$ISPIN;NBANDS=$NBANDS;SYSTEM=$sys;NKPTS=$NKPT;
-        NION=$NION;TypeION=$TypeION;E_Fermi=$eFermi;
+        NION=$NION;TypeION=$TypeION;E_Fermi=$eFermi;NELECT=$NELECT;
         nField_Projection=$nOrbitals;nField_DOS=$nDOS_Fields;
         ElemIndex=$ElemIndex; ElemName=$ElemName;INCAR=$incar;fields=$fields;
         V=$volume;Basis=$basis;RecBasis=$rec_basis;Positions=$pos}
@@ -460,7 +464,7 @@ function Get-FillingWeights {
     return [ordered]@{Filled=$eval.Count-$counter;UnFilled=$counter; Weights=$eval;}
 }
 
-function Export-VR {
+function Export-VaspRun {
     [cmdletbinding()]
     param (
         # Path to vasprun.xml or url.
@@ -542,7 +546,7 @@ function Get-XmlTags {
     $x | ForEach-Object {"{0,9} {1}" -f $($_.LineNumber-1),$_.Line } | Add-Content $OutFile
 }
 
-Export-ModuleMember -Function 'Export-VR'
+Export-ModuleMember -Function 'Export-VaspRun'
 Export-ModuleMember -Function 'Get-EigenVals'
 Export-ModuleMember -Function 'Get-KPTS'
 Export-ModuleMember -Function 'Read-KptsToExclude'

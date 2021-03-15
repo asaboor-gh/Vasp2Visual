@@ -13,14 +13,6 @@
   Creation Date:  2019/09/14
   Change: Initial script development
   #>
-Function Export-VaspRun {
-if(-not $(Test-Path -Path ./vasprun.xml)){
-Write-Host "The file 'vasprun.xml' not found" -ForegroundColor Red; 
-}Else{
-  Write-Host "Try new command 'Export-VR' with multiple options." -ForegroundColor Green
-. $PSScriptRoot/vasprunProjectedBands.ps1
-}
-}
 
 Function Out-Path ($Path=$(Get-Location)){ #cahnges paths
   $winpath=(Get-Item $Path) #chnage string to path
@@ -101,7 +93,7 @@ Function Export-LOCPOT{
     }Else{
 . $PSScriptRoot/LOCPOT.ps1}
 }
-Export-ModuleMember -Function 'Export-VaspRun'
+
 Export-ModuleMember -Function 'Out-Path'
 Export-ModuleMember -Function 'Close-Writers'
 Export-ModuleMember -Function 'Get-PlotArguments'
