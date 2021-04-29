@@ -11,31 +11,31 @@ function Get-FigArgs {
         )
     $out = $null
     if($sBands.IsPresent){
-        [hashtable]$out=[ordered]@{skipk = "None";kseg_inds = "[]";elim = "[]";ktick_inds = "[]";ktick_vals = "[]";E_Fermi = "None";figsize = "(3.4, 2.6)";txt = "None";xytxt = "[0.05, 0.9]";ctxt = "'black'";}
+        [hashtable]$out=[ordered]@{skipk = "None";kseg_inds = "[]";elim = "[]";ktick_inds = "[]";ktick_vals = "[]";E_Fermi = "None";figsize = "(3.4, 2.6)";txt = "None";xytxt = "[0.05, 0.9]";ctxt = "'black'";interp_nk = "{}";}
     }
     if($sDOS.IsPresent){
         [hashtable]$out=[ordered]@{elim = "[]";include_dos = "'both'";elements = "[[0]]";orbs = "[[0]]";labels = "['s']";colormap = "'gist_rainbow'";tdos_color = "(0.8, 0.95, 0.8)";linewidth = "0.5";fill_area = "True";vertical = "False";E_Fermi = "None";
-        figsize = "(3.4, 2.6)";txt = "None";xytxt = "[0.05, 0.85]";ctxt = "'black'";spin = "'both'";interpolate = "False";n = "5";k = "3";showlegend = "True";
+        figsize = "(3.4, 2.6)";txt = "None";xytxt = "[0.05, 0.85]";ctxt = "'black'";spin = "'both'";interp_nk = "{}";showlegend = "True";
         legend_kwargs = "{'ncol': 4, 'anchor': (0, 1), 'handletextpad': 0.5, 'handlelength': 1, 'fontsize': 'small', 'frameon':True}";}
     }
     if($iRGB.IsPresent){
         [hashtable]$out=[ordered]@{elements = "[[],[],[]]";orbs = "[[], [], []]"; labels = "['', '', '']";mode = "'markers'"; elim = "[]";E_Fermi = "None";skipk = "None";kseg_inds = "[]";max_width = "5";
-        title = "None";ktick_inds = "[0, -1]";ktick_vals = "['Γ', 'M']";figsize = "None";interpolate = "False";n = "5";k = "3"}
+        title = "None";ktick_inds = "[0, -1]";ktick_vals = "['Γ', 'M']";figsize = "None";interp_nk = "{}";}
     }
     if($iDOS.IsPresent){
         [hashtable]$out=[ordered]@{elim = "[]";elements = "[[0]]";orbs = "[[0]]";labels = "['s']";colormap = "'gist_rainbow'";tdos_color = "(0.5, 0.95, 0)";linewidth = "2";fill_area = "True";
-        vertical = "False";E_Fermi = "None";figsize = "None";spin = "'both'";interpolate = "False";n = "5";k = "3";title = "None"}
+        vertical = "False";E_Fermi = "None";figsize = "None";spin = "'both'";interp_nk = "{}";title = "None"}
     }
     if($sColor.IsPresent){
         [hashtable]$out=[ordered]@{skipk = "None";  kseg_inds = "[]";  elim = "[]";        elements = "[[0]]"; orbs = "[[0]]";     labels = "['s']";colormap = "'gist_rainbow'"; max_width = "2.5";  
         ktick_inds = "[0, -1]"; ktick_vals = "['$\\Gamma$', 'M']"; E_Fermi = "None"; showlegend = "True"; figsize = "(3.4, 2.6)"; txt = "None"; xytxt = "[0.05, 0.85]"; 
-        ctxt = "'black'"; spin = "'both'"; interpolate = "False"; n = "5"; k = "3";
+        ctxt = "'black'"; spin = "'both'"; interp_nk = "{}";
         legend_kwargs = "{'ncol': 4, 'anchor': (0, 0.85), 'handletextpad': 0.5, 'handlelength': 1, 'fontsize': 'small', 'frameon': True}";
         }
     }
     if($sRGB.IsPresent){
         [hashtable]$out=[ordered]@{skipk = "None"; kseg_inds = "[]"; elim = "[]"; elements = "[[0], [], []]";   orbs = "[[0], [], []]"; labels = "['Elem0-s', '', '']"; max_width = "2.5"; ktick_inds = "[0, -1]"; ktick_vals = "['$\\Gamma$', 'M']";
-        E_Fermi = "None";figsize = "(3.4, 2.6)";txt = "None";xytxt = "[0.05, 0.9]";ctxt = "'black'";uni_width = "False";interpolate = "False";spin = "'both'";n = "5";k = "3";scale_color = "True"; colorbar="True" ;
+        E_Fermi = "None";figsize = "(3.4, 2.6)";txt = "None";xytxt = "[0.05, 0.9]";ctxt = "'black'";uni_width = "False";interp_nk = "{}";spin = "'both'";scale_color = "True"; colorbar="True" ;
         }
     }
     $out
