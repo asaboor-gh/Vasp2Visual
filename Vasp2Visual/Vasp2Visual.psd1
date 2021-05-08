@@ -12,7 +12,7 @@
 RootModule = 'RootModule.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.2.0'
+ModuleVersion = '1.9.3.0'
 
 # Supported PSEditionsls
 

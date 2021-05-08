@@ -78,11 +78,12 @@ function Write-KptsBands {
         # Insert Number of useless KPOINTS to skip
         [Parameter()][Int]$SkipNKPTS = 0,
         # Insert How many Bands to skip and then how many to select seperated by comma. By Default,
-        # it collects all bands upto 9999 if not provided. 
-        [Parameter()][array]$SkipSelectNBANDS = (0,9999)
+        # it collects all bands if not provided. 
+        [Parameter()][array]$SkipSelectNBANDS
     )
     Process{ 
     if (!$XmlObject) {$XmlObject = Read-AsXml}
+    if (!$SkipSelectNBANDS) {$SkipSelectNBANDS = Get-SkipSelectBands -XmlObject $XmlObject}
     Write-Progress "Writing bands and kpoints on [Bands.txt] ..."
     $skipk = Read-KptsToExclude -XmlObject $XmlObject
     $KptsObject = Get-KPTS -XmlObject $XmlObject -SkipNKPTS $skipk
@@ -436,7 +437,7 @@ function Write-Projection {
         [Parameter()][int]$SpinSet = 1,
         [Parameter()][Int]$SkipNKPTS = 0,
         # Insert How many Bands to skip and then how many to select seperated by comma. By Default,
-        # it collects all bands using upto 9999 if not given. 
+        # it collects all bands if not given. 
         [Parameter()][array]$SkipSelectNBANDS
     )
     Process {
