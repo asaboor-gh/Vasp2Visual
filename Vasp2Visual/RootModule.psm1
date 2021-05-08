@@ -1,10 +1,10 @@
-Import-Module $PSScriptRoot/Vasp2Visual.psm1
-Import-Module $PSScriptRoot/Automation.psm1 
-Import-Module $PSScriptRoot/MakeSlab.psm1
-Import-Module $PSScriptRoot/PlotlyInteractive.psm1
-Import-Module $PSScriptRoot/Alignment.psm1
-Import-Module $PSScriptRoot/Beamer.psm1
-Import-Module $PSScriptRoot/DOS.psm1
+Import-Module $PSScriptRoot/Version1/Vasp2Visual.psm1
+Import-Module $PSScriptRoot/Version1/Automation.psm1 
+Import-Module $PSScriptRoot/Version1/MakeSlab.psm1
+Import-Module $PSScriptRoot/Version1/PlotlyInteractive.psm1
+Import-Module $PSScriptRoot/Version1/Alignment.psm1
+Import-Module $PSScriptRoot/Version1/Beamer.psm1
+Import-Module $PSScriptRoot/Version1/DOS.psm1
 Import-Module $PSScriptRoot/Version2/ExtractXml.psm1
 Import-Module $PSScriptRoot/Version2/GeneralFunctions.psm1
 Import-Module $PSScriptRoot/Version2/PlotXml.psm1

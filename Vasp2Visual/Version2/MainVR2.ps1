@@ -1,9 +1,9 @@
 $timer = [Diagnostics.Stopwatch]::StartNew() #Stopwatch
-#$InputFile="./vasprun.xml" #This variable is supplied via function.
-#$SkipK,$MaxFilled, $MaxEmpty are provided from calling function Export-VR2
-$XmlObject = (Read-AsXml -VasprunFile $InputFile)
+#$VasprunFile="./vasprun.xml" #This variable is supplied via function.
+# We are already in directory, so only file name required. 
+$XmlObject = (Read-AsXml -VasprunFile (Convert-Path $VasprunFile))
 $loadtime = $timer.Elapsed.TotalSeconds
-Write-Host "$([Math]::Round($($loadtime),3)) seconds elapsed while loading vasprun.xml($([Math]::Round(((Get-Item $InputFile).length/1MB),3)) MB)" -ForegroundColor Cyan
+Write-Host "$([Math]::Round($($loadtime),3)) seconds elapsed while loading vasprun.xml($([Math]::Round(((Get-Item $VasprunFile).length/1MB),3)) MB)" -ForegroundColor Cyan
 $timer.Stop();
 
 $weights = Get-FillingWeights -XmlObject $XmlObject
@@ -43,19 +43,16 @@ if ($getonlydos -eq $True) {
     $ibzkpt = $NKPTS - 1; $skipB = 0; $NBANDS = 1; $filled = 1;
 } #Updated minimal working values to be able to load files
 #==============================================================
-#GetBands and KPTS
-$KptsObject = Get-KPTS -XmlObject $XmlObject -SkipNKPTS $ibzkpt
-$BandsObject = Get-EigenVals -XmlObject $XmlObject -SkipNKPTS $ibzkpt -SkipSelectNBANDS $skipB, $NBANDS
+# Write Bands
 Write-Host "Writing file [Bands.txt] ..." -ForegroundColor Red
-Write-KptsBands -XmlObject $XmlObject -KptsObject $KptsObject -BandsObject $BandsObject
+Write-KptsBands -XmlObject $XmlObject -SkipNKPTS $ibzkpt -SkipSelectNBANDS $skipB, $NBANDS
 #=====================Main Part================================
 Write-Host "Writing Total DOS on [tDOS.txt] ..." -ForegroundColor Red
-$tdos = Get-TotalDOS -XmlObject $XmlObject -SpinSet 1  #Automatically will write Spin polarized.
-Write-TotalDOS -TotalDOS $tdos
+Write-TotalDOS -XmlObject $XmlObject -SpinSet 1  #Automatically will write Spin polarized.
 Write-Host "Writing Partial DOS on [pDOS.txt] ..." -ForegroundColor Red
 Write-PartialDOS -XmlObject $XmlObject -SpinSet 1  #Automatically will write Spin polarized.
 Write-Host "Writing IONS Projections on [Projection.txt] in sequence ..." -ForegroundColor Red
-Write-Projection -SpinSet 1 -XmlObject $XmlObject -SkipNKPTS $ibzkpt -SkipSelectNBANDS $skipB, $NBANDS
+Write-Projection -XmlObject $XmlObject -SpinSet 1 -SkipNKPTS $ibzkpt -SkipSelectNBANDS $skipB, $NBANDS
 Write-Host @"
  Done ✔: $([Math]::Round($($timer.Elapsed.TotalSeconds),3)) seconds elapsed.
 "@ -ForegroundColor Cyan

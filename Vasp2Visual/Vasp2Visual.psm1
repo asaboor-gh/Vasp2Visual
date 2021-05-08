@@ -37,6 +37,7 @@ Function Get-PlotArgs{
     [Parameter()][switch]$DOS, 
     [Parameter()][switch]$Plotly
   )
+  Write-Host "Use Pivotpy in Python for full functionality!" -ForegroundColor Yellow
   # With no switch, default plot arguments
     $plotargs=[ordered]@{JoinPathAt="[]";tickIndices="[0,-1]"; ticklabels="['L',r'$\Gamma$']";
       E_Limit="[10,-10]"; DOS_Limit="[0.0,1.2]"; textLocation="[0.05,0.9]";FigureHeight=3;
@@ -59,6 +60,7 @@ Param([Parameter()][switch]$HalfColumnWide,
 [Parameter()][switch]$BandsDOS,#[Parameter()][switch]$DOS, 
 [Parameter()][switch]$Bands,
 [hashtable]$PlotArguments)  #Get Hashtable from function Get-PlotArguments
+Write-Host "Use Pivotpy in Python for full functionality!" -ForegroundColor Yellow
 Write-Host "Try 'New-Figure [-sRGB] -*'" -ForegroundColor Green
 if(-not (Test-Path ./Bands.txt)){Write-Host "Required files not found. Generating using 'Export-VaspRun' ..." -ForegroundColor Green;
     Export-VaspRun;}
@@ -88,6 +90,7 @@ python ./Plot.py #strat plotting
 } #if block ends
 }
 Function Export-LOCPOT{
+  Write-Host "Use Pivotpy in Python for full functionality!" -ForegroundColor Yellow
   if(-not $(Test-Path -Path ./LOCPOT)){
     Write-Host "'LOCPOT' not found" -ForegroundColor Red; 
     }Else{

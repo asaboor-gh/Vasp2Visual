@@ -44,7 +44,7 @@ Function        Write-BigStream                                    1.0.3.0    Va
 ---
 
 
-- A separate python module [pivotpy](https://massgh.github.io/pivotpy/) is under developement. The difference between powershell and python versions is data files and objects in memory respectively.
+- A separate python module [pivotpy](https://massgh.github.io/pivotpy/) is available that you can use with full flexibility.
 
 --
 
@@ -52,7 +52,6 @@ Function        Write-BigStream                                    1.0.3.0    Va
 
 [`Interactive Plot`](https://plotly.com/~massgh/36/) &nbsp;
 [`Jupyter Notebook`](https://plotly.com/~massgh/64/pivotpy-python-processing-tool-for-va/) &nbsp;
-[`Run in Azure 🟢`](https://testazurenotebooks-massaz.notebooks.azure.com/j/notebooks/index.ipynb) &nbsp;
 [`Grid Plot`](https://massgh.github.io/InteractiveHTMLs/gridplot.html)
 
 --
@@ -139,7 +138,7 @@ PS> Write-BigStream -StreamArray $x -FilePath E:\Research\Current\new.txt -AsOne
 --
 
 ### Direct Install (Not recommended, its behind github)
-- For direct install from Powerhell Gallery, follow link [Vasp2Visual@PSGallery](https://www.powershellgallery.com/packages/Vasp2Visual/1.0.3.0) and follow guidlines or run the command below in the console
+- For direct install from Powerhell Gallery, follow link [Vasp2Visual@PSGallery](https://www.powershellgallery.com/packages/Vasp2Visual/1.9.1.0) and follow guidlines or run the command below in the console
 ```powershell
 Install-Module Vasp2Visual
 #Click Y for what prompts in console.
@@ -317,7 +316,7 @@ Aligned potential looks like the below one.
 
 Here is how it works.
 ```powershell
-PS> $x=Get-Args -Plotly; $x
+PS> $x=Get-PlotArgs -Plotly; $x
 ```
 ```
 Name                           Value
@@ -342,7 +341,7 @@ PS> Get-InteractivePlot -PlotlyHashTable $x
 - You can plot DOS with three differnt switches `-LinePlot`, `-AreaPlot` and `StackPlot`. In addition you can use `-HalfColumnWide` switch to make less wide plot. 
 Usage:
 ```powershell
-PS> $x=Get-Args -DOS; $x
+PS> $x=Get-PlotArgs -DOS; $x
 ```
 ```
 Name                           Value                                           

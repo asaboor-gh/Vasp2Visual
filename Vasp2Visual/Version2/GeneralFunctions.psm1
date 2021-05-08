@@ -55,7 +55,7 @@ function Write-BigStream{
     #>
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory="True",ValueFromPipeline=$true)][array]$StreamArray,
+        [Parameter(Mandatory="True",ValueFromPipeline = $true)][array]$StreamArray,
         [Parameter(Mandatory="True")]$FilePath,
         [Parameter()][switch]$AsOneLine
     )
@@ -95,9 +95,9 @@ function Get-POSCAR {
         $rep = $(",api_key = '{0}')" -f $APIKey)
         $var_dict = $var_dict.Replace(")", $rep) 
     }
-    
+    Write-Host "Use Pivotpy in Python for full functionality!" -ForegroundColor Yellow
     $py_str = "vd = {1}`nfrom pivotpy import sio`ngp = sio.get_poscar('{0}',**vd)`n" -f $Formula, $var_dict
-    $py_str += "import json`ns=json.dumps(gp)`nprint(s)"
+    $py_str += "import json`ns=json.dumps([_g.to_dict() for _g in gp])`nprint(s)"
     # Run it finally Using Default python on System preferably.
     if($null -ne (Get-Command python3* -ErrorAction SilentlyContinue)){
         Write-Host ("Running using {0}" -f (python3 -V)) -ForegroundColor Green

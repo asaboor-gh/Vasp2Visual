@@ -45,7 +45,7 @@ function New-Figure {
     [CmdletBinding(DefaultParameterSetName='MPL')]
     param (
        # Input Vasprun.xml
-       [Parameter()]$VasprunFile = './vasprun.xml',
+       [Parameter(ValueFromPipeline = $true)]$VasprunFile="./vasprun.xml",
        # Switches for Plots
        [Parameter(Position=1,ParameterSetName='MPL')][switch]$sBands,
        [Parameter(Position=1,ParameterSetName='MPL')][switch]$sDOS,
@@ -76,13 +76,13 @@ function New-Figure {
     }else{$kwargs='dict()'}
 
     # Process
-    $command = 'quick_bplot' # Default Command if No switch given.
-    if($sBands.IsPresent){$command = 'quick_bplot'}
-    if($sDOS.IsPresent){$command = 'quick_dos_lines'}
-    if($iRGB.IsPresent){$command = 'plotly_rgb_lines'}
-    if($iDOS.IsPresent){$command = 'plotly_dos_lines'}
-    if($sColor.IsPresent){$command = 'quick_color_lines'}
-    if($sRGB.IsPresent){$command = 'quick_rgb_lines'}
+    $command = 'splot_bands' # Default Command if No switch given.
+    if($sBands.IsPresent){$command = 'splot_bands'}
+    if($sDOS.IsPresent){$command   = 'splot_dos_lines'}
+    if($iRGB.IsPresent){$command   = 'iplot_rgb_lines'}
+    if($iDOS.IsPresent){$command   = 'iplot_dos_lines'}
+    if($sColor.IsPresent){$command = 'splot_color_lines'}
+    if($sRGB.IsPresent){$command   = 'splot_rgb_lines'}
     # Parameters Usage
     if($PSBoundParameters.ContainsKey('SaveHTML')){$save= "fig.write_html('{0}')" -f $SaveHTML}
     if($PSBoundParameters.ContainsKey('SaveMinHTML')){$save= "pp.plotly2html(fig, filename='{0}')" -f $SaveHTML}
