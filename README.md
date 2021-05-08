@@ -95,10 +95,19 @@ You can edit the saved python file for further tweaking. Also note that if you w
 --
 
 ```powershell
-PS> Export-VaspRun -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
+PS❯ Export-VaspRun -InputFile .\vasprun.xml -SkipK 10 -MaxFilled 5 -MaxEmpty 5
 # You can add switch -OnlyDOS to this function.
 ```
 ![Export-VaspRun](./Vasp2Visual/Version2/ExportVR2.jpg)
+
+## Piping in Powershell
+In a big project where you have multiple files in same depth (or anyway you can think of) You can use pipe operator to avoid for loops and run data or save figures in all folders by just running 1 liner.
+```powershell
+PS❯ Resolve-Path **/**/vasprun.xml | Export-VaspRun
+# This exported 4 files in one run
+PS❯ Resolve-Path **/**/vasprun.xml | New-Figure -sBands -SavePNG 'myfig.png'
+# This saves figures in corresponding directories.
+```
 
 ---
 

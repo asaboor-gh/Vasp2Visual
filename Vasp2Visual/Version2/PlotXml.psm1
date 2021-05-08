@@ -67,7 +67,8 @@ function New-Figure {
        [Parameter()]$SavePyFile
 
     )
-    $VasprunFile = $VasprunFile.replace('\','/').replace('\\','/')
+    Process {
+    $VasprunFile = Convert-Path $VasprunFile #Make full
     $parentDir = Split-Path -Path $VasprunFile
 
     if($PSBoundParameters.ContainsKey('FigArgs')){
@@ -84,18 +85,19 @@ function New-Figure {
     if($sColor.IsPresent){$command = 'splot_color_lines'}
     if($sRGB.IsPresent){$command   = 'splot_rgb_lines'}
     # Parameters Usage
-    if($PSBoundParameters.ContainsKey('SaveHTML')){$save= "fig.write_html('{0}')" -f $SaveHTML}
-    if($PSBoundParameters.ContainsKey('SaveMinHTML')){$save= "pp.plotly2html(fig, filename='{0}')" -f $SaveHTML}
-    if($PSBoundParameters.ContainsKey('SavePDF')){$save= "pp._savefig('{0}',transparent=True)" -f $SavePDF}
-    if($PSBoundParameters.ContainsKey('SavePNG')){$save= "pp._savefig('{0}',transparent=True,dpi =600)" -f $SavePNG}
+    $save_htm = Join-Path -Path $parentDir -ChildPath $SaveHTML
+    $save_pdf = Join-Path -Path $parentDir -ChildPath $SavePDF 
+    $save_png = Join-Path -Path $parentDir -ChildPath $SavePNG
+    if($PSBoundParameters.ContainsKey('SaveHTML')){$save= "fig.write_html(r'{0}')" -f $save_htm}
+    if($PSBoundParameters.ContainsKey('SaveMinHTML')){$save= "pp.plotly2html(fig, filename=r'{0}')" -f $save_htm}
+    if($PSBoundParameters.ContainsKey('SavePDF')){$save= "pp._savefig(r'{0}',transparent=True)" -f $save_pdf}
+    if($PSBoundParameters.ContainsKey('SavePNG')){$save= "pp._savefig(r'{0}',transparent=True,dpi =600)" -f $save_png}
     if($PSCmdlet.ParameterSetName -eq 'MPL'){$show = 'pp._show()'}Else{$show = 'fig.show()'} # Keep above save_options to work.
     $save_options = @('SaveHTML','SaveMinHTML','SavePDF','SavePNG')
     $save_options | ForEach-Object {if($PSBoundParameters.ContainsKey($_)){$show = '#' + $show}}
     
-    $check_file = Join-Path -Path $parentDir -ChildPath 'SysInfo.py'
-    if(Test-Path -Path $check_file){
-    $load = "pp.load_export(path = '{0}')" -f $VasprunFile
-    }else{$load = " '{0}' " -f $VasprunFile}  
+    $load = "pp.export_vasprun(path = r'{0}')" -f $VasprunFile
+    
 
     $init = "import pivotpy as pp`nfig = pp.{0}(path_evr = {1}, **kwargs)`n{2}`n{3}" -f $command,$load,$save,$show
     $init = "kwargs = {0}`n{1}" -f $kwargs,$init
@@ -112,6 +114,7 @@ function New-Figure {
     }else{
         Write-Host "Python Installation not found. Copy code below and run yourself or use '-SavePyFile'." -ForegroundColor Red
         Write-Host $init -ForegroundColor Yellow
+    }
     }
 }
 Export-ModuleMember -Function 'Get-FigArgs'

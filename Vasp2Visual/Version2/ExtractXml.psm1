@@ -526,18 +526,19 @@ function Export-VaspRun {
     )
     Begin {
         $CurrentLoc = Get-Location
-        $ToLocation = (Get-Item $VasprunFile).Directory.FullName
-        Write-Host "Going to Directory ->" $ToLocation -ForegroundColor Green
-        Set-Location $ToLocation
     }
     Process {
         if((Test-Path -Path (Get-Item $VasprunFile).FullName -PathType Leaf)){
             If($OnlyDOS.IsPresent){$getonlydos=$True}Else{$getonlydos=$False}
+            $ToLocation = (Get-Item $VasprunFile).Directory.FullName
+            Write-Host "`nGoing to Directory ->" $ToLocation -ForegroundColor Green
+            Set-Location $ToLocation
+            # Run After that
             . $PSScriptRoot/MainVR2.ps1    
         }Else{ Write-Host "File $VasprunFile not found"}
     }
     End {
-        Write-Host "Returning Back to ->" $CurrentLoc -ForegroundColor Green
+        Write-Host "`nReturning Back to ->" $CurrentLoc -ForegroundColor Green
         Set-Location $CurrentLoc
     }
 

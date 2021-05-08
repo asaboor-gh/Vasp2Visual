@@ -1,4 +1,4 @@
-Import-Module $PSScriptRoot/Version1/Vasp2Visual.psm1
+Import-Module $PSScriptRoot/Vasp2Visual.psm1
 Import-Module $PSScriptRoot/Version1/Automation.psm1 
 Import-Module $PSScriptRoot/Version1/MakeSlab.psm1
 Import-Module $PSScriptRoot/Version1/PlotlyInteractive.psm1
