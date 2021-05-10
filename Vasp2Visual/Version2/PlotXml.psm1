@@ -75,7 +75,7 @@ function New-Figure {
        [Parameter()]$SkipNKPTS = "None",
        [Parameter()][array]$EnergyRange,
        # Code lines separated by `n and with namespaces ax and plt
-       [Parameter()][string]$AfterPlotCode="ax.set_ylabel('')`nax.grid(axis='x')`nplt.subplots_adjust(left=0.2)",
+       [Parameter()][string]$AfterPlotCode="",
        # Save HTML
        [Parameter(ParameterSetName='Plotly')]$SaveHTML,
        # Save HTML-Connected
@@ -123,7 +123,7 @@ function New-Figure {
     
     $load = "pp.Vasprun(path = r'{0}',skipk={1},{2})" -f $VasprunFile, $SkipNKPTS, $elim
 
-    $init = "import pivotpy as pp, matplotlib.pyplot as plt`nvr = {0}`nax = vr.{1}(**kwargs)" -f $load, $command
+    $init = "import pivotpy as pp, matplotlib.pyplot as plt`nvr = {0}`nax = vr.{1}(**kwargs)`nfig=ax #for plotly" -f $load, $command
     $init = "{0}`n{1}`n{2}`n{3}" -f $init, $AfterPlotCode,$save, $show
     $init = "kwargs = {0}`n{1}" -f $kwargs,$init
     if($PSBoundParameters.ContainsKey('SavePyFile')){$init | Set-Content $SavePyFile}
