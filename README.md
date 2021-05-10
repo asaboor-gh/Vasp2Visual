@@ -92,6 +92,15 @@ ktick_vals                     []
 ```
 You can edit the saved python file for further tweaking. Also note that if you want a string placed in python, like `ctxt = 'red'` in `Get-FigArgs`, you have to modify it as `$x.ctxt = " 'red' "`, double qoutes for powershell and single qoutes will be written in python file.
 
+```powershell
+❯ New-Figure -sRGB -AfterCode "ax.set_ylabel('')`nax.grid(axis='x')`nplt.subplots_adjust(left=0.2)"
+  #This will add following lines after plot command:
+    ax.set_ylabel('')
+    ax.grid(axis='x')
+    plt.subplots_adjust(left=0.2)
+  #Use powershell's new line character `n instead of pythons's \n in code. Keep track of indentation too. 
+```
+
 --
 
 ```powershell
