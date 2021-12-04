@@ -79,7 +79,7 @@ function Write-BigStream{
 function Get-POSCAR {
     [CmdletBinding(DefaultParameterSetName='SITES')]
     Param(
-        [Parameter()]$Formula = 'GaAs',
+        [Parameter(Position=0)]$Formula = 'GaAs',
         [Parameter(ParameterSetName='MPID')]$MP_ID,
         [Parameter(ParameterSetName='SITES')]$MaxSites,
         [Parameter()]$APIKey
@@ -96,8 +96,9 @@ function Get-POSCAR {
         $var_dict = $var_dict.Replace(")", $rep) 
     }
     Write-Host "Use Pivotpy in Python for full functionality!" -ForegroundColor Yellow
-    $py_str = "vd = {1}`nfrom pivotpy import sio`ngp = sio.get_poscar('{0}',**vd)`n" -f $Formula, $var_dict
-    $py_str += "import json`ns=json.dumps([_g.to_dict() for _g in gp])`nprint(s)"
+    $py_str = "vd = {1}`nfrom pivotpy.api import download_structure`ngp = download_structure('{0}',**vd).poscars`n" -f $Formula, $var_dict
+    $py_str += "import json`ns=json.dumps([{k:v for k,v in _g.to_dict().items() if 'write' not in k} for _g in gp])`nprint(s)"
+    Write-Host $py_str
     # Run it finally Using Default python on System preferably.
     if($null -ne (Get-Command python3* -ErrorAction SilentlyContinue)){
         Write-Host ("Running using {0}" -f (python3 -V)) -ForegroundColor Green

@@ -32,27 +32,27 @@ function Get-FigArgs {
     }
     if($sDOS.IsPresent){
         [hashtable]$out=[ordered]@{include_dos = "'both'";elements = "[[0]]";orbs = "[[0]]";labels = "['s']";colormap = "'gist_rainbow'";tdos_color = "(0.8, 0.95, 0.8)";linewidth = "0.5";fill_area = "True";vertical = "False";E_Fermi = "None";
-        txt = "None";xytxt = "[0.05, 0.85]";ctxt = "'black'";spin = "'both'";interp_nk = "{}";showlegend = "True";
+        spin = "'both'";interp_nk = "{}";showlegend = "True"; query_data = "{}";
         legend_kwargs = "{'ncol': 4, 'anchor': (0, 1), 'handletextpad': 0.5, 'handlelength': 1, 'fontsize': 'small', 'frameon':True}";}
     }
     if($iRGB.IsPresent){
         [hashtable]$out=[ordered]@{elements = "[[],[],[]]";orbs = "[[], [], []]"; labels = "['', '', '']";mode = "'markers'"; E_Fermi = "None";kseg_inds = "[]";max_width = "5";
-        title = "None";ktick_inds = "[0, -1]";ktick_vals = "['Γ', 'M']";figsize = "None";interp_nk = "{}";}
+        title = "None";ktick_inds = "[0, -1]";ktick_vals = "['Γ', 'M']";figsize = "None";interp_nk = "{}"; query_data = "{}";}
     }
     if($iDOS.IsPresent){
         [hashtable]$out=[ordered]@{elements = "[[0]]";orbs = "[[0]]";labels = "['s']";colormap = "'gist_rainbow'";tdos_color = "(0.5, 0.95, 0)";linewidth = "2";fill_area = "True";
-        vertical = "False";E_Fermi = "None";figsize = "None";spin = "'both'";interp_nk = "{}";title = "None"}
+        vertical = "False";E_Fermi = "None";figsize = "None";spin = "'both'";interp_nk = "{}";title = "None"; query_data = "{}";}
     }
     if($sColor.IsPresent){
         [hashtable]$out=[ordered]@{kseg_inds = "[]"; elements = "[[0]]"; orbs = "[[0]]";     labels = "['s']";colormap = "'gist_rainbow'"; max_width = "2.5";  
-        ktick_inds = "[0, -1]"; ktick_vals = "['$\\Gamma$', 'M']"; E_Fermi = "None"; showlegend = "True"; txt = "None"; xytxt = "[0.05, 0.85]"; 
-        ctxt = "'black'"; spin = "'both'"; interp_nk = "{}";
+        ktick_inds = "[0, -1]"; ktick_vals = "['$\\Gamma$', 'M']"; E_Fermi = "None"; showlegend = "True"; xytxt = "[0.05, 0.85]"; 
+        ctxt = "'black'"; spin = "'both'"; interp_nk = "{}"; query_data = "{}";
         legend_kwargs = "{'ncol': 4, 'anchor': (0, 0.85), 'handletextpad': 0.5, 'handlelength': 1, 'fontsize': 'small', 'frameon': True}";
         }
     }
     if($sRGB.IsPresent){
         [hashtable]$out=[ordered]@{kseg_inds = "[]";elements = "[[], [], []]";   orbs = "[[], [], []]"; labels = "['', '', '']"; max_width = "2.5"; ktick_inds = "[0, -1]"; ktick_vals = "['$\\Gamma$', 'M']";
-        E_Fermi = "None";txt = "None";xytxt = "[0.05, 0.9]";ctxt = "'black'";uni_width = "False";interp_nk = "{}";spin = "'both'";scale_color = "True"; colorbar="True" ;
+        E_Fermi = "None";txt = "None";xytxt = "[0.05, 0.9]";ctxt = "'black'";uni_width = "False";interp_nk = "{}";spin = "'both'";scale_color = "True"; colorbar="True" ; query_data = "{}";
         }
     }
     $out
@@ -99,12 +99,12 @@ function New-Figure {
 
     # Process
     $command = 'sbands' # Default Command if No switch given.
-    if($sBands.IsPresent){$command = 'sbands'}
-    if($sDOS.IsPresent){$command   = 'sdos'}
-    if($iRGB.IsPresent){$command   = 'irgb'}
-    if($iDOS.IsPresent){$command   = 'idos'}
-    if($sColor.IsPresent){$command = 'scolor'}
-    if($sRGB.IsPresent){$command   = 'srgb'}
+    if($sBands.IsPresent){$command = 'splot_bands'}
+    if($sDOS.IsPresent){$command   = 'splot_dos_lines'}
+    if($iRGB.IsPresent){$command   = 'iplot_rgb_lines'}
+    if($iDOS.IsPresent){$command   = 'iplot_dos_lines'}
+    if($sColor.IsPresent){$command = 'splot_color_lines'}
+    if($sRGB.IsPresent){$command   = 'splot_rgb_lines'}
     # Parameters Usage
     $save_htm = Join-Path -Path $parentDir -ChildPath $SaveHTML
     $save_pdf = Join-Path -Path $parentDir -ChildPath $SavePDF 

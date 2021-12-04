@@ -112,9 +112,8 @@ python ./IndexedPlot.py #strat plotting
 
 Function Get-KPath{
     [CmdletBinding()]
-    Param([Parameter(Mandatory="True",Position=0)][array]$HSK_Array,
+    Param([Parameter(Mandatory="True",Position=0)][string]$MultiLineString,
     [Parameter(Position=1)][int]$n=10,
-    [Parameter(Position=2)][array]$Labels_Array,
     [Parameter(Position=3)]$Weight="None",
     [Parameter(Position=4)]$OutFile="KPOINTS.txt",
     [Parameter(Position=5)]$IBZKPT_File= "None"
@@ -122,16 +121,11 @@ Function Get-KPath{
     Write-Host "Use Pivotpy in Python for full functionality!" -ForegroundColor Yellow
     $OutFile = $OutFile.Replace("\","/")
     $ibzkpt = $IBZKPT_File.Replace("\","/")
-    $hsk_list = $HSK_Array | ConvertTo-Json -Compress
-    if($PSBoundParameters.ContainsKey('Labels_Array')){
-        $labels = $Labels_Array | ConvertTo-Json -Compress
-    }else {
-        $labels = "[]"
-    }
+
     $init = "import pivotpy as pp"
-    $init = "{0}`npp.get_kpath(hsk_list={1}" -f $init,$hsk_list
+    $init = "{0}`npp.str2kpath(kpath_str='''{1}'''" -f $init,$MultiLineString
     $init = "{0},n={1},weight={2},ibzkpt='{3}'" -f $init,$n,$Weight,$ibzkpt
-    $init = "{0},labels={1},outfile='{2}')" -f $init,$labels,$OutFile
+    $init = "{0},outfile='{1}')" -f $init,$OutFile
     
     # Run it finally Using Default python on System preferably.
     if($null -ne (Get-Command python3* -ErrorAction SilentlyContinue)){
