@@ -96,22 +96,15 @@ function Get-POSCAR {
         $var_dict = $var_dict.Replace(")", $rep) 
     }
     Write-Host "Use Pivotpy in Python for full functionality!" -ForegroundColor Yellow
-    $py_str = "vd = {1}`nfrom pivotpy.api import download_structure`ngp = download_structure('{0}',**vd).poscars`n" -f $Formula, $var_dict
-    $py_str += "import json`ns=json.dumps([{k:v for k,v in _g.to_dict().items() if 'write' not in k} for _g in gp])`nprint(s)"
+    $py_str = "vd = {1}`nfrom pivotpy.api import download_structure`noutput = download_structure('{0}',**vd)`n" -f $Formula, $var_dict
+    $py_str += "import json`ns=json.dumps([_g.export_poscar().text_plain for _g in output])`nprint(s)"
     Write-Host $py_str
     # Run it finally Using Default python on System preferably.
-    if($null -ne (Get-Command python3* -ErrorAction SilentlyContinue)){
-        Write-Host ("Running using {0}" -f (python3 -V)) -ForegroundColor Green
-        $json = $py_str | python3
-        ConvertFrom-Json $json
-    }elseif($null -ne (Get-Command python -ErrorAction SilentlyContinue)){
+    if($null -ne (Get-Command python -ErrorAction SilentlyContinue)){
         Write-Host ("Running using {0}" -f (python -V)) -ForegroundColor Green
-        $json = $py_str | python
-        ConvertFrom-Json $json
-    }elseif($null -ne (Get-Command pytnon2* -ErrorAction SilentlyContinue)){
-        Write-Host ("Required Python >= 3.6, but {0} found, try upgrading Python." -f (python2 -V)) -ForegroundColor Red
+        $py_str | python | ConvertFrom-Json
     }else{
-        Write-Host "Python Installation not found. Copy code below and run yourself or use '-SavePyFile'." -ForegroundColor Red
+        Write-Host "Python Installation not found. Copy code below and run yourself with a python executable" -ForegroundColor Red
         Write-Host $py_str -ForegroundColor Yellow
     }
 }
