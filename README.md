@@ -1,8 +1,8 @@
-[`Vasp2Visual 🟢`](https://massgh.github.io/Vasp2Visual/) &nbsp;
-[`pivotpy 🔴`](https://massgh.github.io/pivotpy/) &nbsp;
+[`Vasp2Visual 🟢`](https://asaboor-gh.github.io/Vasp2Visual/) &nbsp;
+[`ipyvasp 🔴`](https://asaboor-gh.github.io/ipyvasp/) &nbsp;
 [`Interactive Plot`](https://plotly.com/~massgh/36/) &nbsp;
 [`Jupyter Notebook`](https://plotly.com/~massgh/64/pivotpy-python-processing-tool-for-va/) &nbsp;
-[`Grid Plot`](https://massgh.github.io/InteractiveHTMLs/gridplot.html) &nbsp;
+[`Grid Plot`](https://asaboor-gh.github.io/InteractiveHTMLs/gridplot.html) &nbsp;
 [![Run in Azure](https://notebooks.azure.com/launch.png)](https://testazurenotebooks-massaz.notebooks.azure.com/j/notebooks/index.ipynb)
 # Vasp2Visual
 > A Pre/Post processing PowerShell Module for Vasp output. Scripts allow user take full control of their vasp output data. You can plot on your own by just getting data in column format through using the command `Export-VaspRun` in a folder containing `vasprun.xml`. 
@@ -42,7 +42,7 @@ Function        Write-BigStream                                    1.0.3.0    Va
 ---
 
 
-- A separate python module [pivotpy](https://massgh.github.io/pivotpy/) is available that you can use with full flexibility.
+- Alternative to this is a python module [ipyvasp](https://asaboor-gh.github.io/ipyvasp/) which you can use with full flexibility in Jupyter. 
 
 ---
 
